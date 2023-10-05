@@ -2,6 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Sprint 2 TO DO :
+
+- ~Set up front end~ (Done)
+- Create Figma Board for frontend
+- Create Figma Board for backend
+
 ## Available Scripts
 
 In the project directory, you can run:
