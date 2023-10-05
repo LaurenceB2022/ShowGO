@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/ShowGO/static/css/main.16069ba0.css",
+    "main.js": "/ShowGO/static/js/main.d4224cc6.js",
+    "static/js/787.cecc5d6f.chunk.js": "/ShowGO/static/js/787.cecc5d6f.chunk.js",
+    "static/media/ShowGoLogo.png": "/ShowGO/static/media/ShowGoLogo.1a3f573c962e808f6781.png",
+    "static/media/logo.svg": "/ShowGO/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/ShowGO/index.html",
+    "main.16069ba0.css.map": "/ShowGO/static/css/main.16069ba0.css.map",
+    "main.d4224cc6.js.map": "/ShowGO/static/js/main.d4224cc6.js.map",
+    "787.cecc5d6f.chunk.js.map": "/ShowGO/static/js/787.cecc5d6f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.16069ba0.css",
+    "static/js/main.d4224cc6.js"
+  ]
+}
