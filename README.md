@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Sprint 2 Figma Mockup:
+https://www.figma.com/file/uPToMRCshrnrq391CWeC9O/UI%2FUX-Frontend?type=design&node-id=0%3A1&mode=design&t=egw5NHP05QnXNi3T-1
+
 ### Sprint 2 TO DO :
 
 - ~Set up front end~ (Done)
