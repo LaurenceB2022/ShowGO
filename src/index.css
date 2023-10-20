@@ -1,4 +1,5 @@
 body {
+  background: #B8D8D8;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -8,6 +9,25 @@ body {
 }
 
 code {
+ 
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.Navbar{
+  position: fixed; 
+  min-width: 100%;
+  height: 80px;
+  font-size: 10px;
+  background: #516365;
+  color: antiquewhite;
+  justify-content: space-between;
+  
+  display: flex;
+}
+
+.Navbar-options{
+  margin: 5px;
+  text-align: center;
+  align-items: center;
 }
