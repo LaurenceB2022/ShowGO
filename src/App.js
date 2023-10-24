@@ -1,14 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import 'C:/Users/XSapp/Desktop/react-workspace/showgo-management/src/index.css';
+import React, {useState} from 'react';
 import NavBar from './Components/Navbar';
-import "@fontsource/sen"; // Defaults to weight 400
-import "@fontsource/sen/400.css"; // Specify weight
-import "@fontsource/sen/400-italic.css"; // Specify weight and style
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Routers from './Components/Routers';
 
 function App() {
+
   return (
     <div className="App">
-      <NavBar/>
+      <NavBar />
+      <BrowserRouter>
+        <>
+          <Routers />
+        </>
+      </BrowserRouter>
+      
+      
     </div>
   );
 }
