@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import 'C:/Users/XSapp/Desktop/react-workspace/showgo-management/src/index.css';
+import 'index.css';
 import {Link} from 'react-router-dom'
 
 const LoginBox = () => {

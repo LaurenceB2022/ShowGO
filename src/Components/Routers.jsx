@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import LoginBox from './LoginBox';
-import SignUp from './SignUp'
+import LoginBox from 'Components/LoginBox';
+import SignUp from 'Components/SignUp'
 
 const Router = () => {
     return (
