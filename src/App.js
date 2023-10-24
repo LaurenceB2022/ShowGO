@@ -1,7 +1,7 @@
 import 'App.css';
 import 'index.css';
 import NavBar from 'Components/Navbar';
-import {BrowserRouter} from 'react-router-dom'
+import {BrowserRouter, Outlet} from 'react-router-dom'
 import Routers from 'Components/Routers';
 
 function App() {
@@ -14,8 +14,7 @@ function App() {
           <Routers />
         </>
       </BrowserRouter>
-      
-      
+      <Outlet />
     </div>
   );
 }
