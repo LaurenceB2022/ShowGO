@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import 'index.css';
+import 'Components/LoginBox.css';
 import {Link} from 'react-router-dom'
 
 const LoginBox = () => {
@@ -32,7 +33,7 @@ const LoginBox = () => {
                 <button className='ButtonStyle1' type="submit">Log In</button>
             </form>             
             
-            <Link to='/SignUp' className='ButtonStyle2'>Sign Up</Link>
+            <Link to='/signup' className='ButtonStyle2'>Sign Up</Link>
         </div>
     )
 }

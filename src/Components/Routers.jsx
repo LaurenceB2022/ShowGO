@@ -5,9 +5,9 @@ import App from 'App';
 
 const Router = () => {
     return (
-      <Routes path='/ShowGO' element={<App />}>
-          <Route path='/' index element={<LoginBox />}/>
-          <Route path='/SignUp' element={<SignUp />}/>
+      <Routes path='/login' element={<App />}>
+          <Route path='/login' element={<LoginBox />}/>
+          <Route path='/signup' element={<SignUp />}/>
       </Routes>
     );
   }

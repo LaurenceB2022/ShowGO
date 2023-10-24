@@ -1,113 +1,79 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
 
+:root {
+  /**Colors**/
+  --dark-green: #516365;
+  --green: #4F6367;
+  --subtext-green: #6a7678;
+  --light-green: #B8D8D8;
+  --light-gray: #D9D9D9;
+  --red: #FE5F55;
+
+  /**Label Gap**/
+  --label-gap: 35px;
+}
+
+/**Class Styling**/
+.subtext {
+  color: var(--subtext-green);
+}
+
+/**TODO implement button selection**/
+.button-selected {
+  color: var(--dark-green);
+  border: 7px solid var(--dark-green);
+}
+
+/**TODO implement button
+.button-deselected {
+  color: var(--red);
+  border: 7px solid var(--red);
+}
+
+/**Element Styling**/
 body {
-  background: #B8D8D8;
+  background: var(--light-green);
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+
+  font-family: 'Sen', sans-serif;
+  font-weight: bold;
+  color: var(--green);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
- 
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1 {
+  font-size: 52px;
+  margin:0.25em 0 0.25em 10px;
+  padding:0em;
 }
 
-.Navbar{
-  position: sticky;
-  min-width: 100%;
-  height: 50px;
-  background: #516365;
-  color: antiquewhite;
-  justify-content: space-between;
-}
-
-.Navbar-options{
-  margin: 5px;
-  font-family: 'Sen', sans-serif;
-  text-align: center;
-  align-items: center;
-}
-
-.Navbar-LogoVector{
-  /* Logo */
-  position: sticky;
-  display: flex; 
-  width: 175px;
-  height: 75px; 
-  flex-direction: row; 
-  justify-content: center;
-  margin-right: 20px;
-
-}
-
-.Navbar-LogoVector text{
-    /* ShowGo Text*/
-    color: #D9D9D9;
-    text-align: center;
-    font-family: 'Sen', sans-serif;
-    font-size: 30px; 
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal; 
-}
-
-.LoginBox{
-  width: 600px;
-  height: 167px;
-  flex-shrink: 0; 
-  padding: 10px;
-  text-align:left;
-}
-
-.LoginBox label{
-  background: inherit;
-  font-family: 'Sen', sans-serif;
-  text-align: center;
-  align-items: center;
+h2 {
   font-size: 40px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal; 
-  color: #4F6367; 
+  margin:0.25em 0 0.25em 10px;
+  padding:0em;
 }
 
-.LoginBox input{
-  margin: 0.5rem 0;
-  padding: 1rem;
-  border-color: #4F6367;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.LoginBox .ButtonStyle1{
-
-  background: #FFFFFF;
-  border: 10px solid #FE5F55;
-
-}
-
-.LoginBox .ButtonStyle2{
+label {
+  display:inline-block;
   
-  background: #FFFFFF;
-  border: 10px solid #4F6367; 
-  
+  font-size: 40px;
+  margin:0.25em 0 0.25em 10px;
+  padding:0em;
 }
 
-.LoginBox button{
-/* Rectangle 21 */
+button {
+  color: var(--red);
+  background: white;
 
-  box-sizing: border-box;
-  border-radius: 52px;
-  position: absolute;
-  width: 252px;
-  height: 77px;
-  left: 696px;
-  top: 765px;
-  border-radius: 52px;
-  background: #FFFFFF;
+  text-align: center;
+  font-size: 32px;
+  font-family: 'Sen', sans-serif;
+  font-weight: bold;
 
+  border-radius: 52px;
+  padding: 0.15em 0.3em 0.15em 0.3em;
+  border: 7px solid var(--red);
 }
