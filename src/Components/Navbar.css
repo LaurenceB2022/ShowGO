@@ -1,17 +1,10 @@
 .Navbar {
     position: sticky;
-    min-width: 100%;
-    min-height: 50px;
+    min-height: var(--navbar-height);
     background: var(--dark-green);
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
     flex-direction: row;
-}
-
-svg {
-    width: 40px;
-    height: 40px;
 }
 
 text {
