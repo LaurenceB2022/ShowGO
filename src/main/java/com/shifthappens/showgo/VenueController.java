@@ -25,14 +25,14 @@ public class VenueController {
     }
 
     @GetMapping("/venues")
-    List<Venue> findAll() {
+    private List<Venue> findAll() {
         List<Venue> venues = new ArrayList<Venue>();
         venueRepo.findAll().forEach(venue -> venues.add(venue));
         return venues;
     }
 
     @PostMapping("/venues")
-    Venue signUp(@RequestBody Venue venue) {
+    public Venue signUp(@RequestBody Venue venue) {
         if (!isValidUsername(venue.getUsername())) {
             throw new InvalidUsernameException();
         }
@@ -44,20 +44,20 @@ public class VenueController {
     }
 
     @DeleteMapping("/venues/{username}")
-    void deleteVenue(@PathVariable String username) {
+    public void deleteVenue(@PathVariable String username) {
         venueRepo.delete(venueRepo.findByUsername(username));
     }
 
-    @GetMapping("/venues/{username}")
-    Venue findVenue(@PathVariable String username) {
+    @GetMapping("/venues/{username}/{password}")
+    public Venue findVenue(@PathVariable String username, @PathVariable String password) {
         return venueRepo.findByUsername(username);
     }
 
-   private boolean isValidPassword(String password) {
+    private boolean isValidPassword(String password) {
         return password.length() >= 6;
     }
 
- private boolean isValidUsername(String username) {
+    private boolean isValidUsername(String username) {
         return (!username.contains(" ") && 
                 venueRepo.findByUsername(username) == null);
     }

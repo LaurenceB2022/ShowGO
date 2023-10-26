@@ -20,10 +20,10 @@ public class Venue {
     public Venue(){
     }
 
-    public Venue(String username, String name) {
+    public Venue(String username, String name, String password) {
         this.username = username;
         this.name = name;
-        password = "default";
+        this.password = password;
         location = "default";
         hide_location = false;
         description = "default";
