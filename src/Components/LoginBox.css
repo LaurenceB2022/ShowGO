@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
+
+.LoginBox{
+    width: 600px;
+    height: 167px;
+    flex-shrink: 0; 
+    padding: 10px;
+    text-align:left;
+  }
+  
+  .LoginBox label{
+    background: inherit;
+    font-family: 'Sen', sans-serif;
+    text-align: center;
+    align-items: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal; 
+    color: #4F6367; 
+  }
+  
+  .LoginBox input{
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-color: #4F6367;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .LoginBox .ButtonStyle1{
+  
+    background: #FFFFFF;
+    border: 10px solid #FE5F55;
+  
+  }
+  
+  .LoginBox .ButtonStyle2{
+    
+    background: #FFFFFF;
+    border: 10px solid #4F6367; 
+    
+  }
+  
+  .LoginBox button{
+  /* Rectangle 21 */
+  
+    box-sizing: border-box;
+    border-radius: 52px;
+    position: absolute;
+    width: 252px;
+    height: 77px;
+    left: 696px;
+    top: 765px;
+    border-radius: 52px;
+    background: #FFFFFF;
+  
+  }

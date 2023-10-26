@@ -1,0 +1,73 @@
+p {
+    margin: 0px;
+}
+
+#content {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 10px;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+.section_1 {
+    order: 1;
+    flex: 0 0 50%;
+}
+
+.section_2 {
+    order: 2;
+    flex: 0 1 50%;
+    display: flex;
+    align-items: center;
+}
+
+#back {
+    position: absolute;
+    right: 10px;
+}
+
+#formContainer {
+    /* background-color: white; */
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100%;
+}
+
+#userOptions {
+    /* background-color: green; */
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+#formContainer > span {
+    display: inline flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+#ticket {
+    width: fit-content;
+    max-width: 700px;
+    height: auto;
+    margin: auto;
+
+    fill: var(--light-gray);
+
+    stroke-width: 30px;
+    stroke: var(--dark-green);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#username {}
+#password {}
+
+.validation {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    text-align: end;
+}
