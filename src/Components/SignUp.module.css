@@ -62,6 +62,9 @@ p {
     stroke-linejoin: round;
 }
 
+#username {}
+#password {}
+
 .validation {
     display: flex;
     flex-direction: row;
