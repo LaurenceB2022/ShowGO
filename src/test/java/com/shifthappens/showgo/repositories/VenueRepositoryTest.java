@@ -1,6 +1,9 @@
 package com.shifthappens.showgo.repositories;
 
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.VenueController;
+import com.shifthappens.showgo.exceptions.InvalidPasswordException;
+import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,15 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class VenueRepositoryTest {
-    Venue Venue1= new Venue("Alice", "test1");
-    Venue Venue2= new Venue("Bob", "test2");
+    Venue Venue1= new Venue("test1", "test1", "testpassword");
+    Venue Venue2= new Venue("test2", "test2", "testpassword");
 
     @Autowired
     private VenueRepository VenueRepository;
+    
     @Before
     public void setUp() throws Exception {
         
@@ -31,13 +37,29 @@ public class VenueRepositoryTest {
     @Test
     public void testFetchData(){
         /*Test data retrieval*/
-        Venue VenueA = VenueRepository.findByUsername("Bob");
+        Venue VenueA = VenueRepository.findByUsername("test2");
         assertNotNull(VenueA);
         assertEquals("test2", VenueA.getName());
-        Venue VenueB = VenueRepository.findByUsername("Alice");
+        Venue VenueB = VenueRepository.findByUsername("test1");
         assertNotNull(VenueB);
         assertEquals("test1", VenueB.getName());
     }
+
+    @Test
+    public void testSignUp(){
+        VenueController VenueController = new VenueController(VenueRepository);
+
+        Venue test1Venue = mock(Venue.class);
+        when(test1Venue.getUsername()).thenReturn("test1");
+        when(test1Venue.getPassword()).thenReturn("testpassword");
+        assertThrows(InvalidUsernameException.class, () -> VenueController.signUp(test1Venue));
+
+        Venue test2Venue = mock(Venue.class);
+        when(test2Venue.getUsername()).thenReturn("testusername");
+        when(test2Venue.getPassword()).thenReturn("1");
+        assertThrows(InvalidPasswordException.class, () -> VenueController.signUp(test2Venue));
+    }
+
 
     @After
     public void tearDown() throws Exception {

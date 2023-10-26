@@ -71,6 +71,10 @@ body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 
   font-family: 'Sen', sans-serif;
   font-weight: bold;

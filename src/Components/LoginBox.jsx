@@ -12,11 +12,12 @@ const LoginBox = () => {
 
     const handleLogin = (event) => {
         event.preventDefault()
-        event.log(values)
+        console.log(values)
     }
 
     const handleInput = (event) => {
-        setValues(old => ({ ...old, [event.target.name]: [event.target.value]}))
+        const{name, value} = event.target
+        setValues({[name]: value})
     }
 
     return (
@@ -24,11 +25,11 @@ const LoginBox = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     <label htmlFor='username'>Username</label>
-                    <input value='username' onChange={(event) => handleInput(event.target.value)} type="username"></input>
+                    <input name='username' onChange={handleInput} type="username"></input>
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
-                    <input value='password' onChange={(event) => handleInput(event.target.value)} type="password"></input>
+                    <input name='password' onChange={handleInput} type="password"></input>
                 </div>
                 <button className='ButtonStyle1' type="submit">Log In</button>
             </form>             
