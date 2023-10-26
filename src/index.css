@@ -8,26 +8,58 @@
   --light-green: #B8D8D8;
   --light-gray: #D9D9D9;
   --red: #FE5F55;
-
+  
   /**Distances**/
   --navbar-height: 50px;
   --label-gap: 35px;
+  --svg-size: 40px;
 }
 
 /**Class Styling**/
+.item_10 {
+  flex-basis: 10%;
+  /* background-color: blue; */
+}
+
+.item_40 {
+  flex-basis: 40%;
+  /* background-color: pink; */
+}
+
+.item_50 {
+  flex-basis: 50%;
+  /* background-color: yellow; */
+}
+
+.item_90 {
+  flex-basis: 90%;
+}
+
+.img_small {
+  width: 20px;
+  height: 20px;
+}
+
 .subtext {
   color: var(--subtext-green);
 }
 
-/**TODO implement button selection**/
-.button-selected {
+.text-valid {
+  color: var(--dark-green)
+}
+
+.text-invalid {
+  color: var(--red);
+}
+
+.button-enabled {
   color: var(--dark-green);
   border: 7px solid var(--dark-green);
 }
 
-/**TODO implement button
-.button-deselected {
+.button-disabled {
   color: var(--red);
+  cursor: not-allowed;
   border: 7px solid var(--red);
 }
 
@@ -92,6 +124,7 @@ input {
 button {
   color: var(--red);
   background: white;
+  cursor: pointer;
 
   text-align: center;
   font-size: 32px;
@@ -105,7 +138,13 @@ button {
   vertical-align: middle;
 }
 
-svg {
-  width: 40px;
-  height: 40px;
+button > a {
+  color: var(--red);
+  text-decoration: none;
+}
+
+svg, img {
+  width: var(--svg-size);
+  height: var(--svg-size);
+  align-self: center;
 }

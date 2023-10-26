@@ -1,39 +1,44 @@
-span {
-    margin-right: var(--label-gap);
+p {
+    margin: 0px;
 }
 
 #content {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
+    gap: 10px;
     min-height: calc(100vh - var(--navbar-height));
 }
 
-.item_1 {
+.section_1 {
     order: 1;
-    flex: 1;
+    flex: 0 0 50%;
 }
 
-.item_2 {
+.section_2 {
     order: 2;
-    flex: 1;
+    flex: 0 1 50%;
     display: flex;
     align-items: center;
 }
 
+#back {
+    position: absolute;
+    right: 10px;
+}
+
 #formContainer {
     /* background-color: white; */
-    width: 100%;
     display: flex;
-    flex-wrap:nowrap;
+    flex-wrap: nowrap;
     flex-direction: column;
+    width: 100%;
 }
 
 #userOptions {
     /* background-color: green; */
     display: flex;
-    flex: 1;
-    margin-right: 0;
+    flex-wrap: nowrap;
     justify-content: space-around;
 }
 
@@ -41,25 +46,11 @@ span {
     display: inline flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    width: inherit;
-    justify-content: space-around;
-    /* background-color:red; */
-}
-
-#formContainer > span > label {
-    flex: 1;
-    /* background-color:yellow; */
-}
-
-#formContainer > span > input {
-    flex: 1;
-    /* background-color: black; */
-    margin: 10px;
 }
 
 #ticket {
     width: fit-content;
-    max-width: 600px;
+    max-width: 700px;
     height: auto;
     margin: auto;
 
@@ -69,4 +60,11 @@ span {
     stroke: var(--dark-green);
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+.validation {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    text-align: end;
 }
