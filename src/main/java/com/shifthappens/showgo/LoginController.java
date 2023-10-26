@@ -26,14 +26,13 @@ public class LoginController {
         //this.userControl = userControl
     }
 
+    @PostMapping("/login")
     public Object login(String username, String password){
-        if(venueControl.findVenue(username) != null){
-            if(venueControl.findVenue(username).getPassword().equals(password))
-                return venueControl.findVenue(username);
+        if(venueControl.findVenue(username, password) != null){
+            return venueControl.findVenue(username, password);
         }
-        /* else if(userControl.findUser(username) != null){
-            if(userControl.findUser(username).getPassword().equals(password))
-                return userControl.findUser(username);
+        /* else if(userControl.findUser(username, password) != null){
+            return userControl.findUser(username, password);
         } */
         return null;
     }
