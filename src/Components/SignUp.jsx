@@ -8,7 +8,22 @@ import { useState } from 'react';
 
 const SignUp = () => {
 
-    const [isUser, setIsUser] = useState(0);
+    const [userType, setUserType] = useState(null);
+    const [userNameValid, setUsernameValid] = useState(false);
+    const [passwordChecks, setPasswordChecks] = useState([false, false]);
+
+    function checkUsernameValid() {
+        var username = document.getElementById("username");
+        /**TODO
+         * Check database to see if username exists
+         */
+        setUsernameValid(true);
+    }
+
+    function checkPasswordValid() {
+        var password = document.getElementById("password");
+        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(password.value), password.value.length >= 6]);
+    }
 
     return(
         <div>
@@ -26,9 +41,8 @@ const SignUp = () => {
                         <span>
                             <label class='item_50'>Who Are You?</label>
                             <span class='item_40' id='userOptions'>
-                                <button>User</button>
-                                <button>Venue</button>
-                                {/* className={isUser ? '' : 'button-enabled'} onClick={setIsUser(false)} */}
+                                <button className={userType === 'user' ? 'button-enabled' : ''} onClick={() => { setUserType('user')}}>User</button>
+                                <button className={userType === 'venue' ? 'button-enabled': ''} onClick={() => { setUserType('venue')}}>Venue</button>
                             </span>
                         </span>
                         <br></br>
@@ -42,31 +56,34 @@ const SignUp = () => {
 
                         <span>
                             <label class='item_50'>Username</label>
-                            <input class='item_40'></input>
-                            <img class='item_10' src={Checkmark} alt=""/>
+                            <input id='username' onBlur={() => checkUsernameValid()} class='item_40'></input>
+                            <img class='item_10' src={userNameValid ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>
 
                         <span>
                             <label class='item_50'>Password</label>
-                            <input class='item_40'></input>
-                            <img class='item_10' src={X} alt=""/>
+                            <input id='password' onChange={() => checkPasswordValid()}class='item_40'></input>
+                            <img class='item_10' src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <span class='validation'>
-                            <p class='item_90 text-invalid' id='alphanumeric'>Only Alphanumeric characters</p>
-                            <img class='item_10 img_small ' src={X} alt=""/>
+                            <p className={'item_90 ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')} id='alphanumeric'>Only alphanumeric characters</p>
+                            <img class='item_10 img_small ' src={passwordChecks[0] ? Checkmark : X} alt=""/>
                         </span>
                         <span class='validation'>
-                            <p class='item_90 text-valid' id='passwordLength'>At least 6 characters long</p>
-                            <img class='item_10 img_small ' src={X} alt=""/>
+                            <p className={'item_90 ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')} id='passwordLength'>At least 6 characters long</p>
+                            <img class='item_10 img_small ' src={passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>
                         <span style={{justifyContent: 'center'}}>
-                            <button class='button-disabled'>Sign Up</button>
+                            <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
+                                {userType && userNameValid && passwordChecks.every(v => v) ?
+                                    (<Link to='/home' class='link-active'>Log In</Link>) :
+                                    (<>Log In</>)
+                                }
+                            </button>
                         </span>
                     </div>
-
-
                 </div>
                 <div class='section_2'>
                     <svg id="ticket" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 967 970">
