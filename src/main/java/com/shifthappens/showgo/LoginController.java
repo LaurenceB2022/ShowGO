@@ -26,8 +26,8 @@ public class LoginController {
         //this.userControl = userControl
     }
 
-    @GetMapping("/login")
-    public Object login(String username, String password){
+    @GetMapping("/login/{username}/{password}")
+    public Object login(@PathVariable String username, @PathVariable String password){
         if(venueControl.findVenue(username, password) != null){
             return venueControl.findVenue(username, password);
         }
