@@ -1,12 +1,9 @@
 import 'index.css';
 
-const UserHomepage = () => {
-
+export default function UserHomepage() {
     return (
         <div>
-            <p>hi</p>
+            <p>test</p>
         </div>
     )
 }
-
-export default UserHomepage;

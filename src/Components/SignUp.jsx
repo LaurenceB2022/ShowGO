@@ -6,15 +6,15 @@ import Placeholder from 'Assets/Placeholder.svg';
 import {Link} from 'react-router-dom';
 import { useState } from 'react';
 
-const SignUp = () => {
-
+const SignUp = (props) => {
+    
     const [userType, setUserType] = useState(null);
     const [userNameValid, setUsernameValid] = useState(false);
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
-
+    var [_, setLoggedIn] = props.loggedIn;
+    
     function checkUsernameValid() {
         var username = document.getElementById(styles.username);
-        console.log(username);
         /**TODO
          * Check database to see if username exists
          */
@@ -24,6 +24,13 @@ const SignUp = () => {
     function checkPasswordValid() {
         var password = document.getElementById(styles.password);
         setPasswordChecks([/^[a-zA-Z0-9]+$/.test(password.value), password.value.length >= 6]);
+    }
+
+    function signUp() {
+        /**TODO
+         * Create user in database
+         */
+        setLoggedIn(true);
     }
 
     return(
@@ -79,7 +86,7 @@ const SignUp = () => {
                         <span style={{justifyContent: 'center'}}>
                             <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
                                 {userType && userNameValid && passwordChecks.every(v => v) ?
-                                    (<Link to='/home' class='link-active'>Sign Up</Link>) :
+                                    (<Link to='/home' class='link-active' onClick={signUp}>Sign Up</Link>) :
                                     (<>Sign Up</>)
                                 }
                             </button>

@@ -1,15 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
 import LoginBox from 'Components/LoginBox';
 import SignUp from 'Components/SignUp'
-import App from 'App';
+import { Outlet } from 'react-router-dom';
 import UserHomepage from './UserHomepage';
 
-const Router = () => {
+const Router = (props) => {
     return (
       <Routes>
-          <Route path='/login' element={<LoginBox />}/>
-          <Route path='/signup' element={<SignUp />}/>
-          <Route path='/home' element={<UserHomepage />}/>
+        <Route path='/' element={<Outlet/>}>
+          <Route path='login' element={<LoginBox loggedIn={props.loggedIn}/>}/>
+          <Route path='signup' element={<SignUp loggedIn={props.loggedIn}/>}/>
+          <Route path='home' element={<UserHomepage loggedIn={props.loggedIn}/>}/>
+        </Route>
       </Routes>
     );
   }

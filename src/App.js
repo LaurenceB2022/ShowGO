@@ -1,20 +1,20 @@
 import 'index.css';
 import NavBar from 'Components/Navbar';
-import {BrowserRouter, Outlet} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
 import Routers from 'Components/Routers';
+import { useState } from 'react';
 
 function App() {
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
-    <div className="App">
-      <NavBar />
-      <BrowserRouter basename='/showgo'>
-        <>
-          <Routers />
-        </>
-      </BrowserRouter>
-      <Outlet />
-    </div>
+    <BrowserRouter basename='/showgo'>
+      <div className="App">
+        <NavBar loggedIn={[loggedIn, setLoggedIn]}/>
+        <Routers loggedIn={[loggedIn, setLoggedIn]}/>
+      </div>
+    </BrowserRouter>
   );
 }
 

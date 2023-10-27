@@ -21,6 +21,10 @@
   /* background-color: blue; */
 }
 
+.item_20 {
+  flex-basis: 20%;
+}
+
 .item_40 {
   flex-basis: 40%;
   /* background-color: pink; */
@@ -29,6 +33,10 @@
 .item_50 {
   flex-basis: 50%;
   /* background-color: yellow; */
+}
+
+.item_80 {
+  flex-basis: 80%;
 }
 
 .item_90 {
