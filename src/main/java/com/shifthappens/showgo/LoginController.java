@@ -26,7 +26,7 @@ public class LoginController {
         //this.userControl = userControl
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public Object login(String username, String password){
         if(venueControl.findVenue(username, password) != null){
             return venueControl.findVenue(username, password);
