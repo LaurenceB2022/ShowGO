@@ -12,17 +12,31 @@ const SignUp = (props) => {
     const [userNameValid, setUsernameValid] = useState(false);
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
     var [_, setLoggedIn] = props.loggedIn;
+    const [loggedInUserVenue, setLoggedInUserVenue] = useState(null);
     
     function checkUsernameValid() {
         var username = document.getElementById(styles.username);
         /**TODO
          * Check database to see if username exists
+         * 
+         * Need to add check for users.
          */
-        setUsernameValid(true);
+        const requestOptions = {
+            method: 'GET', //check the tag for the backend method being called
+        };
+        fetch('http://localhost:8080/venues/' + document.getElementById('username').value, requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+            .then(response => {
+                if (response.ok) {
+                    setUsernameValid(false)
+                } 
+                else {
+                    setUsernameValid(true)
+                }
+            });
     }
 
     function checkPasswordValid() {
-        var password = document.getElementById(styles.password);
+        var password = document.getElementById('password');
         setPasswordChecks([/^[a-zA-Z0-9]+$/.test(password.value), password.value.length >= 6]);
     }
 
@@ -30,7 +44,23 @@ const SignUp = (props) => {
         /**TODO
          * Create user in database
          */
-        setLoggedIn(true);
+        if (userType === 'venue') {
+
+            const requestOptions = {
+                method: 'POST', //check the tag for the backend method being called
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({ username: document.getElementById('username').value, 
+                                    name: document.getElementById('name').value,
+                                    password: document.getElementById('password').value })
+            };
+            fetch('http://localhost:8080/venues', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+                .then(response => {
+                    if (response.ok) {
+                        setLoggedIn(true)
+                        setLoggedInUserVenue(document.getElementById('username').value)
+                    } 
+                });
+        }
     }
 
     return(
@@ -57,21 +87,21 @@ const SignUp = (props) => {
 
                         <span>
                             <label class='item_50'>Display Name</label>
-                            <input class='item_40'></input>
+                            <input id={'name'} class='item_40'></input>
                             <img class='item_10' src={Placeholder} alt=""/>
                         </span>
                         <br></br>
 
                         <span>
                             <label class='item_50'>Username</label>
-                            <input class={styles.username + ' item_40'} onBlur={() => checkUsernameValid()}></input>
+                            <input id={'username'} class={styles.username + ' item_40'} onBlur={() => checkUsernameValid()}></input>
                             <img class='item_10' src={userNameValid ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>
 
                         <span>
                             <label class='item_50'>Password</label>
-                            <input id={styles.password} class='item_40' onChange={() => checkPasswordValid()}></input>
+                            <input id={'password'} class='item_40' onChange={() => checkPasswordValid()}></input>
                             <img class='item_10' src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <span class={styles.validation}>
@@ -84,9 +114,9 @@ const SignUp = (props) => {
                         </span>
                         <br></br>
                         <span style={{justifyContent: 'center'}}>
-                            <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
+                            <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'} onClick={() => { signUp() } }>
                                 {userType && userNameValid && passwordChecks.every(v => v) ?
-                                    (<Link to='/home' class='link-active' onClick={signUp}>Sign Up</Link>) :
+                                    (<Link to='/home' class='link-active'>Sign Up</Link>) :
                                     (<>Sign Up</>)
                                 }
                             </button>

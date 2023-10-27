@@ -3,6 +3,7 @@ package com.shifthappens.showgo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class VenueController {
     
@@ -33,6 +35,7 @@ public class VenueController {
 
     @PostMapping("/venues")
     public Venue signUp(@RequestBody Venue venue) {
+        System.out.println("*****IM SIGNING SOMEONE UP*******");
         if (!isValidUsername(venue.getUsername())) {
             throw new InvalidUsernameException();
         }
@@ -50,7 +53,11 @@ public class VenueController {
 
     @GetMapping("/venues/{username}")
     public Venue findVenue(@PathVariable String username) {
-        return venueRepo.findByUsername(username);
+        Venue venue = venueRepo.findByUsername(username);
+        if (venue == null) {
+            throw new InvalidUsernameException();
+        }
+        return venue;
     }
 
     private boolean isValidPassword(String password) {
