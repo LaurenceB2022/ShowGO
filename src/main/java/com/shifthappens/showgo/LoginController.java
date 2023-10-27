@@ -32,13 +32,16 @@ public class LoginController {
             Venue v = venueControl.findVenue(username);
             if(v.getPassword().equals(password))
                 return v;
+            else
+                throw new InvalidPasswordException();
         }
+        else
+            throw new InvalidUsernameException();
         /* else if(userControl.findUser(username) != null){
             User u = userControl.findUser(username);
             if(u.getPassword().equals(password))
                 return u;
         } */
-        return null;
     }
 
 }
