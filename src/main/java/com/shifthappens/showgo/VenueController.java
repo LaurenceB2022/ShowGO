@@ -48,8 +48,8 @@ public class VenueController {
         venueRepo.delete(venueRepo.findByUsername(username));
     }
 
-    @GetMapping("/venues/{username}/{password}")
-    public Venue findVenue(@PathVariable String username, @PathVariable String password) {
+    @GetMapping("/venues/{username}")
+    public Venue findVenue(@PathVariable String username) {
         return venueRepo.findByUsername(username);
     }
 
