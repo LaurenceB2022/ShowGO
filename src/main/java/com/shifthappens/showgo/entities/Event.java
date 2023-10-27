@@ -3,11 +3,14 @@ package com.shifthappens.showgo.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "events")
 public class Event {
 
     @Id
+    private String venue;
     private String name;
     private String location;
     private String date;
@@ -16,6 +19,7 @@ public class Event {
     private String description;
 
     public Event(){
+        venue = "default";
         name = "default";
         location = "default";
         time = "00:00";
@@ -23,9 +27,23 @@ public class Event {
         description = "default";
     }
 
-    public Event(String name) {
+    public Event(String venue) {
         this();
+        this.venue = venue;
+    }
+
+    public Event(String venue, String name) {
+        this();
+        this.venue = venue;
         this.name = name;
+    }
+
+     public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
     public String getName() {
