@@ -29,10 +29,14 @@ public class LoginController {
     @GetMapping("/login/{username}/{password}")
     public Object login(@PathVariable String username, @PathVariable String password){
         if(venueControl.findVenue(username) != null){
-            return venueControl.findVenue(username);
+            Venue v = venueControl.findVenue(username);
+            if(v.getPassword().equals(password))
+                return v;
         }
-        /* else if(userControl.findUser(username, password) != null){
-            return userControl.findUser(username, password);
+        /* else if(userControl.findUser(username) != null){
+            User u = userControl.findUser(username);
+            if(u.getPassword().equals(password))
+                return u;
         } */
         return null;
     }
