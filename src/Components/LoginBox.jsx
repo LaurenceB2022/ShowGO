@@ -1,18 +1,57 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, Alert} from 'react';
 import 'index.css';
-import 'Components/LoginBox.css';
-import {Link} from 'react-router-dom'
+import styles from 'Components/LoginBox.module.css';
+import { useLocation, useNavigate, Link } from 'react-router-dom'; 
 
-const LoginBox = () => {
+const useNav = () => {
+    const navigation = useNavigate();
+    const nav = (to, values)=> navigation.navigate(to, values);
+  
+    return {nav};
+};
+
+const LoginBox = (props) => {
+    const navigator = useNavigate();
+    const [postId, setPostId] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const [error,setError]=useState();
+    const [posts, setPosts] = useState([]);
+    var [_, setLoggedIn] = props.loggedIn;
 
     const[values, setValues] = useState({
         username: '',
         password: ''
       });
 
-    const handleLogin = (event) => {
+    const handleLogin = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({values})
+        };
+        fetch('http://localhost:8080/venues', requestOptions)    
+        .then(response => response.json())
+        .then(data => {
+            if(!data.error){
+                console.log(values)
+                setLoggedIn(true);
+                navigator('/venuehome', {state: values.username})
+            }
+            else{
+                setError('Unknown Error.')
+            }
+
+        })
+        .catch((error) => {
+            console.error(error);
+            setError('Invalid Login Credentials');
+        }); 
+    }
+
+
+    function useLogin (event) {
         event.preventDefault()
-        console.log(values)
+        handleLogin()
     }
 
     const handleInput = (event) => {
@@ -21,8 +60,8 @@ const LoginBox = () => {
     }
 
     return (
-        <div className="LoginBox">
-            <form onSubmit={handleLogin}>
+        <div className={styles.LoginBox}>
+            <form onSubmit={useLogin}>
                 <div>
                     <label htmlFor='username'>Username</label>
                     <input name='username' onChange={handleInput} type="username"></input>
@@ -31,10 +70,14 @@ const LoginBox = () => {
                     <label htmlFor='password'>Password</label>
                     <input name='password' onChange={handleInput} type="password"></input>
                 </div>
-                <button className='ButtonStyle1' type="submit">Log In</button>
+                <div className={styles.button_container}>
+                    <button className={styles.ButtonStyle2} type="submit">Log In</button>
+                    <Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link>
+                </div>
+                {error?<label>{error}</label>:null}   
             </form>             
             
-            <Link to='/signup' className='ButtonStyle2'>Sign Up</Link>
+            
         </div>
     )
 }

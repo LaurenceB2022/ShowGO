@@ -6,7 +6,8 @@
     flex-shrink: 0; 
     padding: 10px;
     text-align:left;
-  }
+    flex-direction: row;
+}
   
   .LoginBox label{
     background: inherit;
@@ -27,15 +28,27 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
-  .LoginBox .ButtonStyle1{
-  
-    background: #FFFFFF;
-    border: 10px solid #FE5F55;
-  
+
+  .button_container{
+    display:flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: center;
+    gap: 10% 30%;
   }
   
-  .LoginBox .ButtonStyle2{
+  .ButtonStyle1{
+  
+    width: 252px;
+    height: 77px;
+    background: #FFFFFF;
+    border: 10px solid #FE5F55;
+    border-radius: 52px;
+    box-sizing: border-box;
+  }
+  
+  .ButtonStyle2{
+    
     
     background: #FFFFFF;
     border: 10px solid #4F6367; 
@@ -50,8 +63,6 @@
     position: absolute;
     width: 252px;
     height: 77px;
-    left: 696px;
-    top: 765px;
     border-radius: 52px;
     background: #FFFFFF;
   
