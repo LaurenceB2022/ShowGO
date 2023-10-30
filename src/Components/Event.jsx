@@ -19,10 +19,17 @@ const Event = (props) => {
             <p id={styles.title} class='item_10'>{eventJSON.title}</p>
             <div className={styles.section_1 + ' item_90'}>
                 <img id={styles.img} class='item_50' src={eventJSON.image}></img>
-                <div class='item_50'>
-                    <p>{eventJSON.start_date}</p>
-                    <p>{eventJSON.end_date}</p>
-                    <p>{eventJSON.ticket_price}</p>
+                <div className={styles.time_and_ticket + ' item_50'}>
+                    <span class='item_10'>
+                        <p class={styles.field_name}>Start</p>
+                        <p>{eventJSON.start_date}</p>
+                    </span>
+                    <br></br>
+                    <span class='item_80'>
+                        <p class={styles.field_name}>End</p>
+                        <p>{eventJSON.end_date}</p>
+                    </span>
+                    <p class='item_10' id={styles.ticket_price}>{eventJSON.ticket_price}</p>
                 </div>
             </div>
         </div>

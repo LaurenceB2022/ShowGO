@@ -3,7 +3,7 @@
 .container{
     background-color: var(--eventbg-blue);
     width: 300px;
-    height: 190px;
+    height: fit-content;
 
     display: flex;
     flex-direction: column;
@@ -19,6 +19,21 @@
 #img {
     height: auto;
     background-color:aqua;
+}
+
+#ticket_price {
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+.time_and_ticket {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 5px;
+}
+
+.field_name {
+    font-size: 22px;
 }
 
 .section_1 {

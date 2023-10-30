@@ -6,10 +6,23 @@ import { useState } from 'react';
 export default function SearchBar (props) {
 
     const [searchType, setSearchType] = useState('title'); //options: title, date-range, cost
-
+    const [, setResults] = useState(props.results);
     function search(event) {
         if(event.type !== 'click' && event.key !== 'Enter') return;
+        
+        const value = document.getElementById(styles.input).value;
+        if (value === '') return;
+
+
         // TODO
+        switch (searchType) {
+            case 'title':
+                break;
+            case 'date-range':
+                break;
+            case 'cost':
+                break;
+        }
         // searching functionalities
     }
 
