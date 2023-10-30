@@ -41,6 +41,7 @@ function VenueOverview(props){
     const username = location.state?.username;
     const [events, error, loading] = useAsync(username); 
     const navigate = useNavigate();   
+    const [timeframe, setTimeFrame] = useState('All')
     {/*useEffect(async() => {
         fetch(`http://localhost:8080/events?vendor=${username}`)
         .then(response => response.json())
@@ -55,11 +56,11 @@ function VenueOverview(props){
             </div>
             <div class={styles.event_grid}>
                 <div class={styles.event_types}>
-                    <h2>Upcoming Events</h2>
-                    <h2>Past Events</h2>
-                    <h2>All Events</h2>
+                    <h2 onClick={setTimeFrame('Future')}>Upcoming Events</h2>
+                    <h2 onClick={setTimeFrame('Past')}>Past Events</h2>
+                    <h2 onClick={setTimeFrame('')}>All Events</h2>
                     <div class={styles.event}>
-                        <GridEvents events={events} />
+                        <GridEvents events={events} time={timeframe} />
                     </div>
                 </div>
             </div>

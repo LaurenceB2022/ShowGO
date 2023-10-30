@@ -38,6 +38,10 @@
     padding: 25;
 }
 
+::selection{
+    text-decoration: underline overline transparent;
+}
+
 .event_types{
     width: 665px;
     height: 65px;
@@ -51,6 +55,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal; 
+    text-decoration: underline overline transparent;
 }
 
 .event_itemempty{

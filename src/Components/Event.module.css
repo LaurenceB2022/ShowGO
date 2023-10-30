@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
+
+.container{
+    background-image: none;
+    background-color: #516365;
+    width: 375px;
+    height: 225px;
+    flex-shrink: 0; 
+    display: flex;
+    flex-direction: column;
+    /*For text*/
+    font-family: 'Sen', sans-serif;
+}
+
+.container p{
+    text-align: center;
+    align-items: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal; 
+    color: #4F6367; 
+}
