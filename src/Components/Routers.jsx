@@ -9,10 +9,10 @@ const Router = (props) => {
     return (
       <Routes>
         <Route path='/' element={<Outlet/>}>
-          <Route path='login' element={<LoginBox loggedIn={props.loggedIn}/>}/>
-          <Route path='signup' element={<SignUp loggedIn={props.loggedIn}/>}/>
-          <Route path='home' element={<UserHomepage loggedIn={props.loggedIn}/>}/>
-          <Route path='venuehome' element={<VenueOverview loggedIn={props.loggedIn}/>}/>
+          <Route path='login' element={<LoginBox loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
+          <Route path='signup' element={<SignUp loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
+          <Route path='home' element={<UserHomepage loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
+          <Route path='venuehome' element={<VenueOverview loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
         </Route>
       </Routes>
     );

@@ -1,0 +1,30 @@
+#search {
+    background-color: white;
+    width:fit-content;
+    display: flex inline;
+    border: 4px solid var(--red);
+    border-radius: 30px;
+    align-items: center;
+}
+
+#img {
+    background-color: var(--red);
+    height: 16px;
+    width: auto;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#input {
+    border:none;
+    /* background-color: aqua; */
+    height: 0.2em;
+    vertical-align: middle;
+    color: var(--red);
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}

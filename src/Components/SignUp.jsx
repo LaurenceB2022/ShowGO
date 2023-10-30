@@ -12,10 +12,11 @@ const SignUp = (props) => {
     const [userNameValid, setUsernameValid] = useState(false);
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
     var [_, setLoggedIn] = props.loggedIn;
-    const [loggedInUserVenue, setLoggedInUserVenue] = useState(null);
+    const [loggedInUserVenue, setLoggedInUserVenue] = props.loggedInUserVenue;
     
     function checkUsernameValid() {
-        var username = document.getElementById(styles.username);
+        var username = document.getElementById(styles.username).value;
+        if(username === "") return;
         /**TODO
          * Check database to see if username exists
          * 
@@ -24,7 +25,7 @@ const SignUp = (props) => {
         const requestOptions = {
             method: 'GET', //check the tag for the backend method being called
         };
-        fetch('http://localhost:8080/venues/' + document.getElementById('username').value, requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+        fetch('http://localhost:8080/venues/' + username, requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
                 if (response.ok) {
                     setUsernameValid(false)
@@ -36,28 +37,28 @@ const SignUp = (props) => {
     }
 
     function checkPasswordValid() {
-        var password = document.getElementById('password');
+        var password = document.getElementById(styles.password);
         setPasswordChecks([/^[a-zA-Z0-9]+$/.test(password.value), password.value.length >= 6]);
     }
 
     function signUp() {
         /**TODO
-         * Create user in database
+         * Create users in database
          */
         if (userType === 'venue') {
 
             const requestOptions = {
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({ username: document.getElementById('username').value, 
-                                    name: document.getElementById('name').value,
-                                    password: document.getElementById('password').value })
+                body: JSON.stringify({ username: document.getElementById(styles.username).value, 
+                                    name: document.getElementById(styles.name).value,
+                                    password: document.getElementById(styles.password).value })
             };
             fetch('http://localhost:8080/venues', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
                 .then(response => {
                     if (response.ok) {
                         setLoggedIn(true)
-                        setLoggedInUserVenue(document.getElementById('username').value)
+                        setLoggedInUserVenue(document.getElementById(styles.username).value)
                     } 
                 });
         }
@@ -87,21 +88,23 @@ const SignUp = (props) => {
 
                         <span>
                             <label class='item_50'>Display Name</label>
-                            <input id={'name'} class='item_40'></input>
+                            <input id={styles.name} class='item_40'></input>
                             <img class='item_10' src={Placeholder} alt=""/>
                         </span>
                         <br></br>
 
                         <span>
                             <label class='item_50'>Username</label>
-                            <input id={'username'} class={styles.username + ' item_40'} onBlur={() => checkUsernameValid()}></input>
+                            <input id={styles.username} class={styles.username + ' item_40'} onBlur={() => checkUsernameValid()}></input>
                             <img class='item_10' src={userNameValid ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>
 
+                        {/* TO DO
+                        Make the password a password label and a button to show / unshow */}
                         <span>
                             <label class='item_50'>Password</label>
-                            <input id={'password'} class='item_40' onChange={() => checkPasswordValid()}></input>
+                            <input id={styles.password} class='item_40' onChange={() => checkPasswordValid()}></input>
                             <img class='item_10' src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <span class={styles.validation}>

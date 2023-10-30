@@ -4,9 +4,11 @@ import {Link} from 'react-router-dom';
 
 export default function NavBar (props) {
     var [loggedIn, setLoggedIn] = props.loggedIn;
+    const [loggedInUserVenue, setLoggedInUserVenue] = props.loggedInUserVenue;
 
     function logOut() {
         setLoggedIn(false);
+        setLoggedInUserVenue(null);
     }
     
     return (

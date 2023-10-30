@@ -7,12 +7,13 @@ import { useState } from 'react';
 function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedInUserVenue, setLoggedInUserVenue] = useState(null);
 
   return (
     <BrowserRouter basename='/showgo'>
       <div className="App">
-        <NavBar loggedIn={[loggedIn, setLoggedIn]}/>
-        <Routers loggedIn={[loggedIn, setLoggedIn]}/>
+        <NavBar loggedIn={[loggedIn, setLoggedIn]} loggedInUserVenue={[loggedInUserVenue, setLoggedInUserVenue]}/>
+        <Routers loggedIn={[loggedIn, setLoggedIn]} loggedInUserVenue={[loggedInUserVenue, setLoggedInUserVenue]}/>
       </div>
     </BrowserRouter>
   );
