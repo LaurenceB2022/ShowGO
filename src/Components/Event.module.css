@@ -1,23 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
 
 .container{
-    background-image: none;
-    background-color: #516365;
-    width: 375px;
-    height: 225px;
-    flex-shrink: 0; 
+    background-color: var(--eventbg-blue);
+    width: 300px;
+    height: 190px;
+
     display: flex;
     flex-direction: column;
-    /*For text*/
-    font-family: 'Sen', sans-serif;
+    box-shadow: 5px 5px;
 }
 
-.container p{
+#title {
+    font-size: 32px;
     text-align: center;
+    background-color: rgb(195, 232, 236);
+}
+
+#img {
+    height: auto;
+    background-color:aqua;
+}
+
+.section_1 {
+    display: flex;
+    flex-direction: row;
+}
+
+p {
+    color: var(--dark-green)
+    /* text-align: center;
     align-items: center;
     font-size: 40px;
     font-style: normal;
     font-weight: 700;
     line-height: normal; 
     color: #4F6367; 
+    background-color: red; */
 }

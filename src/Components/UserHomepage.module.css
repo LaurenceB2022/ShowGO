@@ -13,14 +13,18 @@ body {
 
 .section_1 {
     min-height: 80px;
-    height: calc(20vh - var(--navbar-height));
+    height: calc(17vh - var(--navbar-height));
     display:flex;
     justify-content: center;
     flex-direction: column;
 }
 
 .section_2 {
-    height: 80vh;
-    background-color: aqua;
+    height: 83vh;
+    /* background-color: aqua; */
     overflow-y: auto;
+}
+
+#searchbar {
+    margin-left: 10px;
 }
