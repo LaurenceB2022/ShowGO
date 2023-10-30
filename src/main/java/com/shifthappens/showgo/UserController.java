@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
-import com.shifthappens.showgo.repositories.VenueRepository;
+import com.shifthappens.showgo.repositories.UserRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UserController {
     
-    private final userRepository userRepo;
+    private final UserRepository userRepo;
 
-    public UserController(userRepository userRepo) {
+    public UserController(UserRepository userRepo) {
         this.userRepo = userRepo;
     }
 
     @GetMapping("/users")
-    private List<Venue> findAll() {
-        List<Venue> venues = new ArrayList<Venue>();
-        venueRepo.findAll().forEach(venue -> venues.add(venue));
-        return venues;
+    private List<User> findAll() {
+        List<User> users = new ArrayList<User>();
+        userRepo.findAll().forEach(user -> users.add(user));
+        return users;
     }
 
     @PostMapping("/users")
