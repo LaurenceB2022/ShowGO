@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
+
 .container {
     display: flex;
     flex-direction: row;
@@ -5,12 +7,5 @@
     justify-content: flex-start;
     align-items: flex-start;
     align-content:flex-start;
-    gap: 10px 10px;
-}
-
-.event{
-    background-color: #516365;
-    width: 375px;
-    height: 225px;
-    flex-shrink: 0; 
+    gap: 20px 20px;
 }

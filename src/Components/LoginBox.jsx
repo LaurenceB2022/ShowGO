@@ -3,20 +3,15 @@ import 'index.css';
 import styles from 'Components/LoginBox.module.css';
 import { useLocation, useNavigate, Link } from 'react-router-dom'; 
 
-const useNav = () => {
-    const navigation = useNavigate();
-    const nav = (to, values)=> navigation.navigate(to, values);
-  
-    return {nav};
-};
-
 const LoginBox = (props) => {
-    const navigator = useNavigate();
+    const navigator1 = useNavigate();
+    const navigator2 = useNavigate();
     const [postId, setPostId] = useState(null);
     const [success, setSuccess] = useState(false);
     const [error,setError]=useState();
     const [posts, setPosts] = useState([]);
     var [_, setLoggedIn] = props.loggedIn;
+    const [loggedInUserVenue, setLoggedInUserVenue] = props.loggedInUserVenue;
 
     const[values, setValues] = useState({
         username: '',
@@ -35,10 +30,10 @@ const LoginBox = (props) => {
             if(!data.error){
                 console.log(values)
                 setLoggedIn(true);
-                navigator('/venuehome', {state: values.username})
+                navigator1('/venuehome', {state: values.username})
             }
             else{
-                setError('Unknown Error.')
+                setError('Invalid Login Credentials')
             }
 
         })
@@ -72,7 +67,8 @@ const LoginBox = (props) => {
                 </div>
                 <div className={styles.button_container}>
                     <button className={styles.ButtonStyle2} type="submit">Log In</button>
-                    <Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link>
+                    <button className={styles.ButtonStyle1} type='button' onClick={navigator2('/signup')}>Sign Up</button>
+                    {/*<Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link>*/}
                 </div>
                 {error?<label>{error}</label>:null}   
             </form>             
