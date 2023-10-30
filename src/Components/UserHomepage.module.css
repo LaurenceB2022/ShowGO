@@ -3,25 +3,24 @@
     right: 10px;
 }
 
+body {
+    overflow: hidden;
+}
 
 .content {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
     min-height: calc(100vh - var(--navbar-height));
 }
 
 .section_1 {
-    order: 1;
-    flex: 2 0 20%;
+    min-height: 80px;
+    height: calc(20vh - var(--navbar-height));
     display:flex;
     justify-content: center;
     flex-direction: column;
-    /* background-color: white; */
 }
 
 .section_2 {
-    order: 2;
-    flex: 8 0 80%;
-    background-color: blue;
+    height: 80vh;
+    background-color: aqua;
+    overflow-y: auto;
 }

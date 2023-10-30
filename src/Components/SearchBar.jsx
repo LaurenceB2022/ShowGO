@@ -11,7 +11,6 @@ export default function SearchBar () {
       });
 
     function search(event) {
-        console.log(event);
         if(event.type != 'click' && event.key != 'Enter') return;
         // TODO
         // searching functionalities
