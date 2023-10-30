@@ -67,7 +67,7 @@ const LoginBox = (props) => {
                 </div>
                 <div className={styles.button_container}>
                     <button className={styles.ButtonStyle2} type="submit">Log In</button>
-                    <button className={styles.ButtonStyle1} type='button' onClick={navigator2('/signup')}>Sign Up</button>
+                    <button className={styles.ButtonStyle1} type='button' onClick={() => navigator2('/signup')}>Sign Up</button>
                     {/*<Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link>*/}
                 </div>
                 {error?<label>{error}</label>:null}   
