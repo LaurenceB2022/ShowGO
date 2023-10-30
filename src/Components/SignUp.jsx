@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const SignUp = (props) => {
     
-    const [userType, setUserType] = useState(null);
+    const [userType, setUserType] = useState(null); //'user' or 'venue'
     const [userNameValid, setUsernameValid] = useState(false);
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
     var [_, setLoggedIn] = props.loggedIn;
@@ -16,7 +16,7 @@ const SignUp = (props) => {
     
     function checkUsernameValid() {
         var username = document.getElementById(styles.username).value;
-        if(username === "") return;
+        if(username === "" || userType == null) return;
         /**TODO
          * Check database to see if username exists
          * 
@@ -25,7 +25,7 @@ const SignUp = (props) => {
         const requestOptions = {
             method: 'GET', //check the tag for the backend method being called
         };
-        fetch('http://localhost:8080/venues/' + username, requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+        fetch('http://localhost:8080/' + (userType == 'venue' ? 'venues/' : 'user/') + username, requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
                 if (response.ok) {
                     setUsernameValid(false)
@@ -42,26 +42,23 @@ const SignUp = (props) => {
     }
 
     function signUp() {
-        /**TODO
-         * Create users in database
-         */
-        if (userType === 'venue') {
-
-            const requestOptions = {
-                method: 'POST', //check the tag for the backend method being called
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({ username: document.getElementById(styles.username).value, 
-                                    name: document.getElementById(styles.name).value,
-                                    password: document.getElementById(styles.password).value })
-            };
-            fetch('http://localhost:8080/venues', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
-                .then(response => {
-                    if (response.ok) {
-                        setLoggedIn(true)
-                        setLoggedInUserVenue(document.getElementById(styles.username).value)
-                    } 
-                });
-        }
+        const username = document.getElementById(styles.username).value;
+        const name = document.getElementById(styles.name).value
+        const password = document.getElementById(styles.password).value;
+        const requestOptions = {
+            method: 'POST', //check the tag for the backend method being called
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({ username: username, 
+                                name: name,
+                                password: password })
+        };
+        fetch('http://localhost:8080/' + (userType == 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+            .then(response => {
+                if (response.ok) {
+                    setLoggedIn(true)
+                    setLoggedInUserVenue(username)
+                } 
+            });
     }
 
     return(
@@ -117,9 +114,9 @@ const SignUp = (props) => {
                         </span>
                         <br></br>
                         <span style={{justifyContent: 'center'}}>
-                            <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'} onClick={() => { signUp() } }>
+                            <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
                                 {userType && userNameValid && passwordChecks.every(v => v) ?
-                                    (<Link to='/home' class='link-active'>Sign Up</Link>) :
+                                    (<Link to='/home' class='link-active' onClick={() => { signUp() }}>Sign Up</Link>) :
                                     (<>Sign Up</>)
                                 }
                             </button>

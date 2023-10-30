@@ -18,7 +18,25 @@ export default function UserHomepage(props) {
                     <SearchBar id={styles.searchbar}/>
                 </div>
                 <div class={styles.section_2}>
+                <p>hi</p>
                     <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    <p>hi</p>
+                    
+
                 </div>
             </div>
 
