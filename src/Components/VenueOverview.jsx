@@ -67,16 +67,16 @@ function VenueOverview(props){
     return(
         <div className={styles.container}>
             <div class={styles.button_container}>
-                <button onClick={navigate('/createevent')}>Create Event</button>
+                <button onClick={() => navigate('/createevent')}>Create Event</button>
             </div>
             <button id={styles.back}>
                 <Link to='/login'>Log Out</Link>
             </button>
             <div class={styles.event_grid}>
                 <div class={styles.event_types}>
-                    <h2 onClick={setTimeFrame('Future')}>Upcoming Events</h2>
-                    <h2 onClick={setTimeFrame('Past')}>Past Events</h2>
-                    <h2 onClick={setTimeFrame('')}>All Events</h2>
+                    <h2 onClick={() => setTimeFrame('Future')}>Upcoming Events</h2>
+                    <h2 onClick={() => setTimeFrame('Past')}>Past Events</h2>
+                    <h2 onClick={() => setTimeFrame('')}>All Events</h2>
                     <div class={styles.event}>
                         
                         <GridEvents events={events} time={timeframe} /> 

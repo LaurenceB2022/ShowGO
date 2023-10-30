@@ -20,10 +20,10 @@
 
 }
 
-/* #root, .App {
+#root, .App {
   width: inherit;
   height: inherit;
-} */
+}
 
 /**Class Styling**/
 .item_10 {
