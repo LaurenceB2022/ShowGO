@@ -1,6 +1,6 @@
 import 'index.css';
 import NavBar from 'Components/Navbar';
-import {BrowserRouter, Router, Outlet} from 'react-router-dom'
+import {BrowserRouter, Router, Outlet, Link} from 'react-router-dom'
 import Routers from 'Components/Routers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from 'Components/VenueOverview.module.css'
@@ -54,6 +54,9 @@ function VenueOverview(props){
             <div class={styles.button_container}>
                 <button onClick={navigate('/createevent')}>Create Event</button>
             </div>
+            <button id={styles.back}>
+                <Link to='/login'>Log Out</Link>
+            </button>
             <div class={styles.event_grid}>
                 <div class={styles.event_types}>
                     <h2 onClick={setTimeFrame('Future')}>Upcoming Events</h2>

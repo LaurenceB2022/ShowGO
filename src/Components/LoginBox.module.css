@@ -1,5 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
 
+.ShowGo{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px;
+}
+
+.ShowGo h1{
+  background: inherit;
+    font-family: 'Sen', sans-serif;
+    text-align: center;
+    align-items: center;
+    font-size: 72px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal; 
+    color: #FFFFFF; 
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.style2{
+  color:#FE5F55
+}
+
+.ticket{
+  width: 78.963px;
+  height: 58.202px;
+ 
+  flex-shrink: 0; 
+  fill: #FFF;
+  stroke-width: 10px;
+  stroke: #B8D8D8; 
+}
 
 .LoginBox{
     width: 100%;
@@ -7,7 +41,9 @@
     flex-shrink: 0; 
     padding: 10px;
     text-align:left;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
   
   .LoginBox label{
@@ -32,11 +68,11 @@
 
   .button_container{
     height: 100px;
-    width: 300px;
+    width: 400px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-shrink: 0;
-    align-content: flex-start;
+    align-content: center;
   }
   
   .ButtonStyle1{
