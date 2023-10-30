@@ -2,6 +2,7 @@ package com.shifthappens.showgo.repositories;
 
 import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.VenueController;
+import com.shifthappens.showgo.LoginController;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 
@@ -58,6 +59,15 @@ public class VenueRepositoryTest {
         when(test2Venue.getUsername()).thenReturn("testusername");
         when(test2Venue.getPassword()).thenReturn("1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.signUp(test2Venue));
+    }
+
+    @Test
+    public void testLogin(){
+        VenueController VenueController = new VenueController(VenueRepository);
+        LoginController LoginController = new LoginController(VenueController);
+        //checks for venue login
+        assertThrows(InvalidUsernameException.class, () -> LoginController.login("test11", "testpassword"));
+        assertThrows(InvalidPasswordException.class, () -> LoginController.login("test1", "testpassworddd"));
     }
 
 
