@@ -9,8 +9,8 @@ const GridEvents = (props) => {
     const events = props.events;
 
     return (
-        <div>
-            <ul id={styles.container}>
+        <div className={styles.container}>
+            <ul>
                 {
                 events.map(eventJSON => (
                     <Event event={eventJSON}></Event>
