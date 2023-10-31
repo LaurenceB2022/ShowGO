@@ -8,12 +8,11 @@ body {
 }
 
 .content {
-    min-height: calc(100vh - var(--navbar-height));
+    height: calc(100vh - var(--navbar-height));
 }
 
 .section_1 {
-    margin-top: 10px;
-    min-height: 80px;
+    padding-top: 10px;
     height: fit-content;
     display:flex;
     justify-content: center;
@@ -21,7 +20,7 @@ body {
 }
 
 .section_2 {
-    height: 83vh;
+    height: 82vh;
     /* background-color: aqua; */
     overflow-y: auto;
 }
