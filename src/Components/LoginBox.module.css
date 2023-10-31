@@ -60,7 +60,6 @@
   width: inherit;
   display: flex;
   flex-direction: row;
-  background-color: yellow;
   justify-content: center;
   align-items: center;
   gap: 10px;
