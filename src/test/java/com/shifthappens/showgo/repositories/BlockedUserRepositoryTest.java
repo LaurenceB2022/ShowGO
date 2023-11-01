@@ -3,12 +3,6 @@ package com.shifthappens.showgo.repositories;
 import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.entities.Venue;
-import com.shifthappens.showgo.VenueController;
-import com.shifthappens.showgo.BlockedUserController;
-import com.shifthappens.showgo.LoginController;
-import com.shifthappens.showgo.UserController;
-import com.shifthappens.showgo.exceptions.InvalidPasswordException;
-import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 
