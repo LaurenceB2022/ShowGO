@@ -1,8 +1,12 @@
 package com.shifthappens.showgo.entities;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,6 +17,9 @@ public class User {
     private String username;
     private String name;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private Set<BlockedUser> blockedVenues = new HashSet<>();
 
     public User(){
     }
