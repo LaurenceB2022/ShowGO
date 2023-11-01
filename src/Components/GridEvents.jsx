@@ -21,6 +21,7 @@ const GridEvents = (props) => {
         <div className={styles.container}>
             {
             events.map(eventJSON => (
+                
                 <Event event={eventJSON}></Event>
         
             ))

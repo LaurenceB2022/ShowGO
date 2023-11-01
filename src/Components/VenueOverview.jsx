@@ -6,36 +6,6 @@ import styles from 'Components/VenueOverview.module.css'
 import React, {useState, useEffect} from 'react';
 import GridEvents from './GridEvents';
 
-{/*
-function useAsync(username) {
-    const [events, setEvents] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-
-
-    async function getEvents(){
-        try{
-            const response = fetch(`http://localhost:8080/events?vendor=${username}`);
-            const data = await response.json();
-            setEvents(data);
-        }
-        catch(error){
-            setError(error);
-        }
-        finally{
-            setLoading(false);
-        }
-
-    }
-    useEffect(() =>{
-        getEvents()
-    }, username)
-    return {events, error, loading};
-}
-*/}
-
-
 function VenueOverview(props){
     const location = useLocation();
     const username = location.state?.username; 
@@ -43,26 +13,6 @@ function VenueOverview(props){
     const [events, setEvents] = useState([]);
     const navigate = useNavigate();   
     const [timeframe, setTimeFrame] = useState('All')
-
-    {/*
-    useEffect(() => {
-        if(!loaded){
-            const fetchData = async () => {
-            try{
-                const response = await fetch(`http://localhost:8080/events?vendor=${username}`)
-                const data = await response.json;
-                setEvents(data);
-            }
-            catch(error){
-                console.error('Error fetching data:', error);
-            }
-            fetchData();
-            }
-            setLoaded(true);
-        }
-          
-    }, []); 
-*/}
 
     return(
         <div className={styles.container}>
