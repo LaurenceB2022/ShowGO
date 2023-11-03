@@ -7,14 +7,17 @@ const GridEvents = (props) => {
 
     const eventJSON = props.event ? props.event : 
     {
+        guid: '0',
         image: ShowGoLogo,
-        title: 'Title',
+        name: 'Name',
         start_date: 'Start_date',
         end_date: 'End_date',
         ticket_price: 'Tkt$'
     };
     const events = [eventJSON,eventJSON,eventJSON,eventJSON,
-        eventJSON,eventJSON,eventJSON,eventJSON];
+                    eventJSON,eventJSON,eventJSON,eventJSON,
+                    eventJSON,eventJSON,eventJSON,eventJSON,
+                    eventJSON,eventJSON,eventJSON,eventJSON];
 
 
     return (

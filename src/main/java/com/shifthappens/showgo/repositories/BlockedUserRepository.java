@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Repository
-public interface BlockedUserRepository extends CrudRepository<BlockedUser, Integer>{
+public interface BlockedUserRepository extends CrudRepository<BlockedUser, String>{
     List<BlockedUser> findByVenue(Venue venue);
 
     List<BlockedUser> findByUser(User user);

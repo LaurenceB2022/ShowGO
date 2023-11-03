@@ -11,29 +11,30 @@ const SignUp = (props) => {
     const [userType, setUserType] = useState(null); //'user' or 'venue'
     const [userNameValid, setUsernameValid] = useState(false);
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
-    var [_, setLoggedIn] = props.loggedIn;
+    var [, setLoggedIn] = props.loggedIn;
     const [loggedInUserVenue, setLoggedInUserVenue] = props.loggedInUserVenue;
     
-    function checkUsernameValid() {
+    async function checkUsernameValid() {
         var username = document.getElementById(styles.username).value;
         if(username === "" || userType == null) return;
-        /**TODO
-         * Check database to see if username exists
-         * 
-         * Need to add check for users.
-         */
         const requestOptions = {
-            method: 'GET', //check the tag for the backend method being called
+            method: 'GET',
         };
-        fetch('http://localhost:8080/' + (userType == 'venue' ? 'venues/' : 'user/') + username, requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+        var [check1, check2] = [true, true];
+        await fetch('http://localhost:8080/venues/' + username, requestOptions)
             .then(response => {
                 if (response.ok) {
-                    setUsernameValid(false)
-                } 
-                else {
-                    setUsernameValid(true)
+                    check1 = false;
                 }
             });
+        await fetch('http://localhost:8080/user/' + username, requestOptions)
+            .then(response => {
+                if (response.ok) {
+                    check2 = false;
+                }
+            });
+        setUsernameValid((check1 && check2) ? true : false);
+        
     }
 
     function checkPasswordValid() {
@@ -42,23 +43,23 @@ const SignUp = (props) => {
     }
 
     function signUp() {
-        const username = document.getElementById(styles.username).value;
-        const name = document.getElementById(styles.name).value
-        const password = document.getElementById(styles.password).value;
-        const requestOptions = {
-            method: 'POST', //check the tag for the backend method being called
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({ username: username, 
-                                name: name,
-                                password: password })
-        };
-        fetch('http://localhost:8080/' + (userType == 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
-            .then(response => {
-                if (response.ok) {
-                    setLoggedIn(true)
-                    setLoggedInUserVenue(username)
-                } 
-            });
+        // const username = document.getElementById(styles.username).value;
+        // const name = document.getElementById(styles.name).value
+        // const password = document.getElementById(styles.password).value;
+        // const requestOptions = {
+        //     method: 'POST', //check the tag for the backend method being called
+        //     headers: { 'Content-Type': 'application/json'},
+        //     body: JSON.stringify({ username: username, 
+        //                         name: name,
+        //                         password: password })
+        // };
+        // fetch('http://localhost:8080/' + (userType === 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+        //     .then(response => {
+        //         if (response.ok) {
+        //             setLoggedIn(true)
+        //             setLoggedInUserVenue(username)
+        //         } 
+        //     });
     }
 
     return(
@@ -67,16 +68,16 @@ const SignUp = (props) => {
                 <Link to='/login'>Back</Link>
             </button>
             <div id={styles.content}>
-                <div class={styles.section_1}>
+                <div className={styles.section_1}>
                     <h1>Get Tickets To All Your Favorites</h1>
-                    <h2 class='subtext'>Or Maybe Something New...</h2>
+                    <h2 className='subtext'>Or Maybe Something New...</h2>
                     <br></br>
                     <br></br>
                     <br></br>
                     <div id={styles.formContainer}>
                         <span>
-                            <label class='item_50'>Who Are You?</label>
-                            <span class='item_40' id={styles.userOptions}>
+                            <label className='item_50'>Who Are You?</label>
+                            <span className='item_40' id={styles.userOptions}>
                                 <button className={userType === 'user' ? 'button-enabled' : ''} onClick={() => { setUserType('user')}}>User</button>
                                 <button className={userType === 'venue' ? 'button-enabled': ''} onClick={() => { setUserType('venue')}}>Venue</button>
                             </span>
@@ -84,39 +85,39 @@ const SignUp = (props) => {
                         <br></br>
 
                         <span>
-                            <label class='item_50'>Display Name</label>
-                            <input id={styles.name} class='item_40'></input>
-                            <img class='item_10' src={Placeholder} alt=""/>
+                            <label className='item_50'>Display Name</label>
+                            <input id={styles.name} className='item_40'></input>
+                            <img className='item_10' src={Placeholder} alt=""/>
                         </span>
                         <br></br>
 
                         <span>
-                            <label class='item_50'>Username</label>
-                            <input id={styles.username} class={styles.username + ' item_40'} onBlur={() => checkUsernameValid()}></input>
-                            <img class='item_10' src={userNameValid ? Checkmark : X} alt=""/>
+                            <label className='item_50'>Username</label>
+                            <input id={styles.username} className={styles.username + ' item_40'} onBlur={() => checkUsernameValid()}></input>
+                            <img className='item_10' src={userNameValid ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>
 
                         {/* TO DO
                         Make the password a password label and a button to show / unshow */}
                         <span>
-                            <label class='item_50'>Password</label>
-                            <input id={styles.password} class='item_40' onChange={() => checkPasswordValid()}></input>
-                            <img class='item_10' src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
+                            <label className='item_50'>Password</label>
+                            <input id={styles.password} className='item_40' onChange={() => checkPasswordValid()}></input>
+                            <img className='item_10' src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
-                        <span class={styles.validation}>
+                        <span className={styles.validation}>
                             <p className={'item_90 ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')}>Only alphanumeric characters</p>
-                            <img class='item_10 img_small' src={passwordChecks[0] ? Checkmark : X} alt=""/>
+                            <img className='item_10 img_small' src={passwordChecks[0] ? Checkmark : X} alt=""/>
                         </span>
-                        <span class={styles.validation}>
+                        <span className={styles.validation}>
                             <p className={'item_90 ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')}>At least 6 characters long</p>
-                            <img class='item_10 img_small' src={passwordChecks[1] ? Checkmark : X} alt=""/>
+                            <img className='item_10 img_small' src={passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>
                         <span style={{justifyContent: 'center'}}>
                             <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
                                 {userType && userNameValid && passwordChecks.every(v => v) ?
-                                    (<Link to='/home' class='link-active' onClick={() => { signUp() }}>Sign Up</Link>) :
+                                    (<Link to={userType === 'user' ? '/home' : '/venuehome'} className='link-active' onClick={() => { signUp() }}>Sign Up</Link>) :
                                     (<>Sign Up</>)
                                 }
                             </button>
