@@ -106,11 +106,11 @@ const SignUp = (props) => {
                             <img className='item_10' src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <span className={styles.validation}>
-                            <p className={'item_90 ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')}>Only alphanumeric characters</p>
+                            <p className={styles.p + ' item_90 ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')}>Only alphanumeric characters</p>
                             <img className='item_10 img_small' src={passwordChecks[0] ? Checkmark : X} alt=""/>
                         </span>
                         <span className={styles.validation}>
-                            <p className={'item_90 ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')}>At least 6 characters long</p>
+                            <p className={styles.p + ' item_90 ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')}>At least 6 characters long</p>
                             <img className='item_10 img_small' src={passwordChecks[1] ? Checkmark : X} alt=""/>
                         </span>
                         <br></br>

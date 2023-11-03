@@ -1,0 +1,44 @@
+.p {
+    font-size: 32px;
+    margin: 0px;
+}
+
+.invalid {
+    color: var(--red);
+}
+
+#content {
+    min-height: calc(100vh - var(--navbar-height));
+    display: flex;
+    flex-direction: column;
+}
+
+#back {
+    position: absolute;
+    left: 10px;
+}
+
+#buy_ticket {
+    font-size: 50px;
+}
+
+.section_1 {
+    text-align: center;
+    color: var(--dark-green);
+}
+
+.section_2 {
+    padding-top: 50px;
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.field_row {
+    display: flex;
+    flex-direction: row;
+    gap: 180px;
+}

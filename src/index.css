@@ -20,11 +20,6 @@
 
 }
 
-#root, .App {
-  width: inherit;
-  height: inherit;
-}
-
 /**Class Styling**/
 .item_10 {
   flex-basis: 10%;
@@ -90,7 +85,7 @@
 }
 
 /**Element Styling**/
-body, html {
+body, html, #root, .App {
   background: var(--light-green);
   padding: 0;
   margin: 0;
@@ -104,6 +99,14 @@ body, html {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  color: var(--green);
+}
+
+.invalid {
+  color: var(--red);
 }
 
 h1 {
