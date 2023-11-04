@@ -7,7 +7,7 @@ export default function UserEventView(props) {
     const [, setLoggedIn] = props.loggedIn;
     const [, setLoggedInUserVenue] = props.loggedInUserVenue;
 
-//TODO insert event data in, fix routing, 
+//TODO insert event data in, fix routing (use event id, routing should go back to tickets or events based on prev screen), 
 
     return (
         <div id={styles.content}>

@@ -23,7 +23,6 @@
 /**Class Styling**/
 .item_10 {
   flex-basis: 10%;
-  /* background-color: blue; */
 }
 
 .item_20 {
@@ -32,12 +31,10 @@
 
 .item_40 {
   flex-basis: 40%;
-  /* background-color: pink; */
 }
 
 .item_50 {
   flex-basis: 50%;
-  /* background-color: yellow; */
 }
 
 .item_60 {

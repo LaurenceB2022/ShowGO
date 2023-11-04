@@ -6,6 +6,8 @@ import UserHomepage from 'Components/UserHomepage';
 import VenueOverview from 'Components/VenueOverview';
 import UserEventView from 'Components/UserEventView';
 import TicketCheckout from 'Components/TicketCheckout';
+import TicketCheckoutComplete from 'Components/TicketCheckoutComplete';
+import UserTickets from 'Components/UserTickets';
 
 const Router = (props) => {
     return (
@@ -15,8 +17,10 @@ const Router = (props) => {
           <Route path='login' element={<LoginBox loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
           <Route path='signup' element={<SignUp loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
           <Route path='home' element={<UserHomepage loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
+          <Route path='tickets' element={<UserTickets loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
           <Route path='home/event/:event_id' exact element={<UserEventView loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
           <Route path='home/event/:event_id/checkout' element={<TicketCheckout loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
+          <Route path='home/event/:event_id/checkout/complete' element={<TicketCheckoutComplete loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
           <Route path='venuehome' element={<VenueOverview loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
         </Route>
       </Routes>

@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
+
+.container{
+    border-radius: 30px;
+    background-clip:content-box;
+    overflow: hidden;
+    background-color: white;
+    width: 520px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 5px;
+}
+
+.p {
+    margin: 0px;
+    font-size: 18px;
+    color: var(--dark-green);
+}
+
+#name {
+    font-size: 32px;
+    background-color: rgb(195, 232, 236);
+}
+
+#img {
+    background-color:aqua;
+    height: auto;
+    width: 30%
+    
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+}
+
+.subtext {
+    margin: 0px 5px;
+}
+
+.field_name {
+    font-size: 22px;
+}
+
+.section_1 {
+    display: flex;
+    flex-direction: row;
+}

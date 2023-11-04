@@ -24,6 +24,7 @@ export default function NavBar (props) {
                     (<>
                     <Link to='/home' className={styles.navbarLink}>Home</Link>
                     <Link to='/settings' className={styles.navbarLink}>Settings</Link>
+                    <Link to='/tickets' className={styles.navbarLink}>Tickets</Link>
                     <Link to='/login' className={styles.navbarLink} onClick={logOut}>Sign Out</Link>
                     </>) :
                     (<></>) 
