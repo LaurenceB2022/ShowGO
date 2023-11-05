@@ -24,6 +24,9 @@ public class Venue {
     @OneToMany(mappedBy = "venue")
     private Set<BlockedUser> blockedUsers = new HashSet<>();
 
+    @OneToMany(mappedBy = "venue")
+    private Set<Event> events = new HashSet<>();
+
     public Venue(){
     }
 

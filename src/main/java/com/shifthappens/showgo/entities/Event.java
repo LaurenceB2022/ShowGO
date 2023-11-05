@@ -1,11 +1,17 @@
 package com.shifthappens.showgo.entities;
 
 
+import java.time.LocalDateTime;
+
 import com.shifthappens.showgo.VenueController;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -16,10 +22,15 @@ public class Event {
 
     //Events fields
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String guid;
-    private String venue;
-    private String start_date;
-    private String end_date;
+    
+    @ManyToOne
+    @JoinColumn(name = "venue")
+    private Venue venue;
+
+    private LocalDateTime start_date;
+    private LocalDateTime end_date;
     private float ticket_price;
     private String name;
     private String description;
@@ -29,35 +40,31 @@ public class Event {
     private boolean hide_location;
 
     public Event(){
-        venue = "default";
-        start_date = "Jan 1, 1970 00:00";
-        end_date = "Jan 1, 1970 00:00";
-        ticket_price = 0;
-        name = "default";
-        description = "default";
-
-        location = "default";
-        hide_location = false;
     }
 
     public Event(Venue v) {
-        this();
-        this.venue = v.getName();
+        this.venue = v;
         location = v.getLocation();
         hide_location = v.getHide_location();
+
+        start_date = LocalDateTime.now();
+        end_date = LocalDateTime.now();
+        ticket_price = 0;
+        name = "default";
+        description = "default";
     }
 
-    public Event(String venue, String name) {
+    public Event(Venue venue, String name) {
         this();
         this.venue = venue;
         this.name = name;
     }
 
-      public String getVenue() {
+      public Venue getVenue() {
          return venue;
     }
 
-    public void setVenue(String venue) {
+    public void setVenue(Venue venue) {
          this.venue = venue;
     }
 
@@ -77,16 +84,16 @@ public class Event {
          this.location = location;
     }
 
-    public void setStartDate(String date) {
+    public void setStartDate(LocalDateTime date) {
          start_date = date;
     }
 
 
-    public String getEndDate() {
+    public LocalDateTime getEndDate() {
         return end_date;
     }
 
-    public void setEndDate(String date) {
+    public void setEndDate(LocalDateTime date) {
          end_date = date;
     }
 
