@@ -3,9 +3,9 @@ package com.shifthappens.showgo.repositories;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.entities.Event;
 
 @Repository
-public interface VenueRepository extends CrudRepository<Venue, String>{
-    Venue findByUsername(String username);
+public interface EventRepository extends CrudRepository<Event, String>{
+    Event findByGUID(String guidString);
 }

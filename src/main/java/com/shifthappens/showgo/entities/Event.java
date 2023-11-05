@@ -3,9 +3,6 @@ package com.shifthappens.showgo.entities;
 
 import java.time.LocalDateTime;
 
-import com.shifthappens.showgo.VenueController;
-import com.shifthappens.showgo.repositories.VenueRepository;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
