@@ -1,6 +1,9 @@
 package com.shifthappens.showgo.entities;
 
 
+import com.shifthappens.showgo.VenueController;
+import com.shifthappens.showgo.repositories.VenueRepository;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -37,10 +40,11 @@ public class Event {
         hide_location = false;
     }
 
-    public Event(String venue) {
+    public Event(Venue v) {
         this();
-        this.venue = venue;
-        //TODO Event needs to pull data from venue or map
+        this.venue = v.getName();
+        location = v.getLocation();
+        hide_location = v.getHide_location();
     }
 
     public Event(String venue, String name) {
@@ -49,65 +53,58 @@ public class Event {
         this.name = name;
     }
 
-    //@Data should make all of this, leaving until someone tests this
+      public String getVenue() {
+         return venue;
+    }
+
+    public void setVenue(String venue) {
+         this.venue = venue;
+    }
+
+    public String getName() {
+         return name;
+    }
+
+    public void setName(String name) {
+         this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+         this.location = location;
+    }
+
+    public void setStartDate(String date) {
+         start_date = date;
+    }
 
 
-    //  public String getVenue() {
-    //     return venue;
-    // }
+    public String getEndDate() {
+        return end_date;
+    }
 
-    // public void setVenue(String venue) {
-    //     this.venue = venue;
-    // }
+    public void setEndDate(String date) {
+         end_date = date;
+    }
 
-    // public String getName() {
-    //     return name;
-    // }
+    public String getDescription() {
+         return this.description;
+     }
 
-    // public void setName(String name) {
-    //     this.name = name;
-    // }
+    public boolean getHide_location() {
+         return hide_location;
+     }
 
-    // public String getLocation() {
-    //     return location;
-    // }
+    public void setHide_location(boolean visibility) {
+         this.hide_location = visibility;
+    }
 
-    // public void setLocation(String location) {
-    //     this.location = location;
-    // }
-
-    // public String getDate() {
-    //     return date;
-    // }
-
-    // public void setDate(String date) {
-    //     this.date = date;
-    // }
-
-
-    // public String getTime() {
-    //     return time;
-    // }
-
-    // public void setTime(String time) {
-    //     this.time = time;
-    // }
-
-    // public String getDescription() {
-    //     return this.description;
-    // }
-
-    // public boolean getHide_location() {
-    //     return hide_location;
-    // }
-
-    // public void setHide_location(boolean visibility) {
-    //     this.hide_location = visibility;
-    // }
-
-    // public void setDescription(String description) {
-    //     this.description = description;
-    // }
+    public void setDescription(String description) {
+         this.description = description;
+    }
 
 
 }

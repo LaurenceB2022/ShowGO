@@ -36,6 +36,7 @@ public class Venue {
         description = "default";
     }
 
+
     public String getDescription() {
         return this.description;
     }
