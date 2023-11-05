@@ -1,11 +1,17 @@
 import 'index.css';
 import styles from 'Components/Event.module.css';
-import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { MyContext } from 'App';
 
 
 //TODO add a link to the event and a backtrack link to get back to previous page
 const Event = (props) => {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
+
     const eventJSON = props.event ? props.event : 
     {
         guid: '0', //TODO remove me once guid works

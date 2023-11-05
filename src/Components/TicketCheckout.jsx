@@ -1,10 +1,14 @@
 import 'index.css';
 import styles from 'Components/TicketCheckout.module.css';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { MyContext } from 'App';
 
-export default function TicketCheckout(props) {
-    const [, setLoggedIn] = props.loggedIn;
-    const [, setLoggedInUserVenue] = props.loggedInUserVenue;
+export default function TicketCheckout() {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
     
     return (
         <div id={styles.content}>

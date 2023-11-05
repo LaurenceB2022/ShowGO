@@ -4,19 +4,22 @@ import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 import Placeholder from 'Assets/Placeholder.svg';
 import {Link} from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { MyContext } from 'App';
 
-const SignUp = (props) => {
-    
-    const [userType, setUserType] = useState(null); //'user' or 'venue'
+const SignUp = () => {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
+
+    const [selectedType, setSelectedType] = useState(null); //'user' or 'venue'
     const [userNameValid, setUsernameValid] = useState(false);
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
-    var [, setLoggedIn] = props.loggedIn;
-    const [loggedInUserVenue, setLoggedInUserVenue] = props.loggedInUserVenue;
     
     async function checkUsernameValid() {
         var username = document.getElementById(styles.username).value;
-        if(username === "" || userType == null) return;
+        if(username === "" || selectedType == null) return;
         const requestOptions = {
             method: 'GET',
         };
@@ -43,23 +46,24 @@ const SignUp = (props) => {
     }
 
     function signUp() {
-        // const username = document.getElementById(styles.username).value;
-        // const name = document.getElementById(styles.name).value
-        // const password = document.getElementById(styles.password).value;
-        // const requestOptions = {
-        //     method: 'POST', //check the tag for the backend method being called
-        //     headers: { 'Content-Type': 'application/json'},
-        //     body: JSON.stringify({ username: username, 
-        //                         name: name,
-        //                         password: password })
-        // };
-        // fetch('http://localhost:8080/' + (userType === 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
-        //     .then(response => {
-        //         if (response.ok) {
-        //             setLoggedIn(true)
-        //             setLoggedInUserVenue(username)
-        //         } 
-        //     });
+        const username = document.getElementById(styles.username).value;
+        const name = document.getElementById(styles.name).value
+        const password = document.getElementById(styles.password).value;
+        const requestOptions = {
+            method: 'POST', //check the tag for the backend method being called
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({ username: username, 
+                                name: name,
+                                password: password })
+        };
+        fetch('http://localhost:8080/' + (selectedType === 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+            .then(response => {
+                if (response.ok) {
+                    setLoggedIn(true);
+                    setUserType(selectedType);
+                    setUsername(username);
+                } 
+            });
     }
 
     return(
@@ -78,8 +82,8 @@ const SignUp = (props) => {
                         <span>
                             <label className='item_50'>Who Are You?</label>
                             <span className='item_40' id={styles.userOptions}>
-                                <button className={userType === 'user' ? 'button-enabled' : ''} onClick={() => { setUserType('user')}}>User</button>
-                                <button className={userType === 'venue' ? 'button-enabled': ''} onClick={() => { setUserType('venue')}}>Venue</button>
+                                <button className={selectedType === 'user' ? 'button-enabled' : ''} onClick={() => { setSelectedType('user')}}>User</button>
+                                <button className={selectedType === 'venue' ? 'button-enabled': ''} onClick={() => { setSelectedType('venue')}}>Venue</button>
                             </span>
                         </span>
                         <br></br>
@@ -115,9 +119,9 @@ const SignUp = (props) => {
                         </span>
                         <br></br>
                         <span style={{justifyContent: 'center'}}>
-                            <button className={userType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
-                                {userType && userNameValid && passwordChecks.every(v => v) ?
-                                    (<Link to={userType === 'user' ? '/home' : '/venuehome'} className='link-active' onClick={() => { signUp() }}>Sign Up</Link>) :
+                            <button className={selectedType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'}>
+                                {selectedType && userNameValid && passwordChecks.every(v => v) ?
+                                    (<Link to={selectedType === 'user' ? '/home' : '/venuehome'} className='link-active' onClick={() => { signUp() }}>Sign Up</Link>) :
                                     (<>Sign Up</>)
                                 }
                             </button>

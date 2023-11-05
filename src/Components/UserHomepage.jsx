@@ -3,15 +3,21 @@ import styles from 'Components/UserHomepage.module.css';
 import {Link} from 'react-router-dom';
 import SearchBar from 'Components/SearchBar';
 import GridEvents from 'Components/GridEvents';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { MyContext } from 'App';
 
-export default function UserHomepage(props) {
-    const [, setLoggedIn] = props.loggedIn;
-    const [, setLoggedInUserVenue] = props.loggedInUserVenue;
+export default function UserHomepage() {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
+
     const [results, setResults] = useState(null)
-//TODO remove this temp code after done testing
-    setLoggedInUserVenue("nathanielendick");
+    //TODO remove this temp code after done testing
     setLoggedIn(true);
+    setUserType('user');
+    setUsername('nathanielendick');
+
     return (
 
         <div>

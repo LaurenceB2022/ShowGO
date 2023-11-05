@@ -1,32 +1,32 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import 'index.css';
 import styles from 'Components/LoginBox.module.css';
-import { useLocation, useNavigate, Link } from 'react-router-dom'; 
+import { useNavigate, Link } from 'react-router-dom'; 
+import { MyContext } from 'App';
 
-const LoginBox = (props) => {
+const LoginBox = () => {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
+
+
     const navigator = useNavigate();
     const [error, setError]=useState();
-    var [_, setLoggedIn] = props.loggedIn;
-    const [loggedInUserVenue, setLoggedInUserVenue] = props.loggedInUserVenue;
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const[credentials, setCredentials] = useState({
-        username: '',
-        password: ''
-      });
+    const [usernameField, setUsernameField] = useState('');
+    const [passwordField, setPasswordField] = useState('');
 
     const validate = () =>{
         var result = true;
-        if(username === '' || username === null || password === '' || password === null){
+        if(usernameField === '' || usernameField === null || passwordField === '' || passwordField === null){
             result = false;
             setError('Error, Missing Credentials.')
         }
-        if(!(/^[a-zA-Z0-9]+$/.test(password.valueOf))){
+        if(!(/^[a-zA-Z0-9]+$/.test(passwordField.valueOf))){
             result = false;
             setError('Error, Invalid Password Format.')
         }
-        if(!(/^[a-zA-Z0-9]+$/.test(username.valueOf))){
+        if(!(/^[a-zA-Z0-9]+$/.test(usernameField.valueOf))){
             result = false;
             setError('Error, Invalid Username Format.')
         }
@@ -39,37 +39,32 @@ const LoginBox = (props) => {
             const requestOptions = {
                 method: 'GET'
             };
-            fetch('http://localhost:8080/login/' + username + '/' + password, requestOptions)    
+            fetch('http://localhost:8080/login/' + usernameField + '/' + passwordField, requestOptions)    
             .then(response => {
                 if (response.ok) {
-                    fetch('http://localhost:8080/venues/' + username, requestOptions)
+                    fetch('http://localhost:8080/venues/' + usernameField, requestOptions)
                     .then(response => {
+
+                        setLoggedIn(true);
+                        setUsername(usernameField);
                         if(response.ok){
-                            navigator('/venuehome', username);
-                        }
-                        else{
-                            navigator('/home', username);
+                            setUserType('venue');
+                            navigator('/venuehome');
+                        } else{
+                            setUserType('user');
+                            navigator('/home');
                         }
                     })
-                } 
-                else {
+                } else {
                     console.error(error);
                     setError('Invalid Login Credentials');
                 }
             });
-            /*navigator('/venuehome', {state: values.username})*/
         }
         
         
     }
 
-
-    const handleInput = (event) => {
-        const{name, value} = event.target
-        setCredentials({[name]: value})
-    }
-
-    
     return (
         <div id={styles.content}>
             <div id={styles.logo}>
@@ -83,16 +78,16 @@ const LoginBox = (props) => {
             
                 <div>
                     <label htmlFor='username'>Username</label>
-                    <input name='username' onChange={(e) => setUsername(e.target.value)}  type="username"></input>
+                    <input name='username' onChange={(e) => setUsernameField(e.target.value)}  type="username"></input>
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
-                    <input name='password' onChange={(e) => setPassword(e.target.value)}  type="password"></input>
+                    <input name='password' onChange={(e) => setPasswordField(e.target.value)}  type="password"></input>
                 </div>
                 <span className={styles.button_container}>
                     <button type="button" onClick={() => handleLogin()}>Log In</button>
                     <button className='button-enabled' type='button' onClick={() => navigator('/signup')}>Sign Up</button>
-                    {/*<Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link>*/}
+                    {/* <Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link> */}
                 </span>
                 {error?<label>{error}</label>:null}   
             

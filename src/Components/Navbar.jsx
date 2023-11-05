@@ -1,16 +1,22 @@
 import 'index.css';
 import styles from 'Components/Navbar.module.css';
 import {Link} from 'react-router-dom';
+import { MyContext } from 'App';
+import { useContext } from 'react';
 
-export default function NavBar (props) {
-    var [loggedIn, setLoggedIn] = props.loggedIn;
-    const [, setLoggedInUserVenue] = props.loggedInUserVenue;
+export default function NavBar () {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [loggedIn, setLoggedIn] = loggedInState;
+    const [userType, setUserType] = userTypeState;
+    const [username, setUsername] = usernameState;
 
+    // console.log(loggedIn + ' ' + setLoggedIn + ' ' + userType + ' ' + setUserType + ' ' + username + ' ' + setUsername);
     function logOut() {
         setLoggedIn(false);
-        setLoggedInUserVenue(null);
+        setUserType(null);
+        setUsername(null);
     }
-    
+
     return (
         <div className={styles.navbar}>
             <span className={styles.section_1 + ' item_10'}>

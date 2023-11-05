@@ -14,14 +14,14 @@ const Router = (props) => {
       <Routes>
         <Route path='/' element={<Outlet/>}>
           <Route index element={<LoginBox/>} />
-          <Route path='login' element={<LoginBox loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='signup' element={<SignUp loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='home' element={<UserHomepage loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='tickets' element={<UserTickets loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='home/event/:event_id' exact element={<UserEventView loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='home/event/:event_id/checkout' element={<TicketCheckout loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='home/event/:event_id/checkout/complete' element={<TicketCheckoutComplete loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
-          <Route path='venuehome' element={<VenueOverview loggedIn={props.loggedIn} loggedInUserVenue={props.loggedInUserVenue}/>}/>
+          <Route path='login' element={<LoginBox/>}/>
+          <Route path='signup' element={<SignUp/>}/>
+          <Route path='home' element={<UserHomepage/>}/>
+          <Route path='tickets' element={<UserTickets/>}/>
+          <Route path='home/event/:event_id' exact element={<UserEventView/>}/>
+          <Route path='home/event/:event_id/checkout' element={<TicketCheckout/>}/>
+          <Route path='home/event/:event_id/checkout/complete' element={<TicketCheckoutComplete/>}/>
+          <Route path='venuehome' element={<VenueOverview/>}/>
         </Route>
       </Routes>
     );

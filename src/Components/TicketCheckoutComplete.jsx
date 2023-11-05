@@ -1,8 +1,15 @@
 import 'index.css';
 import styles from 'Components/TicketCheckoutComplete.module.css';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { MyContext } from 'App';
 
 export default function TicketCheckoutComplete() {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
+
     return (
         <div id={styles.content}>
             <div className={styles.section_1 + ' item_20'}>

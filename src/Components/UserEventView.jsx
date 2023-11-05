@@ -2,10 +2,14 @@ import 'index.css';
 import styles from 'Components/UserEventView.module.css';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import { useContext } from 'react';
+import { MyContext } from 'App';
 
-export default function UserEventView(props) {
-    const [, setLoggedIn] = props.loggedIn;
-    const [, setLoggedInUserVenue] = props.loggedInUserVenue;
+export default function UserEventView() {
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
 
 //TODO insert event data in, fix routing (use event id, routing should go back to tickets or events based on prev screen), 
 

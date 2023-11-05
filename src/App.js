@@ -1,21 +1,39 @@
 import 'index.css';
 import NavBar from 'Components/Navbar';
-import {BrowserRouter} from 'react-router-dom'
+import {BrowserRouter, Outlet} from 'react-router-dom'
 import Routers from 'Components/Routers';
-import { useState } from 'react';
+import React, { useState } from 'react';
+
+export const MyContext = React.createContext();
+const MyProvider = props => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userType, setUserType] = useState(null); //'user' or 'venue'
+  const [username, setUsername] = useState(null);
+  
+  return (
+    <MyContext.Provider
+    value={
+        { loggedInState: [loggedIn, setLoggedIn],
+          userTypeState: [userType, setUserType],
+          usernameState: [username, setUsername] }}
+    >
+      {props.children}
+    </MyContext.Provider>
+  );
+};
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loggedInUserVenue, setLoggedInUserVenue] = useState(null);
 
   return (
-    <BrowserRouter basename='/showgo'>
-      <div className="App">
-        <NavBar loggedIn={[loggedIn, setLoggedIn]} loggedInUserVenue={[loggedInUserVenue, setLoggedInUserVenue]}/>
-        <Routers loggedIn={[loggedIn, setLoggedIn]} loggedInUserVenue={[loggedInUserVenue, setLoggedInUserVenue]}/>
-      </div>
-    </BrowserRouter>
+    <MyProvider>
+      <BrowserRouter basename='/showgo'>
+        <div className="App">
+          <NavBar/>
+          <Routers/>
+        </div>
+      </BrowserRouter>
+    </MyProvider>
   );
 }
 
