@@ -7,5 +7,5 @@ import com.shifthappens.showgo.entities.Event;
 
 @Repository
 public interface EventRepository extends CrudRepository<Event, String>{
-    Event findByGUID(String guidString);
+    Event findByguid(String guidString);
 }
