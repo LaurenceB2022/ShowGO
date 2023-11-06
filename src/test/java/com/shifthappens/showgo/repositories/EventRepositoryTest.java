@@ -38,7 +38,7 @@ public class EventRepositoryTest {
     @Test
     public void testFetchData(){
         /*Test data retrieval*/
-        Event EventA = EventRepository.findByGUID(Event1.getGuid());
+        Event EventA = EventRepository.findByguid(Event1.getGuid());
         assertNotNull(EventA);
         assertEquals(Event1.getName(), EventA.getName());
     }
