@@ -8,6 +8,10 @@ import UserEventView from 'Components/UserEventView';
 import TicketCheckout from 'Components/TicketCheckout';
 import TicketCheckoutComplete from 'Components/TicketCheckoutComplete';
 import UserTickets from 'Components/UserTickets';
+import EventCreationView from 'Components/EventCreationView';
+import VenueSettings from 'Components/VenueSettings';
+import VenueSettingsGeneral from 'Components/VenueSettingsGeneral'
+import VenueSettingsSecurity from 'Components/VenueSettingsSecurity'
 
 const Router = (props) => {
     return (
@@ -22,6 +26,10 @@ const Router = (props) => {
           <Route path='home/event/:event_id/checkout' element={<TicketCheckout/>}/>
           <Route path='home/event/:event_id/checkout/complete' element={<TicketCheckoutComplete/>}/>
           <Route path='venuehome' element={<VenueOverview/>}/>
+          <Route path='createevent' element={<EventCreationView/>}/>
+          <Route path='venuesettings/*' element={<VenueSettings/>}/>
+          <Route path='venuesettings/general' element={<VenueSettingsGeneral/>}/>
+          <Route path='venuesettings/security' element={<VenueSettingsSecurity/>}/>
         </Route>
       </Routes>
     );
