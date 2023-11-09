@@ -1,11 +1,10 @@
-package com.shifthappens.showgo.repositories;
+package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.Venue;
-import com.shifthappens.showgo.VenueController;
-import com.shifthappens.showgo.LoginController;
-import com.shifthappens.showgo.UserController;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
+import com.shifthappens.showgo.repositories.UserRepository;
+import com.shifthappens.showgo.repositories.VenueRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class VenueRepositoryTest {
+public class VenueTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Venue Venue2= new Venue("test2", "test2", "testpassword");
 
@@ -59,7 +58,7 @@ public class VenueRepositoryTest {
         assertThrows(InvalidUsernameException.class, () -> VenueController.signUp(test1Venue));
 
         Venue test2Venue = mock(Venue.class);
-        when(test2Venue.getUsername()).thenReturn("testusername");
+        when(test2Venue.getUsername()).thenReturn("tasegddthrsdfbnytsrrgffwagdghergsffc");
         when(test2Venue.getPassword()).thenReturn("1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.signUp(test2Venue));
     }

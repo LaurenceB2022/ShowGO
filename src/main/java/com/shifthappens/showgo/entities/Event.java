@@ -1,8 +1,6 @@
 package com.shifthappens.showgo.entities;
 
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,8 +24,8 @@ public class Event {
     @JoinColumn(name = "venue")
     private Venue venue;
 
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
+    private String start_date;
+    private String end_date;
     private float ticket_price;
     private String name;
     private String description;
@@ -44,8 +42,8 @@ public class Event {
         location = v.getLocation();
         hide_location = v.getHide_location();
 
-        start_date = LocalDateTime.now();
-        end_date = LocalDateTime.now();
+        start_date = "01-01-1970";
+        end_date = "01-01-1970";
         ticket_price = 0;
         name = "default";
         description = "default";
@@ -56,6 +54,18 @@ public class Event {
         this.venue = venue;
         this.name = name;
     }
+
+     public Event (Venue venue, String name, String start_date, String end_date, float ticket_price, String description) {
+          this.venue = venue;
+          location = venue.getLocation();
+          hide_location = venue.getHide_location();
+
+          this.start_date = start_date;
+          this.end_date = end_date;
+          this.ticket_price = ticket_price;
+          this.name = name;
+          this.description = description;
+     }
 
       public Venue getVenue() {
          return venue;
@@ -81,16 +91,19 @@ public class Event {
          this.location = location;
     }
 
-    public void setStartDate(LocalDateTime date) {
+    public void setStartDate(String date) {
          start_date = date;
     }
 
+    public String getStartDate() {
+        return start_date;
+    }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return end_date;
     }
 
-    public void setEndDate(LocalDateTime date) {
+    public void setEndDate(String date) {
          end_date = date;
     }
 

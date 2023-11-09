@@ -1,8 +1,11 @@
-package com.shifthappens.showgo.repositories;
+package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.repositories.BlockedUserRepository;
+import com.shifthappens.showgo.repositories.UserRepository;
+import com.shifthappens.showgo.repositories.VenueRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +20,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BlockedUserRepositoryTest {
+public class BlockedUserTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Venue Venue2= new Venue("test2", "test2", "testpassword");
 
