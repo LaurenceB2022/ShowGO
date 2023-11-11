@@ -73,6 +73,8 @@ public class VenueTest {
         assertThrows(InvalidPasswordException.class, () -> LoginController.login("test1", "testpassworddd"));
     }
 
+    @Test
+    public void 
 
     @After
     public void tearDown() throws Exception {
