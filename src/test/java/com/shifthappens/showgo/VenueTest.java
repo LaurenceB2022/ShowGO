@@ -78,7 +78,7 @@ public class VenueTest {
         VenueController VenueController = new VenueController(VenueRepository);
 
         Venue testVenue = mock(Venue.class);
-        when(testVenue.getUsername()).thenReturn("tasegddthrsdfbnytsrrgffwagdghergsffc");
+        when(testVenue.getUsername()).thenReturn("test1");
         when(testVenue.getPassword()).thenReturn("1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));
 
