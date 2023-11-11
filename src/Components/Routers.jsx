@@ -12,9 +12,9 @@ import EventCreationView from 'Components/EventCreationView';
 import VenueSettings from 'Components/VenueSettings';
 import VenueSettingsGeneral from 'Components/VenueSettingsGeneral'
 import VenueSettingsSecurity from 'Components/VenueSettingsSecurity'
-import VenueSettingsBilling from './VenueSettingsBilling';
-import VenueSettingsAuthorized from './VenueSettingsAuthorized';
-import VenueSettingsPayment from './VenueSettingsPayment';
+import VenueSettingsBilling from 'Components/VenueSettingsBilling';
+import VenueSettingsAuthorized from 'Components/VenueSettingsAuthorized';
+import VenueSettingsPayment from 'Components/VenueSettingsPayment';
 
 const Router = (props) => {
     return (

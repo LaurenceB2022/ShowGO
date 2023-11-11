@@ -32,7 +32,6 @@ const LoginBox = () => {
         return result;
     }  
     const handleLogin = () => {
-        console.log('hello');
         
         if(validate){
             const requestOptions = {
@@ -40,6 +39,7 @@ const LoginBox = () => {
             };
             fetch('http://localhost:8080/login/' + usernameField + '/' + passwordField, requestOptions)    
             .then(response => {
+                console.log(response);
                 if (response.ok) {
                     fetch('http://localhost:8080/venues/' + usernameField, requestOptions)
                     .then(response => {
