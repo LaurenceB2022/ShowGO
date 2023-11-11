@@ -49,7 +49,7 @@ public class VenueController {
     @PostMapping("/venues/settings")
     public Venue editSettings(@RequestBody Venue venue) {
         System.out.println("*****IM SIGNING SOMEONE UP*******");
-        if (!isValidUsername(venue.getUsername())) {
+        if (isValidUsername(venue.getUsername())) {
             throw new InvalidUsernameException();
         }
         if (!isValidPassword(venue.getPassword())) {
