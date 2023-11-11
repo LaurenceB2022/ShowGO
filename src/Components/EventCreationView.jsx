@@ -24,12 +24,19 @@ const EventCreationView = () => {
     const [timeEndValue, setEndTime] = useState('10:00');
     const[values, setValues] = useState({
         name: '',
+        description: '',
         address: '',
         visible: true,
         max: 0,
         price: 0.0
       });
     
+    function generateGUID(){
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = (c === 'x') ? r : (r&(0x3|0x8));
+            return v.toString(16);
+        });
+    }
     const[imgfile, setFile] = useState(defaultImage);
 
     const handleImage = (event) => {
@@ -45,41 +52,47 @@ const EventCreationView = () => {
         }
         );
     }
-
-    const validateEvent = () =>{
-        const valid = true;
-        const splitStartDate = values.start.split(' ');
-        const splitEndDate = values.end.split(' ');
+    const handleSubmit = (event) =>{
+        console.log('Got to handleSubmit');
+        event.preventDefault();
+        createEvent()
+    }
+    
+    const createEvent = () => {
+        console.log('Entered the createEvent method.')
+        var valid = true;
 
         if(values.name === '' || values.address === '' || values.max <= 0 || values.price <= 0.0){
+            console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
             valid = false;
         }
         if(startDate > endDate){
+            console.log('invalid date range');
             setErrors('Error, invalid date range for event.')
             valid = false;
         }
+        /*
         else if(startDate === endDate && timeStartValue > timeEndValue){
             setErrors('Error, invalid time range for event.')
-        }
-        return valid;
-    }
-    
-    const createEvent = (event) => {
-        event.preventDefault();
-
-        if(validateEvent){
+        } */
+        
+        if(valid){
+            var generated_guid = generateGUID();
+            console.log('Values in the fields were verified, sending POST request.')
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({username: username, eventname: values.name, startdate: values.start, enddate: values.end, address: values.address, visibility: values.visible, maxattendees: values.max, ticketprice: values.price})
+                body: JSON.stringify({guid: generated_guid, venue: username, start_date: values.start, ticket_price: values.price, end_date: values.end, name: values.name, description: values.description, location: values.address, hide_location: values.visible})
             };
-            fetch('http://localhost:8080/events', requestOptions)
+            fetch('http://localhost:8080/events/', requestOptions)
             .then(response =>{
                 if(response.ok){
+                    console.log('Event added successfully to database.')
                     navigator('/venuehome')
                 }
                 else{
+                    console.log('Error adding event.')
                     setErrors('Error adding event. Please try again later.')
                 }
             })
@@ -90,13 +103,13 @@ const EventCreationView = () => {
         <div className={styles.container_full}>
 
             <div className={styles.image_container}>
-                <span className={styles.rect}>
-                    <text>Title Here</text>
-                </span>
+                     
+                <text>Title Here</text>
                 <img src={imgfile} alt=""/>
             </div>
 
             <div className={styles.description_container}>
+                
                 <span>
                     <label>Event Image</label>
                     <input className={styles.button1} type="file" onChange={handleImage} />Choose File
@@ -106,15 +119,19 @@ const EventCreationView = () => {
                     <input type='text' name='name' onChange={handleInput} />
                 </span>
                 <span>
+                    <label>Event Description</label>
+                    <input type='text' name='description' onChange={handleInput} />
+                </span>
+                <div className={styles.datetime_container}>
                     <label>Start Date</label>
-                    <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                    <TimePicker onChange={() => setStartTime()} value={timeStartValue} />
-                </span>
-                <span>
+                    <DatePicker className={styles.date} selected={startDate} onChange={(date) => setStartDate(date)} />
+                    {/*<TimePicker className={styles.time} onChange={() => setStartTime()} value={timeStartValue} /> */}
+                </div>
+                <div className={styles.datetime_container}>
                     <label>End Date</label>
-                    <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-                    <TimePicker onChange={() => setEndTime()} value={timeEndValue} />
-                </span>
+                    <DatePicker className={styles.date} selected={endDate} onChange={(date) => setEndDate(date)} />
+                    {/*<TimePicker className={styles.time} onChange={() => setEndTime()} value={timeEndValue} /> */}
+                </div>
                 <span>
                     <label>Address</label>
                     <input type='text' name='address' onChange={handleInput} />
@@ -131,12 +148,14 @@ const EventCreationView = () => {
                     <label>Ticket Price</label>
                     <input type='text' name='price' onChange={handleInput} />
                 </span>
+                {error?<label>{error}</label>:null} 
                 <div className={styles.button_container}>
-                    <button className={styles.button1} onClick={() => createEvent()}>Create Event</button>
+                    <button className={styles.button1} onClick={handleSubmit}>Create Event</button>
                     <button className={styles.button2}>
                         <Link to='/venuehome'>Cancel</Link>
                     </button>
                 </div>
+                 
             </div>
 
         </div>
