@@ -26,11 +26,19 @@ export default function NavBar () {
                 </svg>
             </span>
             <span className={styles.section_2 + ' item_90'}>
-                {loggedIn ?
+                {loggedIn && userType==='user' ?
                     (<>
                     <Link to='/home' className={styles.navbarLink}>Home</Link>
                     <Link to='/settings' className={styles.navbarLink}>Settings</Link>
                     <Link to='/tickets' className={styles.navbarLink}>Tickets</Link>
+                    <Link to='/login' className={styles.navbarLink} onClick={logOut}>Sign Out</Link>
+                    </>) :
+                    (<></>) 
+                }
+                {loggedIn && userType==='venue' ?
+                    (<>
+                    <Link to='/venuehome' className={styles.navbarLink}>Home</Link>
+                    <Link to='/venuesettings/general' className={styles.navbarLink}>Settings</Link>
                     <Link to='/login' className={styles.navbarLink} onClick={logOut}>Sign Out</Link>
                     </>) :
                     (<></>) 

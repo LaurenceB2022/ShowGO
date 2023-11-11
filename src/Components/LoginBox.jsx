@@ -10,7 +10,6 @@ const LoginBox = () => {
     const [, setUserType] = userTypeState;
     const [, setUsername] = usernameState;
 
-
     const navigator = useNavigate();
     const [error, setError]=useState();
     const [usernameField, setUsernameField] = useState('');

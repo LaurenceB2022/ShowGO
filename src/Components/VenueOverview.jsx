@@ -11,7 +11,7 @@ function VenueOverview(){
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
     const [, setUsername] = usernameState;
-
+    setLoggedIn(true);
     const location = useLocation();
     // const username = location.state?.username; 
     const [loaded, setLoaded] = useState(false) 

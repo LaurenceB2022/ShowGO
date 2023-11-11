@@ -1,7 +1,7 @@
 import 'index.css';
 import styles from 'Components/VenueSettings.module.css';
-import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect, useContext} from 'react';
+import {useNavigate, Link } from 'react-router-dom';
 
 const VenueSettingsSecurity = (props) => {
     const username = props.username;
@@ -13,10 +13,12 @@ const VenueSettingsSecurity = (props) => {
         confirmPassword: ''
     });
 
+    /*
     const [auth, setAuth] = useState({
         email: '',
         enabled: false
-    })
+    }); */
+    const navigator = useNavigate();
 
     const handleInput = (event) => {
         const val = event.target.type==='checkbox' ? event.target.checked : event.target.value;
@@ -28,8 +30,8 @@ const VenueSettingsSecurity = (props) => {
     }
 
     function validate(){
-        const valid = true;
-        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(values.password), password.value.length >= 6])
+        var valid = true;
+        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(values.password), values.password.length >= 6])
         setEmailChecks(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+[@][a-zA-Z0-9]+[.][a-zA-Z0-9.]+$/.test(values.email))
 
         if(values.password === '' && values.confirmPassword === ''){
@@ -59,8 +61,9 @@ const VenueSettingsSecurity = (props) => {
     const updateSettings = (event) => {
         event.preventDefault();
         if(validate()){
-            const requestOptions = '';
+           
             /*
+            const requestOptions = '';
             //If updating password and auth email
             if(values.password != '' && values.email != ''){
                 requestOptions = {
@@ -84,7 +87,7 @@ const VenueSettingsSecurity = (props) => {
             } //If updating password
             */
             
-            requestOptions = {
+            const requestOptions = {
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({ 
@@ -108,23 +111,23 @@ const VenueSettingsSecurity = (props) => {
     
 
     return (
-        <div>
+        <div className={styles.security_container}>
             <span>
                 <label>Change Password</label>
-                <input type='password' name='password' onChange={() => handleInput()}></input>
+                <input type='password' name='password' onChange={handleInput}></input>
             </span>
             <span>
                 <label>Confirm Password</label>
-                <input type='password' name='confirmPassword' onChange={() => handleInput()}></input>
+                <input type='password' name='confirmPassword' onChange={handleInput}></input>
             </span>
             <span>
                 <label>Two-Factor Authentication</label>
-                <input type='text' name='email' onChange={() => handleInput()}></input>
-                <input type='checkbox' name='twofactorauth' onChange={() => handleInput()}></input>
+                <input type='text' name='email' onChange={handleInput}></input>
+                <input type='checkbox' name='twofactorauth' onChange={handleInput}></input>
             </span>
-
-            <div>
-                <button className={styles.button1} onClick={() => updateSettings()}>Save</button>
+            {error?<label>{error}</label>:null}   
+            <div className={styles.button_container}>
+                <button className={styles.button1} onClick={updateSettings}>Save</button>
                 <button className={styles.button2} onClick={navigator('/venuehome')}>Cancel</button>
             </div>
         </div>

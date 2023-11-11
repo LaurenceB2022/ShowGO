@@ -4,20 +4,54 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: fit-content;
+    height: 100%;
+}
+
+.sub_container{
+    height:100%;
+    width: 80%;
+    color: #B8D8D8;
 }
 
 .parent_sidebar{
     height: 100%;
     width: 20%;
     color: white;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding: 5px;
 }
 
-.parent_sidebar li{
+.parent_sidebar p{
     border: 2px;
     border-color: black;
     width: inherit;
-    height: 35vh;
+    height: 10%;
+    font-family: 'Sen', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+}
+
+.parent_sidebar Link{
+    border: 2px;
+    border-color: black;
+    width: inherit;
+    height: 10%;
+    font-family: 'Sen', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+}
+
+.parent_sidebar ul{
+    background-color: white;
+    height: 100%;
 }
 
 .security_container{
@@ -25,6 +59,16 @@
     flex-direction: row;
     width: 100%;
     height: fit-content;
+    gap: 20px 20px;
+}
+
+.security_container label{
+    font-family: 'Sen', sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
 }
 
 .general_container{
@@ -32,5 +76,36 @@
     flex-direction: row;
     width: 100%;
     height: fit-content;
+    gap: 20px 20px;
 }
 
+.general_container img{
+    height: 276px;
+    width: 276px;
+}
+
+.container_buttons{
+    width: inherit;
+    height: 300px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px 20px;
+}
+
+.button1{
+    width: 283px;
+    height: 77px;
+    flex-shrink: 0;
+    border-radius: 52px;
+    border: 10px solid #FE5F55;
+    background: #FFF;
+}
+
+.button2{
+    width: 351px;
+    height: 77px;
+    flex-shrink: 0;
+    border-radius: 52px;
+    border: 10px solid #4F6367;
+    background: #FFF;
+}

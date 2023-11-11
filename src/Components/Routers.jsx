@@ -12,6 +12,9 @@ import EventCreationView from 'Components/EventCreationView';
 import VenueSettings from 'Components/VenueSettings';
 import VenueSettingsGeneral from 'Components/VenueSettingsGeneral'
 import VenueSettingsSecurity from 'Components/VenueSettingsSecurity'
+import VenueSettingsBilling from './VenueSettingsBilling';
+import VenueSettingsAuthorized from './VenueSettingsAuthorized';
+import VenueSettingsPayment from './VenueSettingsPayment';
 
 const Router = (props) => {
     return (
@@ -27,9 +30,14 @@ const Router = (props) => {
           <Route path='home/event/:event_id/checkout/complete' element={<TicketCheckoutComplete/>}/>
           <Route path='venuehome' element={<VenueOverview/>}/>
           <Route path='createevent' element={<EventCreationView/>}/>
-          <Route path='venuesettings/*' element={<VenueSettings/>}/>
-          <Route path='venuesettings/general' element={<VenueSettingsGeneral/>}/>
-          <Route path='venuesettings/security' element={<VenueSettingsSecurity/>}/>
+          <Route path='venuesettings/' element={<VenueSettings/>}>
+              <Route path='general' element={<VenueSettingsGeneral/>}/>
+              <Route path='security' element={<VenueSettingsSecurity/>}/>
+              <Route path='billing' element={<VenueSettingsBilling/>}/>
+              <Route path='authorized' element={<VenueSettingsAuthorized/>}/>
+              <Route path='payment' element={<VenueSettingsPayment/>}/>
+          </Route>
+          
         </Route>
       </Routes>
     );

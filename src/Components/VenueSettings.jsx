@@ -1,7 +1,7 @@
 import { MyContext } from 'App';
 import 'index.css';
 import styles from 'Components/VenueSettings.module.css';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import VenueSettingsGeneral from './VenueSettingsGeneral';
 
@@ -34,22 +34,19 @@ function VenueSettings (){
 
     return(
 
-        <div>
-            <div>
+        <div className={styles.parent_container}>
+            <div className={styles.parent_sidebar}>
                 <ul>
                     {settings.map(({name, id}) =>(
-                        <li key={id}>
-                            <Link to={`/venuesettings/${id}`}>{name}</Link>
-                        </li>
+                        <p key={id}>
+                            <Link to={`/venuesettings/${id}`} username={usernameState} >{name}</Link>
+                        </p>
                     ))}
                 </ul>
             </div>
 
-            <div>
-                <Outlet>
-                    <Route path={`/venuesettings/`}></Route>
-                </Outlet>
-                
+            <div className={styles.sub_container}>
+                <Outlet />
             </div>
         </div>
     )
