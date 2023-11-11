@@ -19,13 +19,6 @@ import com.shifthappens.showgo.repositories.EventRepository;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class EventController {
-    /*
-     * create event
-     * get event
-     * get mapping/find all
-     * delete event
-     * edit event
-     */
 
     private final EventRepository eventRepo;
 
@@ -71,6 +64,26 @@ public class EventController {
     @GetMapping("/events/{search}")
     public List<Event> findBySearch(@PathVariable String search) {
         return eventRepo.findBySearch(search);
+    }
+
+    @GetMapping("/events/{guid}/{areaToUpate}/{update}")
+    public void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
+        Event tr = eventRepo.findByguid(guid);
+        if (areaToUpdate.equals("start_date"))
+            tr.setStartDate(update);
+        else if (areaToUpdate.equals("end_date"))
+            tr.setEndDate(update);
+        else if (areaToUpdate.equals("ticket_price"))
+            tr.setTicket_price(Float.parseFloat(update));
+        else if (areaToUpdate.equals("name"))
+            tr.setName(update);
+        else if (areaToUpdate.equals("description"))
+            tr.setDescription(update);
+        else if (areaToUpdate.equals("location"))
+            tr.setLocation(update);
+        else if (areaToUpdate.equals("hide_location"))
+            tr.setHide_location(Boolean.parseBoolean(update));
+        eventRepo.save(tr);
     }
 
 }
