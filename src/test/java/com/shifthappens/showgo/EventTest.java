@@ -81,6 +81,34 @@ public class EventTest {
         assertEquals(Event2.getName(), EventController.makeEvent(Event2).getName());
     }
 
+    @Test
+    public void testUpdateEvent() {
+        EventController.update(Event2.getGuid(), "start_date", "Jan 01 2000 1:00 PM"); //check start_date update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getStartDate(), "Jan 01 2000 1:00 PM");
+
+        EventController.update(Event2.getGuid(), "end_date", "Jan 01 2000 12:00 AM"); //check end_date update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getEndDate(), "Jan 01 2000 12:00 AM");
+
+        EventController.update(Event2.getGuid(), "ticket_price", "6.5"); //check ticket price update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getTicket_price(), 6.5, 0.001);
+
+        EventController.update(Event1.getGuid(), "name", "updated"); //check name update
+        assertEquals(EventRepository.findByguid(Event1.getGuid()).getName(), "updated");
+        EventController.update(Event1.getGuid(), "name", "test1");
+        assertEquals(Event1.getName(), "test1");
+
+        EventController.update(Event2.getGuid(), "description", "this is a new description"); //check description update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getDescription(), "this is a new description");
+
+        EventController.update(Event2.getGuid(), "location", "yo mamas house"); //check description update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getLocation(), "yo mamas house");
+
+        EventController.update(Event2.getGuid(), "hide_location", "True"); //check description update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getHide_location(), true);
+
+    }
+    
+
     @After
     public void tearDown() throws Exception {
         EventRepository.delete(Event1);
