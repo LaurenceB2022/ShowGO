@@ -73,6 +73,18 @@ public class VenueTest {
         assertThrows(InvalidPasswordException.class, () -> LoginController.login("test1", "testpassworddd"));
     }
 
+    @Test
+    public void testSettings(){
+        VenueController VenueController = new VenueController(VenueRepository);
+
+        Venue testVenue = mock(Venue.class);
+        when(testVenue.getUsername()).thenReturn("test1");
+        when(testVenue.getPassword()).thenReturn("1");
+        assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));
+
+        Venue Venue0= new Venue("test1", "test0", "testpassword2");
+        assertNotNull(VenueController.editSettings(Venue0));
+    }
 
     @After
     public void tearDown() throws Exception {
