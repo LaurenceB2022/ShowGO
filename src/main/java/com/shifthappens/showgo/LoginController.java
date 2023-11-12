@@ -24,21 +24,23 @@ public class LoginController {
 
     @GetMapping("/login/{username}/{password}")
     public Object login(@PathVariable String username, @PathVariable String password){
-        if(!venueControl.findVenue(username).equals(new InvalidUsernameException())){
-            Venue v = venueControl.findVenue(username);
+        Venue v = null;
+        User u = null;
+        try {
+            v = venueControl.findVenue(username);
             if(v.getPassword().equals(password))
                 return v;
-            else
-                throw new InvalidPasswordException();
+        } catch (Exception e) {
+            throw new InvalidUsernameException();
         }
-        else if(!userControl.findUser(username).equals(new InvalidUsernameException())){
-            User u = userControl.findUser(username);
+        try {
+            u = userControl.findUser(username);
             if(u.getPassword().equals(password))
                 return u;
-            else
-                throw new InvalidPasswordException();
+        } catch (Exception e) {
+            throw new InvalidUsernameException();
         }
-        throw new InvalidUsernameException();
+        return new InvalidPasswordException();
     }
 
 }
