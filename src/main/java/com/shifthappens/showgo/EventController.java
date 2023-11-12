@@ -33,6 +33,7 @@ public class EventController {
         return events;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/events")//dates formatted "MMM DD YYYY"
     public Event makeEvent(@RequestBody Event event) {
         return eventRepo.save(event);

@@ -13,7 +13,8 @@ const EventCreationView = () => {
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
     const [, setUsername] = usernameState;
-    const username = usernameState;
+    const [venue, setVenue] = useState('');
+    const username = usernameState.toString();
     const navigator = useNavigate();
     const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
 
@@ -80,12 +81,33 @@ const EventCreationView = () => {
         if(valid){
             var generated_guid = generateGUID();
             console.log('Values in the fields were verified, sending POST request.')
+            var date_start_string = startDate.toDateString().split(' ');
+            var date_end_string = endDate.toDateString().split(' ');
+            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3];
+            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3];
+            console.log('Username: ' + username.toString())
+            const requestOptionsVenue = {
+                method: 'GET'
+            }
+            fetch('http://localhost:8080/venues/' + 'Venue23', requestOptionsVenue)
+            .then(response => {
+                console.log('Response.json: ' + response.json());
+                if(response.ok){
+                    setVenue(response.json())
+                }
+                else{
+                    console.log('Venue could not be retreived');
+                }
+                })
+
+            console.log(date_start + " " + date_end );
+            console.log(venue);
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({guid: generated_guid, venue: username, start_date: values.start, ticket_price: values.price, end_date: values.end, name: values.name, description: values.description, location: values.address, hide_location: values.visible})
+                body: JSON.stringify({guid: generated_guid, venue: venue, start_date: date_start, ticket_price: values.price, end_date: date_end, name: values.name, description: values.description, location: values.address, hide_location: values.visible})
             };
-            fetch('http://localhost:8080/events/', requestOptions)
+            fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{
                 if(response.ok){
                     console.log('Event added successfully to database.')
