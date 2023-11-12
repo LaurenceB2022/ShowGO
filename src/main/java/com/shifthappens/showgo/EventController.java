@@ -67,7 +67,7 @@ public class EventController {
         return eventRepo.findBySearch(search);
     }
 
-    @GetMapping("/events/{guid}/{areaToUpate}/{update}")
+    @GetMapping("/events/{guid}/{areaToUpdate}/{update}")
     public void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
         Event tr = eventRepo.findByguid(guid);
         if (areaToUpdate.equals("start_date"))

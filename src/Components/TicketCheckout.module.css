@@ -40,5 +40,13 @@
 .field_row {
     display: flex;
     flex-direction: row;
-    gap: 180px;
 }
+
+.input {
+    margin: 0px 30px 0px 200px;
+}
+
+#card_number{}
+#name_on_card{}
+#expiration_date{}
+#cvv{}

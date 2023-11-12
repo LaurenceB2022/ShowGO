@@ -48,22 +48,22 @@ export default function UserHomepage() {
                     {
                         guid: gguid,
                         venue: venue,
-                        start_date: "Nov 15 2023",
-                        ticket_price: 10.25,
-                        end_date: "Nov 16 2023",
-                        name: "My First Event!",
+                        start_date: "Oct 30 2023",
+                        ticket_price: 1.00,
+                        end_date: "Oct 30 2023",
+                        name: "My Zeroth Event!",
                         description: "An event for all to come to!",
                         location: "17 Kilmers Avenue",
-                        hide_location: 0})
+                        hide_location: 1})
             };
             fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{
-                // if(response.ok){
-                //     console.log('Event added successfully to database.');
-                // }
-                // else{
-                //     console.log('Error adding event: ' + response.type);
-                // }
+                if(response.ok){
+                    console.log('Event added successfully to database.');
+                }
+                else{
+                    console.log('Error adding event: ' + response.type);
+                }
             })
     }
 

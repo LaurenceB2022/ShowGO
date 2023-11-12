@@ -29,6 +29,7 @@ public class Event {
     private float ticket_price;
     private String name;
     private String description;
+    private int max_attendees;
 
     //Taken from venue
     private String location;
@@ -55,16 +56,17 @@ public class Event {
         this.name = name;
     }
 
-     public Event (Venue venue, String name, String start_date, String end_date, float ticket_price, String description) {
-          this.venue = venue;
-          location = venue.getLocation();
-          hide_location = venue.getHide_location();
+     public Event (Venue v, String name, String start_date, String end_date, float ticket_price, String description, int max_attendees) {
+          this.venue = v;
+          location = v.getLocation();
+          hide_location = v.getHide_location();
 
-          this.start_date = start_date;
-          this.end_date = end_date;
-          this.ticket_price = ticket_price;
-          this.name = name;
-          this.description = description;
+          start_date = "Jan 01 1970 12:00 AM";
+          end_date = "Jan 01 1970 12:00 AM";
+          ticket_price = 0;
+          name = "N/A";
+          description = "N/A";
+          max_attendees = 0;
      }
 
       public Venue getVenue() {

@@ -21,7 +21,7 @@ import java.util.List;
 public class EventTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Event Event1 = new Event(Venue1, "test1");
-    Event Event2 = new Event(Venue1, "test2", "April 2 1970 1:00 AM", "April 3 1970 12:00 PM", 5, "SEIUJFNVNFLDLSslkdjfer");
+    Event Event2 = new Event(Venue1, "test2", "April 2 1970 1:00 AM", "April 3 1970 12:00 PM", 5, "SEIUJFNVNFLDLSslkdjfer", 15);
 
     @Autowired
     private VenueRepository VenueRepository;

@@ -144,7 +144,13 @@ input {
   color: var(--dark-green);
   font-family:'Sen', sans-serif;
   font-weight: bold;
-  font-size: var(--input);
+  font-size: var(--input-font-size);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 button {

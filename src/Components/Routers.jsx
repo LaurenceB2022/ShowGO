@@ -25,9 +25,9 @@ const Router = (props) => {
           <Route path='signup' element={<SignUp/>}/>
           <Route path='home' element={<UserHomepage/>}/>
           <Route path='tickets' element={<UserTickets/>}/>
-          <Route path='home/event/:event_id' exact element={<UserEventView/>}/>
-          <Route path='home/event/:event_id/checkout' element={<TicketCheckout/>}/>
-          <Route path='home/event/:event_id/checkout/complete' element={<TicketCheckoutComplete/>}/>
+          <Route path='home/event/:id' exact element={<UserEventView/>}/>
+          <Route path='home/event/:id/checkout' element={<TicketCheckout/>}/>
+          <Route path='home/event/:id/checkout/complete' element={<TicketCheckoutComplete/>}/>
           <Route path='venuehome' element={<VenueOverview/>}/>
           <Route path='createevent' element={<EventCreationView/>}/>
           <Route path='venuesettings/' element={<VenueSettings/>}>

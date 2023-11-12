@@ -1,32 +1,29 @@
 import 'index.css';
 import styles from 'Components/GridEvents.module.css';
 import Event from 'Components/Event';
-import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import { useEffect, useState } from 'react';
 
 const GridEvents = (props) => {
+    
+    const [data, setData] = useState([]);
+    
+    async function fetchEvents() {
+        const x = await fetch('http://localhost:8080/events', {
+            method: 'GET',
+        }).then(response => response.json())
+    
+        setData(x);
+    }
 
-    const eventJSON = props.event ? props.event : 
-    {
-        guid: '0',
-        image: ShowGoLogo,
-        name: 'Name',
-        start_date: 'Start_date',
-        end_date: 'End_date',
-        ticket_price: 'Tkt$'
-    };
-    const events = [eventJSON,eventJSON,eventJSON,eventJSON,
-                    eventJSON,eventJSON,eventJSON,eventJSON,
-                    eventJSON,eventJSON,eventJSON,eventJSON,
-                    eventJSON,eventJSON,eventJSON,eventJSON];
+    useEffect(() => {
+        fetchEvents();
+    }, []);
 
-
-    return (
-        <div className={styles.container}>
-            {
-            events.map(eventJSON => (
-                
+      return (
+          <div className={styles.container}>
+           {
+            data.map(eventJSON => (
                 <Event event={eventJSON}></Event>
-        
             ))
             }
         </div>
