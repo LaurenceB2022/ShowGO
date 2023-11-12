@@ -16,13 +16,10 @@ const EventCreationView = () => {
     const [venue, setVenue] = useState('');
     const username = usernameState.toString();
     const navigator = useNavigate();
-    const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
 
     const[error, setErrors] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [timeStartValue, setStartTime] = useState('10:00');
-    const [timeEndValue, setEndTime] = useState('10:00');
     const[values, setValues] = useState({
         name: '',
         description: '',
@@ -38,6 +35,14 @@ const EventCreationView = () => {
             return v.toString(16);
         });
     }
+    async function fetchVenue(username) {
+        const requestOptions = {
+            method: 'GET',
+        };
+        return await fetch('http://localhost:8080/venues/' + username, requestOptions)
+        .then(response => response.json());
+    }
+
     const[imgfile, setFile] = useState(defaultImage);
 
     const handleImage = (event) => {
@@ -59,11 +64,11 @@ const EventCreationView = () => {
         createEvent()
     }
     
-    const createEvent = () => {
+    async function createEvent () {
         console.log('Entered the createEvent method.')
         var valid = true;
 
-        if(values.name === '' || values.address === '' || values.max <= 0 || values.price <= 0.0){
+        if(values.name === '' || values.address === '' || values.description==='' || values.max <= 0 || values.price <= 0.0){
             console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
             valid = false;
@@ -73,10 +78,7 @@ const EventCreationView = () => {
             setErrors('Error, invalid date range for event.')
             valid = false;
         }
-        /*
-        else if(startDate === endDate && timeStartValue > timeEndValue){
-            setErrors('Error, invalid time range for event.')
-        } */
+        
         
         if(valid){
             var generated_guid = generateGUID();
@@ -86,26 +88,20 @@ const EventCreationView = () => {
             var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3];
             var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3];
             console.log('Username: ' + username.toString())
-            const requestOptionsVenue = {
-                method: 'GET'
-            }
-            fetch('http://localhost:8080/venues/' + 'Venue23', requestOptionsVenue)
-            .then(response => {
-                console.log('Response.json: ' + response.json());
-                if(response.ok){
-                    setVenue(response.json())
-                }
-                else{
-                    console.log('Venue could not be retreived');
-                }
-                })
+
+            var username_values = username.split(',');
+            var username_string = username_values[0];
+            console.log(username_string);
+            
+            var venue_object = await fetchVenue(username_string);
 
             console.log(date_start + " " + date_end );
-            console.log(venue);
+            console.log(venue_object);
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({guid: generated_guid, venue: venue, start_date: date_start, ticket_price: values.price, end_date: date_end, name: values.name, description: values.description, location: values.address, hide_location: values.visible})
+                headers: { 'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'},
+                body: JSON.stringify({guid: generated_guid, venue: venue_object, start_date: date_start, ticket_price: values.price, end_date: date_end, name: values.name, description: values.description, location: values.address, hide_location: values.visible, max_attendees: values.max})
             };
             fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{
@@ -170,7 +166,10 @@ const EventCreationView = () => {
                     <label>Ticket Price</label>
                     <input type='text' name='price' onChange={handleInput} />
                 </span>
-                {error?<label>{error}</label>:null} 
+                <div className={styles.errorspace}>
+                    {error?<label>{error}</label>:null} 
+                </div>
+                
                 <div className={styles.button_container}>
                     <button className={styles.button1} onClick={handleSubmit}>Create Event</button>
                     <button className={styles.button2}>

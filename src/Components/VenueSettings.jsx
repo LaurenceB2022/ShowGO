@@ -45,7 +45,7 @@ function VenueSettings (){
                 </ul>
             </div>
 
-            <div >
+            <div className={styles.sub_container}>
                 <Outlet />
             </div>
         </div>

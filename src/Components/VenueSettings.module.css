@@ -2,7 +2,7 @@
 
 .parent_container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: 100%;
 }
@@ -14,13 +14,12 @@
 }
 
 .parent_sidebar{
-    height: 100%;
+    height: 120vh;
     width: 20%;
-    color: white;
+    background-color: white;
     display: flex;
     flex-direction: row;
-    align-content: center;
-    padding: 5px;
+    
 }
 
 .parent_sidebar p{
@@ -52,17 +51,47 @@
 .parent_sidebar ul{
     background-color: white;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
 .security_container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     height: fit-content;
     gap: 20px 20px;
 }
 
-.security_container label{
+.billing_container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    align-content: center;
+}
+
+.billing_container_span{
+    display: flex;
+    flex-direction: row;
+    width: inherit;
+    height: 20%;
+    gap: 0px 200px;
+}
+
+.billing_search{
+    border: #4F6367;
+    border-radius: 5px;
+    height: 75%;
+}
+
+.billing_result_box{
+    
+}
+
+.billing_container h1{
     font-family: 'Sen', sans-serif;
     font-size: 48px;
     font-style: normal;
@@ -71,12 +100,31 @@
     color:#4F6367;
 }
 
+.security_container label{
+    font-family: 'Sen', sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+    padding-right: 10px;
+}
+
 .general_container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     height: fit-content;
     gap: 20px 20px;
+}
+
+.general_container label{
+    font-family: 'Sen', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
 }
 
 .general_container img{
@@ -85,8 +133,8 @@
 }
 
 .container_buttons{
-    width: inherit;
-    height: 300px;
+    width: 50%;
+    height: 10%;
     display: flex;
     flex-direction: row;
     gap: 20px 20px;
@@ -108,4 +156,41 @@
     border-radius: 52px;
     border: 10px solid #4F6367;
     background: #FFF;
+}
+
+.button3{
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    border: 10px solid #4F6367;
+    background: #FFF;
+}
+
+.image_container{
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    width: 75vh;
+    gap: 10px 10px;
+    padding-left: 10px;
+}
+
+.image_container p{
+    font-family: 'Sen', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+}
+
+.image_container span{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.image_container img{
+    width: 100%;
+    height: 100%;
 }

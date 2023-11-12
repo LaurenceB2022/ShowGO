@@ -3,9 +3,15 @@ import styles from 'Components/VenueSettings.module.css';
 import React, {useState, useEffect, useContext} from 'react';
 import defaultImage from 'Assets/Placeholder.svg'
 import {useNavigate, Link } from 'react-router-dom';
+import { MyContext } from 'App';
 
 const VenueSettingsGeneral = (props) =>{
-    const venueName = props.username;
+    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const [, setLoggedIn] = loggedInState;
+    const [, setUserType] = userTypeState;
+    const [, setUsername] = usernameState;
+    const [venue, setVenue] = useState('');
+    const username = usernameState.toString();
     const[type, setType] = useState('concert')
     const [error, setError] = useState('');
     const[imgfile, setFile] = useState(defaultImage);
@@ -19,29 +25,45 @@ const VenueSettingsGeneral = (props) =>{
         console.log(event.target.files);
         setFile(URL.createObjectURL(event.target.files[0]));
     }
-    
 
-    function validate(){
-        var valid = true;
-        if(values.name === ''){
-            setError('Error, name field cannot be empty');
-            return false;
-        }
+    const handleSubmit = (event) =>{
+        console.log('Got to handleSubmit');
+        event.preventDefault();
+        updateGeneral();
+    }
+    
+    async function fetchVenue(username) {
+        const requestOptions = {
+            method: 'GET',
+        };
+        return await fetch('http://localhost:8080/venues/' + username, requestOptions)
+        .then(response => response.json());
     }
 
-    const updateGeneral = (event) => {
-        event.preventDefault();
+    async function updateGeneral () {
+        var validate = true;
+        if(values.name === '' || values.description){
+            setError('Error, fields cannot be empty');
+            validate = false;
+        }
+        console.log('Updating General Info');
+       
         if(validate){
+            var username_values = username.split(',');
+            var username_string = username_values[0];
+            var venue = fetchVenue(username_string);
+            
+
             const requestOptions = {
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({ 
-                                    username: venueName,
+                                    username: username_string,
                                     name: values.name,
                                     description: values.description
                                     })
             };
-            fetch('http://localhost:8080/venues', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+            fetch('http://localhost:8080/venues/settings/', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
                 navigator('/venuehome')
@@ -58,6 +80,7 @@ const VenueSettingsGeneral = (props) =>{
     }
 
     const handleInput = (event) =>{
+        console.log('Input detected.')
         const val = event.target.value;
         setValues({
             ...values,
@@ -68,10 +91,20 @@ const VenueSettingsGeneral = (props) =>{
 
     return(
         <div className={styles.general_container}>
-            <div>
-                <label >Venue Name</label>
-                <input type='text' name='name' onChange={handleInput}></input>
+            
+            <div className={styles.image_container}>
+                <label>Event Image</label>
+                
+                <span>
+                    <img src={imgfile} alt=""/> 
+                    <input className={styles.button3} type="file" onChange={handleImage} />Choose File
+                </span>
+                
             </div>
+            <span>
+                <label>Venue Name</label>
+                <input type='text' name='name' onChange={handleInput}></input>
+            </span>
             <div>
                 <span>
                     <label>Venue Description</label>
@@ -89,8 +122,9 @@ const VenueSettingsGeneral = (props) =>{
                 {error?<label>{error}</label>:null}   
             </div>
             <div className={styles.container_buttons}>
-                    <button className={styles.button1} onClick={() => updateGeneral()}>Save</button>
-                    <button className={styles.button2} onClick={navigator('/venuehome')}>Cancel</button>
+                    <button className={styles.button1} onClick={handleSubmit}>Save</button>
+                    <button className={styles.button2} onClick={ console.log('Navigating back to home')}>
+                    <Link to='/venuehome'>Cancel</Link></button>
             </div>
         </div>
     )
