@@ -10,8 +10,8 @@ import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
     
     private final VenueController venueControl;
@@ -31,14 +31,13 @@ public class LoginController {
             if(v.getPassword().equals(password))
                 return v;
         } catch (Exception e) {
-            throw new InvalidUsernameException();
-        }
-        try {
-            u = userControl.findUser(username);
-            if(u.getPassword().equals(password))
-                return u;
-        } catch (Exception e) {
-            throw new InvalidUsernameException();
+             try {
+                u = userControl.findUser(username);
+                if(u.getPassword().equals(password))
+                    return u;
+                } catch (Exception f) {
+                    throw new InvalidUsernameException();
+             }
         }
         return new InvalidPasswordException();
     }
