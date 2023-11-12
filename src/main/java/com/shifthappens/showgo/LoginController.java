@@ -10,8 +10,8 @@ import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 
-@RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RestController
 public class LoginController {
     
     private final VenueController venueControl;

@@ -50,7 +50,7 @@ const SignUp = () => {
         const name = document.getElementById(styles.name).value
         const password = document.getElementById(styles.password).value;
         const requestOptions = {
-            method: 'POST', //check the tag for the backend method being called
+            method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({ username: username, 
                                 name: name,
