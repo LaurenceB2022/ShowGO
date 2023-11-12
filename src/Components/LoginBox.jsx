@@ -41,6 +41,7 @@ const LoginBox = () => {
             fetch('http://localhost:8080/login/' + usernameField + '/' + passwordField, requestOptions)    
             .then(response => {
                 if (response.ok) {
+
                     fetch('http://localhost:8080/venues/' + usernameField, requestOptions)
                     .then(response => {
 
@@ -54,6 +55,7 @@ const LoginBox = () => {
                             navigator('/home');
                         }
                     })
+                    
                 } else {
                     console.error(error);
                     setError('Invalid Login Credentials');
