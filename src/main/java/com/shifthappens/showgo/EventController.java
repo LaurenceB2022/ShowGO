@@ -71,9 +71,9 @@ public class EventController {
     public void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
         Event tr = eventRepo.findByguid(guid);
         if (areaToUpdate.equals("start_date"))
-            tr.setStartDate(update);
+            tr.setStart_date(update);
         else if (areaToUpdate.equals("end_date"))
-            tr.setEndDate(update);
+            tr.setEnd_date(update);
         else if (areaToUpdate.equals("ticket_price"))
             tr.setTicket_price(Float.parseFloat(update));
         else if (areaToUpdate.equals("name"))

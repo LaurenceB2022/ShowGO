@@ -93,19 +93,19 @@ public class Event {
          this.location = location;
     }
 
-    public void setStartDate(String date) {
+    public void setStart_date(String date) {
          start_date = date;
     }
 
-    public String getStartDate() {
+    public String getStart_date() {
         return start_date;
     }
 
-    public String getEndDate() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEndDate(String date) {
+    public void setEnd_date(String date) {
          end_date = date;
     }
 

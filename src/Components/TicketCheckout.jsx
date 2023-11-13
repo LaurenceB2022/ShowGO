@@ -1,6 +1,6 @@
 import 'index.css';
 import styles from 'Components/TicketCheckout.module.css';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { MyContext } from 'App';
 import Checkmark from 'Assets/Checkmark.svg';
@@ -10,9 +10,10 @@ export default function TicketCheckout() {
     const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [username, setUsername] = usernameState;
     const id = useParams().id;
     const location = useLocation();
+    const navigator = useNavigate();
     const eventJSON = !location.state ? {
         guid: 'N/A',
         venue: {username: 'N/A',
@@ -24,15 +25,43 @@ export default function TicketCheckout() {
         description: 'N/A',
         location: 'N/A',
         hide_location: 0,
-        max_attendees: 0}
+        max_attendees: 0
+    }
          : location.state.eventJSON;
-
-    //{'/home/event/' + id + '/checkout/complete'}
 
     const [data, setData] = useState([false, false, false, false])
 
-    function purchaseTicket() {
-        
+    function generateGUID(){
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = (c === 'x') ? r : (r&(0x3|0x8));
+            return v.toString(16);
+        });
+    }
+
+    async function purchaseTicket() {
+        var gguid = generateGUID();
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'},
+            body: JSON.stringify(
+                {
+                    guid: gguid,
+                    owner: username,
+                    event: eventJSON    
+                })
+        };
+        fetch('http://localhost:8080/tickets', requestOptions)
+        .then(response =>{
+            if(response.ok){
+                console.log('Ticket added successfully to database.');
+                navigator('/home/event/' + id + '/checkout/complete')
+            }
+            else{
+                console.log('Error adding ticket: ' + response.type);
+            }
+        })
     }
 
     function checkData(field) {
@@ -57,7 +86,6 @@ export default function TicketCheckout() {
         }
         setData(temp);
     }
-    
     return (
         <div id={styles.content}>
             <button id={styles.back}>

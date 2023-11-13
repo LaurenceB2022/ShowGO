@@ -46,11 +46,11 @@ export default function UserEventView(props) {
                         </tr>
                         <tr>
                             <td>Start Date:</td>
-                            <td>{eventJSON.startDate}</td>
+                            <td>{eventJSON.start_date}</td>
                         </tr>
                         <tr>
                             <td>End Date:</td>
-                            <td>{eventJSON.endDate}</td>
+                            <td>{eventJSON.end_date}</td>
                         </tr>
                         <tr>
                             <td>Capacity:</td>

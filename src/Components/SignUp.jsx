@@ -61,7 +61,7 @@ const SignUp = () => {
                 if (response.ok) {
                     setLoggedIn(true);
                     setUserType(selectedType);
-                    setUsername(username);
+                    setUsername(response.json());
                 } 
             });
     }

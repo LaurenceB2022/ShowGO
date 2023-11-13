@@ -38,23 +38,25 @@ const LoginBox = () => {
                 method: 'GET'
             };
             fetch('http://localhost:8080/login/' + usernameField + '/' + passwordField, requestOptions)    
-            .then(response => {
-                console.log(response);
-                if (response.ok) {
-
+            .then(login => {
+                console.log(login);
+                if (login.ok) {
+                    var type;
                     fetch('http://localhost:8080/venues/' + usernameField, requestOptions)
-                    .then(response => {
-
+                    .then(isVenue => {
+                        type = isVenue.ok ? 'venue' : 'user'; 
+                        return login.json();
+                    }).then(data => {
                         setLoggedIn(true);
-                        setUsername(usernameField);
-                        if(response.ok){
+                        setUsername(data);
+                        if(type == 'venue'){
                             setUserType('venue');
                             navigator('/venuehome');
                         } else{
                             setUserType('user');
                             navigator('/home');
                         }
-                    })
+                    });
                     
                 } else {
                     console.error(error);

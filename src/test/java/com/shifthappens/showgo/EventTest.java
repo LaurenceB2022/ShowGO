@@ -84,10 +84,10 @@ public class EventTest {
     @Test
     public void testUpdateEvent() {
         EventController.update(Event2.getGuid(), "start_date", "Jan 01 2000 1:00 PM"); //check start_date update
-        assertEquals(EventRepository.findByguid(Event2.getGuid()).getStartDate(), "Jan 01 2000 1:00 PM");
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getStart_date(), "Jan 01 2000 1:00 PM");
 
         EventController.update(Event2.getGuid(), "end_date", "Jan 01 2000 12:00 AM"); //check end_date update
-        assertEquals(EventRepository.findByguid(Event2.getGuid()).getEndDate(), "Jan 01 2000 12:00 AM");
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getEnd_date(), "Jan 01 2000 12:00 AM");
 
         EventController.update(Event2.getGuid(), "ticket_price", "6.5"); //check ticket price update
         assertEquals(EventRepository.findByguid(Event2.getGuid()).getTicket_price(), 6.5, 0.001);

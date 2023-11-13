@@ -14,10 +14,6 @@ export default function UserHomepage() {
 
     const [results, setResults] = useState(null)
     //TODO remove this temp code after done testing
-    setLoggedIn(true);
-    setUserType('user');
-    setUsername('nathanielendick');
-
 
     function generateGUID(){
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -25,7 +21,6 @@ export default function UserHomepage() {
             return v.toString(16);
         });
     }
-
 
     async function fetchVenue(username) {
         const requestOptions = {

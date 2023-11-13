@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shifthappens.showgo.entities.Ticket;
-import com.shifthappens.showgo.repositories.EventRepository;
 import com.shifthappens.showgo.repositories.TicketRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -32,11 +31,10 @@ public class TicketController {
 
     @PostMapping("/tickets")
     private Ticket createTicket(@RequestBody Ticket ticket) {
-
         List<Ticket> tickets = new ArrayList<>();
         ticketRepo.findByEvent(ticket.getEvent()).forEach(t -> tickets.add(t));
-
-        if (tickets.size() + 1 > ticket.getEvent().getMax_attendees()) return null;
+        
+        if (tickets.size() >= ticket.getEvent().getMax_attendees()) return null;
         return ticketRepo.save(ticket);
     }
 }
