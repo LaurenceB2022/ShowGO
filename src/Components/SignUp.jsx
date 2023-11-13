@@ -8,10 +8,10 @@ import { useContext, useState } from 'react';
 import { MyContext } from 'App';
 
 const SignUp = () => {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
 
     const [selectedType, setSelectedType] = useState(null); //'user' or 'venue'
     const [userNameValid, setUsernameValid] = useState(false);
@@ -58,11 +58,15 @@ const SignUp = () => {
         };
         fetch('http://localhost:8080/' + (selectedType === 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
-                if (response.ok) {
+                return response.ok ? response.json() : null;
+            }).then(data => {
+                if (data) {
                     setLoggedIn(true);
                     setUserType(selectedType);
-                    setUsername(response.json());
-                } 
+                    setUser(data);
+                } else {
+                    console.log("Error creating user");
+                }
             });
     }
 

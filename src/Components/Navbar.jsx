@@ -5,16 +5,15 @@ import { MyContext } from 'App';
 import { useContext } from 'react';
 
 export default function NavBar () {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [loggedIn, setLoggedIn] = loggedInState;
     const [userType, setUserType] = userTypeState;
-    const [username, setUsername] = usernameState;
+    const [, setUser] = userState;
 
-    // console.log(loggedIn + ' ' + setLoggedIn + ' ' + userType + ' ' + setUserType + ' ' + username + ' ' + setUsername);
     function logOut() {
         setLoggedIn(false);
         setUserType(null);
-        setUsername(null);
+        setUser(null);
     }
 
     return (

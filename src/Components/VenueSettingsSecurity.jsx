@@ -5,12 +5,12 @@ import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
 const VenueSettingsSecurity = (props) => {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = usernameState.toString();
+    const username = userState.toString();
     const [error, setError] = useState('');
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
     const [emailChecks, setEmailChecks] = useState(false);

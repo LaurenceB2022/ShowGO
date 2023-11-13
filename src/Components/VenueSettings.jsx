@@ -6,10 +6,10 @@ import { Link, Outlet } from 'react-router-dom';
 import VenueSettingsGeneral from './VenueSettingsGeneral';
 
 function VenueSettings (){
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     const settings = [{
         name:'General Information',
         id:'general',
@@ -39,7 +39,7 @@ function VenueSettings (){
                 <ul>
                     {settings.map(({name, id}) =>(
                         <p key={id}>
-                            <Link to={`/venuesettings/${id}`} username={usernameState} >{name}</Link>
+                            <Link to={`/venuesettings/${id}`} username={userState} >{name}</Link>
                         </p>
                     ))}
                 </ul>

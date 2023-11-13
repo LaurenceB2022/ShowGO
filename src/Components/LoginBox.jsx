@@ -5,10 +5,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
 const LoginBox = () => {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
 
     const navigator = useNavigate();
     const [error, setError]=useState();
@@ -48,7 +48,7 @@ const LoginBox = () => {
                         return login.json();
                     }).then(data => {
                         setLoggedIn(true);
-                        setUsername(data);
+                        setUser(data);
                         if(type == 'venue'){
                             setUserType('venue');
                             navigator('/venuehome');

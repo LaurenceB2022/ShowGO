@@ -1,30 +1,28 @@
 import 'index.css';
 import styles from 'Components/GridTickets.module.css';
 import Ticket from 'Components/Ticket';
-import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import { useContext, useEffect, useState } from 'react';
+import { MyContext } from 'App';
 
 export default function GridTickets(props) {
-    const ticketJSON = props.ticket ? props.ticket : 
-    {
-        guid: '0',
-        owner: 'default',
-        event_guid: '0',
-        
-        name: 'Name',
-        start_date: 'Start_date',
-        end_date: 'End_date',
-        image: ShowGoLogo
-    };
-    const tickets = [ticketJSON, ticketJSON, ticketJSON, ticketJSON,
-                    ticketJSON, ticketJSON, ticketJSON, ticketJSON,
-                    ticketJSON, ticketJSON, ticketJSON, ticketJSON,
-                    ticketJSON, ticketJSON, ticketJSON, ticketJSON];
+    const {_, __, userState} = useContext(MyContext);
+    const [user,] = userState;
+    const [data, setData] = useState([]);
+    
+    async function fetchTickets() {
+        await fetch('http://localhost:8080/tickets/user/' + user.username, {
+            method: 'GET'
+        }).then(response => response.json()).then(data => setData(data));
+    }
 
-
+    useEffect(() => {
+        fetchTickets();
+    }, []);
+    
     return (
         <div className={styles.container}>
             {
-            tickets.map(ticketJSON => (
+            data.map(ticketJSON => (
                 <Ticket ticket={ticketJSON}></Ticket>
             ))
             }

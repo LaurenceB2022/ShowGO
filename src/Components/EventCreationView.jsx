@@ -9,12 +9,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import defaultImage from 'Assets/Placeholder.svg'
 
 const EventCreationView = () => {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = usernameState.toString();
+    const username = userState.toString();
     const navigator = useNavigate();
 
     const[error, setErrors] = useState('');

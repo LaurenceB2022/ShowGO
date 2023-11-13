@@ -5,10 +5,10 @@ import { useContext } from 'react';
 import { MyContext } from 'App';
 
 export default function TicketCheckoutComplete() {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
 
     return (
         <div id={styles.content}>

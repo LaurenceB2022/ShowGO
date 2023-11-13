@@ -29,6 +29,13 @@ public class TicketController {
         return tickets;
     }
 
+    @GetMapping("/tickets/user/{username}")
+    private List<Ticket> findByOwner(@PathVariable String username) {
+        List<Ticket> tickets = new ArrayList<>();
+        ticketRepo.findByOwnerUsername(username).forEach(ticket -> tickets.add(ticket));
+        return tickets;
+    }
+
     @PostMapping("/tickets")
     private Ticket createTicket(@RequestBody Ticket ticket) {
         List<Ticket> tickets = new ArrayList<>();

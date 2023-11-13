@@ -7,10 +7,10 @@ import { MyContext } from 'App';
 
 //TODO add a link to the event and a backtrack link to get back to previous page
 const Event = (props) => {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
 
     //TODO update dummy event
     const eventJSON = props.event ? props.event : 

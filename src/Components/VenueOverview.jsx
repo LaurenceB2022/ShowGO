@@ -7,10 +7,10 @@ import GridEvents from './GridEvents';
 import { MyContext } from 'App';
 
 function VenueOverview(){
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     setLoggedIn(true);
     const location = useLocation();
     // const username = location.state?.username; 

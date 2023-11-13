@@ -8,14 +8,14 @@ export const MyContext = React.createContext();
 const MyProvider = props => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userType, setUserType] = useState(null); //'user' or 'venue'
-  const [username, setUsername] = useState(null);
+  const [user, setUser] = useState(null);
   
   return (
     <MyContext.Provider
     value={
         { loggedInState: [loggedIn, setLoggedIn],
           userTypeState: [userType, setUserType],
-          usernameState: [username, setUsername] }}
+          userState: [user, setUser] }}
     >
       {props.children}
     </MyContext.Provider>

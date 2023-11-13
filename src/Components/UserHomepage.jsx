@@ -7,10 +7,10 @@ import { useContext, useState } from 'react';
 import { MyContext } from 'App';
 
 export default function UserHomepage() {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
 
     const [results, setResults] = useState(null)
     //TODO remove this temp code after done testing

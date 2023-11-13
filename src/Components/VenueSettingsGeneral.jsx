@@ -6,12 +6,12 @@ import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
 const VenueSettingsGeneral = (props) =>{
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = usernameState.toString();
+    const username = userState.toString();
     const[type, setType] = useState('concert')
     const [error, setError] = useState('');
     const[imgfile, setFile] = useState(defaultImage);

@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
 const VenueSettingsAuthorized = (props) => {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = usernameState.toString();
+    const username = userState.toString();
 
     /*TO DO: Sprint 5 */
     return (

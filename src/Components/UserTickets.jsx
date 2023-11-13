@@ -1,16 +1,15 @@
 import 'index.css';
 import styles from 'Components/UserTickets.module.css';
 import { Link } from 'react-router-dom';
-import Ticket from './Ticket';
 import GridTickets from './GridTickets';
 import { useContext } from 'react';
 import { MyContext } from 'App';
 
 export default function UserTickets() {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
 
     return (
         <div id={styles.content}>

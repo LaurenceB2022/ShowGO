@@ -6,10 +6,10 @@ import { useContext, useEffect } from 'react';
 import { MyContext } from 'App';
 
 export default function UserEventView(props) {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUsername] = usernameState;
+    const [, setUser] = userState;
     
     const id = useParams().id;
     const location = useLocation();

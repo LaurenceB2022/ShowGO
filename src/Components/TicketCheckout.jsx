@@ -7,10 +7,10 @@ import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 
 export default function TicketCheckout() {
-    const {loggedInState, userTypeState, usernameState} = useContext(MyContext);
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [username, setUsername] = usernameState;
+    const [user, setUser] = userState;
     const id = useParams().id;
     const location = useLocation();
     const navigator = useNavigate();
@@ -48,7 +48,7 @@ export default function TicketCheckout() {
             body: JSON.stringify(
                 {
                     guid: gguid,
-                    owner: username,
+                    owner: user,
                     event: eventJSON    
                 })
         };
