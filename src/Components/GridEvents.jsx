@@ -3,7 +3,7 @@ import styles from 'Components/GridEvents.module.css';
 import Event from 'Components/Event';
 import { useEffect, useState } from 'react';
 
-const GridEvents = (props) => {
+const GridEvents = () => {
     
     const [data, setData] = useState([]);
     

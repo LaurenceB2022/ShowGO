@@ -1,9 +1,8 @@
 import 'index.css';
-import { Link} from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from 'Components/VenueOverview.module.css'
-import React, {useState, useEffect, useContext} from 'react';
-import GridEvents from './GridEvents';
+import React, {useState, useContext} from 'react';
+import GridEvents from 'Components/GridEvents';
 import { MyContext } from 'App';
 
 function VenueOverview(){
@@ -11,12 +10,13 @@ function VenueOverview(){
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
     const [, setUser] = userState;
+
+    //Debug, remove later
     setLoggedIn(true);
-    const location = useLocation();
-    // const username = location.state?.username; 
-    const [loaded, setLoaded] = useState(false) 
+    
+    const navigate = useNavigate();  
+
     const [events, setEvents] = useState([]);
-    const navigate = useNavigate();   
     const [timeframe, setTimeFrame] = useState('All')
 
     function logOut() {
@@ -26,19 +26,23 @@ function VenueOverview(){
         navigate('/login');
     }
     return(
-        <div className={styles.container}>
-            <div class={styles.button_container}>
-                <button onClick={() => navigate('/createevent')}>Create Event</button>
-            </div>
+        <div>
             <button id={styles.back} onClick={() => logOut()}>Log Out</button>
-            <div class={styles.event_grid}>
-                <div class={styles.event_types}>
-                    <h2 onClick={() => setTimeFrame('Future')}>Upcoming Events</h2>
-                    <h2 onClick={() => setTimeFrame('Past')}>Past Events</h2>
-                    <h2 onClick={() => setTimeFrame('')}>All Events</h2>
-                    <div class={styles.event}>
-                        
-                        <GridEvents events={events} time={timeframe} /> 
+            <div className={styles.container}>
+
+                <div class={styles.section_1}>
+                    <button id={styles.create_event_button}onClick={() => navigate('/createevent')}>Create Event</button>
+                </div>
+                <div class={styles.section_2}>
+                    <div class={styles.section_3}>
+                        <div id={styles.search_criteria}>
+                            <h2 onClick={() => setTimeFrame('Future')}>Upcoming Events</h2>
+                            <h2 onClick={() => setTimeFrame('Past')}>Past Events</h2>
+                            <h2 onClick={() => setTimeFrame('')}>All Events</h2>
+                        </div>
+                        <div id={styles.event}>
+                            <GridEvents events={events} time={timeframe} /> 
+                        </div>
                     </div>
                 </div>
             </div>
