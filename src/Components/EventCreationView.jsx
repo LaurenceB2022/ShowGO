@@ -29,12 +29,6 @@ const EventCreationView = () => {
         price: 0.0
       });
     
-    function generateGUID(){
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random()*16|0, v = (c === 'x') ? r : (r&(0x3|0x8));
-            return v.toString(16);
-        });
-    }
     async function fetchVenue(username) {
         const requestOptions = {
             method: 'GET',
@@ -81,7 +75,6 @@ const EventCreationView = () => {
         
         
         if(valid){
-            var generated_guid = generateGUID();
             console.log('Values in the fields were verified, sending POST request.')
             var date_start_string = startDate.toDateString().split(' ');
             var date_end_string = endDate.toDateString().split(' ');
@@ -101,7 +94,7 @@ const EventCreationView = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000'},
-                body: JSON.stringify({guid: generated_guid, venue: venue_object, start_date: date_start, ticket_price: values.price, end_date: date_end, name: values.name, description: values.description, location: values.address, hide_location: values.visible, max_attendees: values.max})
+                body: JSON.stringify({venue: venue_object, start_date: date_start, ticket_price: values.price, end_date: date_end, name: values.name, description: values.description, location: values.address, hide_location: values.visible, max_attendees: values.max})
             };
             fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{

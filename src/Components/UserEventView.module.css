@@ -38,7 +38,7 @@
 }
 
 #image {
-    background-color: pink;
+    /* background-color: pink; */
     width: auto;
     height: 50vh;
 }
@@ -50,7 +50,7 @@
     align-items: center;
     text-align: left;
 
-    background-color: orange;
+    /* background-color: orange; */
 }
 
 #table_fields {

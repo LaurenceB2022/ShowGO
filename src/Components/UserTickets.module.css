@@ -15,10 +15,10 @@
 }
 
 .section_1 {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
 }
 
 .section_2 {
     flex-grow: 1;
-    background-color: yellow;
+    /* background-color: yellow; */
 }

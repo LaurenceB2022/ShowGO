@@ -19,14 +19,18 @@ function VenueOverview(){
     const navigate = useNavigate();   
     const [timeframe, setTimeFrame] = useState('All')
 
+    function logOut() {
+        setLoggedIn(false);
+        setUserType(null);
+        setUser(null);
+        navigate('/login');
+    }
     return(
         <div className={styles.container}>
             <div class={styles.button_container}>
                 <button onClick={() => navigate('/createevent')}>Create Event</button>
             </div>
-            <button id={styles.back}>
-                <Link to='/login'>Log Out</Link>
-            </button>
+            <button id={styles.back} onClick={() => logOut()}>Log Out</button>
             <div class={styles.event_grid}>
                 <div class={styles.event_types}>
                     <h2 onClick={() => setTimeFrame('Future')}>Upcoming Events</h2>
