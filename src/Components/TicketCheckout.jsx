@@ -31,15 +31,7 @@ export default function TicketCheckout() {
 
     const [data, setData] = useState([false, false, false, false])
 
-    function generateGUID(){
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random()*16|0, v = (c === 'x') ? r : (r&(0x3|0x8));
-            return v.toString(16);
-        });
-    }
-
     async function purchaseTicket() {
-        var gguid = generateGUID();
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -47,7 +39,6 @@ export default function TicketCheckout() {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'},
             body: JSON.stringify(
                 {
-                    guid: gguid,
                     owner: user,
                     event: eventJSON    
                 })
