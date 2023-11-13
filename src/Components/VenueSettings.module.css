@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
 
+
+
 .parent_container{
     display: flex;
     flex-direction: row;
@@ -116,6 +118,8 @@
     line-height: normal; 
     color:#4F6367;
     padding-right: 10px;
+    white-space: normal;
+    width: 200px;
 }
 
 .general_container{
@@ -124,6 +128,8 @@
     width: 100%;
     height: fit-content;
     gap: 20px 20px;
+    
+    
 }
 
 .general_container label{
@@ -133,6 +139,9 @@
     font-weight: 400;
     line-height: normal; 
     color:#4F6367;
+    white-space: normal;
+    width:200px;
+    
 }
 
 .general_container img{
@@ -177,6 +186,7 @@
 .image_container{
     display: flex;
     flex-direction: column;
+    flex-direction: flex-end;
     height: 50vh;
     width: 75vh;
     gap: 10px 10px;
@@ -185,7 +195,7 @@
     border-color: #4F6367;
 }
 
-.image_container p{
+.image_container label{
     font-family: 'Sen', sans-serif;
     font-size: 32px;
     font-style: normal;
