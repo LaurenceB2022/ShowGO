@@ -38,29 +38,31 @@ const LoginBox = () => {
                 method: 'GET'
             };
             fetch('http://localhost:8080/login/' + usernameField + '/' + passwordField, requestOptions)    
-            .then(login => {
-                console.log(login);
-                if (login.ok) {
-                    var type;
-                    fetch('http://localhost:8080/venues/' + usernameField, requestOptions)
-                    .then(isVenue => {
-                        type = isVenue.ok ? 'venue' : 'user'; 
-                        return login.json();
-                    }).then(data => {
-                        setLoggedIn(true);
-                        setUser(data);
-                        if(type == 'venue'){
-                            setUserType('venue');
-                            navigator('/venuehome');
-                        } else{
-                            setUserType('user');
-                            navigator('/home');
-                        }
-                    });
-                    
+            .then(promise => {
+                if (promise.ok) {
+                    return promise.json();  
                 } else {
                     console.error(error);
                     setError('Invalid Login Credentials');
+                    return null;
+                }
+            })
+            .then(userOrVenue => {
+                console.log(userOrVenue);
+                if (userOrVenue === null) {
+                    setLoggedIn(false);
+                }
+                else {
+                    setUser(userOrVenue);
+                    setLoggedIn(true);
+                    if (userOrVenue.location === undefined) {//users dont have location
+                        setUserType('user');
+                        navigator('/home');
+                    }
+                    else {
+                        setUserType('venue');
+                        navigator('/venuehome');
+                    }
                 }
             });
         }
