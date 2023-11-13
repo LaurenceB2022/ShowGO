@@ -39,7 +39,7 @@ public class LoginController {
                     throw new InvalidUsernameException();
              }
         }
-        return new InvalidPasswordException();
+        throw new InvalidPasswordException();
     }
 
 }
