@@ -33,6 +33,7 @@ const VenueSettingsSecurity = (props) => {
             [event.target.name]: val
         }
         );
+        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(values.password), values.password.length >= 6])
     }
 
     const getVenueValues = (value_name, venue_object) =>{
@@ -55,7 +56,6 @@ const VenueSettingsSecurity = (props) => {
 
     async function updateSettings (){
         var valid = true;
-        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(values.password), values.password.length >= 6])
         setEmailChecks(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+[@][a-zA-Z0-9]+[.][a-zA-Z0-9.]+$/.test(values.email))
 
         if(values.password === '' && values.confirmPassword === ''){
@@ -63,7 +63,7 @@ const VenueSettingsSecurity = (props) => {
             valid = false;
         }
         
-        if(!passwordChecks[0] || !passwordChecks[1]){
+        if(passwordChecks[0] == false || passwordChecks[1] == false){
             setError('Error, password does not meet minimum requirements.')
             valid = false;
         }
@@ -82,7 +82,6 @@ const VenueSettingsSecurity = (props) => {
             var username_string = username_values.username;
             console.log(username_string);
             
-            var venue = fetchVenue(username_string);
             var retreived_username = username_string;
             var retreived_password = values.password;
             var retreived_location = username_values.location;
@@ -107,7 +106,11 @@ const VenueSettingsSecurity = (props) => {
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
-                navigator('/venuehome')
+                var venue = fetchVenue(username_string);
+                console.log(venue);
+                setUser(venue);
+                setError('Successful password reset!')
+                navigator('/venuesettings/security')
             }
             else{
                 setError('Unexpected Error occurred. Try again later.')

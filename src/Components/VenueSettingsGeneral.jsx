@@ -52,12 +52,11 @@ const VenueSettingsGeneral = (props) =>{
         if(true){
             var username_values = username[0];
             var username_string = username_values.username;
-            var venue = fetchVenue(username_string);
             //gets all necessary values from datavas
             var username_values = username[0];
             
             var username_string = username_values.username;
-            console.log(username_string);
+            console.log('Venue_name' + username_string);
             
             //var venue = fetchVenue(username_string);
             var retreived_username = username_string;
@@ -92,7 +91,10 @@ const VenueSettingsGeneral = (props) =>{
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
-                navigator('/venuehome')
+                var venue = fetchVenue(username_string);
+                console.log('Venue object:' + venue);
+                setUser(venue);
+                navigator('/venuesettings/general')
             }
             else{
                 setError('Unexpected Error occurred. Try again later.')
@@ -123,7 +125,7 @@ const VenueSettingsGeneral = (props) =>{
                 <label>Event Image</label>
                 
                 <span>
-                    <img src={imgfile} alt=""/> 
+                    <img src={imgfile} alt="image_default"/> 
                     <input className={styles.button3} type="file" onChange={handleImage} />Choose File
                 </span>
                 
