@@ -14,7 +14,7 @@ const EventCreationView = () => {
     const [, setUserType] = userTypeState;
     const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = userState.toString();
+    const username = userState;
     const navigator = useNavigate();
 
     const[error, setErrors] = useState('');
@@ -89,9 +89,9 @@ const EventCreationView = () => {
             var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3];
             console.log('Username: ' + username.toString())
 
-            var username_values = username.split(',');
-            var username_string = username_values[0];
-            console.log(username_string);
+            var username_values = username[0];
+            var username_string = username_values.username;
+            console.log(username_values);
             
             var venue_object = await fetchVenue(username_string);
 

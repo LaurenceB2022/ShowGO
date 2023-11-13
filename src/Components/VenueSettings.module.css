@@ -14,7 +14,7 @@
 }
 
 .parent_sidebar{
-    height: 120vh;
+    height: max-content;
     width: 20%;
     background-color: white;
     display: flex;
@@ -50,7 +50,7 @@
 
 .parent_sidebar ul{
     background-color: white;
-    height: 100%;
+    
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -63,6 +63,14 @@
     width: 100%;
     height: fit-content;
     gap: 20px 20px;
+}
+
+.description_container{
+    padding-left: 5%;
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    gap: 5px;
 }
 
 .billing_container{
@@ -88,7 +96,7 @@
 }
 
 .billing_result_box{
-    
+
 }
 
 .billing_container h1{
@@ -173,6 +181,8 @@
     width: 75vh;
     gap: 10px 10px;
     padding-left: 10px;
+    border: 5px;
+    border-color: #4F6367;
 }
 
 .image_container p{
@@ -193,4 +203,5 @@
 .image_container img{
     width: 100%;
     height: 100%;
+    
 }

@@ -10,7 +10,7 @@ const VenueSettingsPayment = (props) => {
     const [, setUserType] = userTypeState;
     const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = userState.toString();
+    const username = userState;
 
     /*TO DO: Sprint 5 */
     return (

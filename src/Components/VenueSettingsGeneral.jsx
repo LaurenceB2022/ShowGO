@@ -11,13 +11,14 @@ const VenueSettingsGeneral = (props) =>{
     const [, setUserType] = userTypeState;
     const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = userState.toString();
+    const username = userState;
     const[type, setType] = useState('concert')
     const [error, setError] = useState('');
     const[imgfile, setFile] = useState(defaultImage);
     const[values, setValues] = useState({
         name: '',
-        description: ''    
+        description: '',
+        location: ''    
     });
     const navigator = useNavigate();
 
@@ -31,6 +32,10 @@ const VenueSettingsGeneral = (props) =>{
         event.preventDefault();
         updateGeneral();
     }
+
+    const getVenueValues = (value_name, venue_object) =>{
+        return venue_object.map((value_name) => value_name[venue_object]);
+    }
     
     async function fetchVenue(username) {
         const requestOptions = {
@@ -41,29 +46,50 @@ const VenueSettingsGeneral = (props) =>{
     }
 
     async function updateGeneral () {
-        var validate = true;
-        if(values.name === '' || values.description){
-            setError('Error, fields cannot be empty');
-            validate = false;
-        }
+
         console.log('Updating General Info');
        
-        if(validate){
-            var username_values = username.split(',');
-            var username_string = username_values[0];
+        if(true){
+            var username_values = username[0];
+            var username_string = username_values.username;
             var venue = fetchVenue(username_string);
+            //gets all necessary values from datavas
+            var username_values = username[0];
             
+            var username_string = username_values.username;
+            console.log(username_string);
+            
+            //var venue = fetchVenue(username_string);
+            var retreived_username = username_string;
+            var retreived_password = username_values.password;
+            var retreived_location = username_values.location;
+            var retreived_name = username_values.name;
+            var hide_location = username_values.hide_location;
+            var retreived_description = username_values.description;
+
+            if(values.name !== ''){
+                retreived_name = values.name;
+            }
+            if(values.description !== ''){
+                retreived_description = values.description;
+            }
+            if(values.location !== ''){
+                retreived_location = values.location;
+            }
 
             const requestOptions = {
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({ 
-                                    username: username_string,
-                                    name: values.name,
-                                    description: values.description
+                                    username: retreived_username,
+                                    password: retreived_password,
+                                    location: retreived_location,
+                                    name: retreived_name,
+                                    hide_location: hide_location,
+                                    description: retreived_description
                                     })
             };
-            fetch('http://localhost:8080/venues/settings/', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+            fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
                 navigator('/venuehome')
@@ -71,7 +97,8 @@ const VenueSettingsGeneral = (props) =>{
             else{
                 setError('Unexpected Error occurred. Try again later.')
             } 
-        }); 
+            
+        });
         }
     }
 
@@ -101,14 +128,19 @@ const VenueSettingsGeneral = (props) =>{
                 </span>
                 
             </div>
-            <span>
-                <label>Venue Name</label>
-                <input type='text' name='name' onChange={handleInput}></input>
-            </span>
-            <div>
+            
+            <div className={styles.description_container}>
+                <span>
+                    <label>Venue Name</label>
+                    <input type='text' name='name' placeholder={username[0].name} onChange={handleInput}></input>
+                </span>
                 <span>
                     <label>Venue Description</label>
-                    <input type='text' name='description' onChange={handleInput}></input>
+                    <input type='text' name='description' placeholder={username[0].description} onChange={handleInput}></input>
+                </span>
+                <span>
+                    <label>Venue Location</label>
+                    <input type='text' name='location' placeholder={username[0].location} onChange={handleInput}></input>
                 </span>
                 <span>
                     <label>Venue Type</label>

@@ -10,7 +10,7 @@ const VenueSettingsSecurity = (props) => {
     const [, setUserType] = userTypeState;
     const [, setUser] = userState;
     const [venue, setVenue] = useState('');
-    const username = userState.toString();
+    const username = userState;
     const [error, setError] = useState('');
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
     const [emailChecks, setEmailChecks] = useState(false);
@@ -33,6 +33,10 @@ const VenueSettingsSecurity = (props) => {
             [event.target.name]: val
         }
         );
+    }
+
+    const getVenueValues = (value_name, venue_object) =>{
+        return (venue_object).map((row) => row[value_name]);
     }
 
     async function fetchVenue(username) {
@@ -58,33 +62,46 @@ const VenueSettingsSecurity = (props) => {
             setError('Error, missing fields.')
             valid = false;
         }
-        /*
-        if(!passwordChecks[true, true]){
+        
+        if(!passwordChecks[0] || !passwordChecks[1]){
             setError('Error, password does not meet minimum requirements.')
             valid = false;
         }
-        else{ */
-            if((values.password).localeCompare(values.confirmPassword) !== 0){
-                setError('Error, passwords do not match.')
-                valid = false;
-            }
+        if ((values.password).localeCompare(values.confirmPassword) !== 0){ 
+            
+            setError('Error, passwords do not match.');
+            valid = false;
+            
 
-        
+        }
 
         if(valid){
-            var username_values = username.split(',');
-            var username_string = username_values[0];
-            var venue = fetchVenue(username_string);
-            var retreived_name = venue.data;
-            console.log(retreived_name);
+            console.log(username[0]);
+            var username_values = username[0];
             
+            var username_string = username_values.username;
+            console.log(username_string);
+            
+            var venue = fetchVenue(username_string);
+            var retreived_username = username_string;
+            var retreived_password = values.password;
+            var retreived_location = username_values.location;
+            var retreived_name = username_values.name;
+            var hide_location = username_values.hide_location;
+            var retreived_description = username_values.description;
+            
+            console.log(retreived_username  + ' ' + retreived_password + ' ' + retreived_location + ' ' + retreived_name + ' ' + hide_location + retreived_description);
+
             const requestOptions = {
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({ 
-                                    username: username_string,
-                                    name: retreived_name,
-                                    password: values.password
+                                        username: retreived_username,
+                                        password: retreived_password,
+                                        location: retreived_location,
+                                        name: retreived_name,
+                                        hide_location: hide_location,
+                                        description: retreived_description
                                     })
             };
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
