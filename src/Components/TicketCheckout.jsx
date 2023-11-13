@@ -27,7 +27,13 @@ export default function TicketCheckout() {
         max_attendees: 0}
          : location.state.eventJSON;
 
+    //{'/home/event/' + id + '/checkout/complete'}
+
     const [data, setData] = useState([false, false, false, false])
+
+    function purchaseTicket() {
+        
+    }
 
     function checkData(field) {
         var temp = [...data];
@@ -82,12 +88,7 @@ export default function TicketCheckout() {
                     <input id={styles.cvv} className={styles.input + ' item_50'} type='text' maxLength='4' onChange={() => checkData('cvv')}></input>
                     <img className='item_10' src={data[3] ? Checkmark : X} alt=""/>
                 </div>
-                <button className={data.every(v => v) ? 'button-enabled' : 'button-disabled'}>
-                    {data.every(v => v) ?
-                        (<Link to={'/home/event/' + id + '/checkout/complete'} className='link-active' state={{eventJSON: eventJSON}}>Purchase</Link>) :
-                        (<>Purchase</>)
-                    }
-                </button>
+                <button className={data.every(v => v) ? 'button-enabled' : 'button-disabled'} onClick={() => purchaseTicket()}>Purchase</button>
             </div>
         </div>
     )
