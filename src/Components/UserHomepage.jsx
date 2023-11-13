@@ -13,15 +13,8 @@ export default function UserHomepage() {
     const [, setUser] = userState;
 
     const [results, setResults] = useState(null)
-    //TODO remove this temp code after done testing
 
-    function generateGUID(){
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random()*16|0, v = (c === 'x') ? r : (r&(0x3|0x8));
-            return v.toString(16);
-        });
-    }
-
+    //Temp remove later
     async function fetchVenue(username) {
         const requestOptions = {
             method: 'GET',
@@ -29,9 +22,8 @@ export default function UserHomepage() {
         return await fetch('http://localhost:8080/venues/' + username, requestOptions)
         .then(response => response.json());
     }
-
+//Temp remove later
     async function createEvent() {
-            var gguid = generateGUID();
             var venue = await fetchVenue("nathanielendick");
             console.log(venue);
             const requestOptions = {
@@ -41,7 +33,6 @@ export default function UserHomepage() {
                     'Access-Control-Allow-Origin': 'http://localhost:3000'},
                 body: JSON.stringify(
                     {
-                        guid: gguid,
                         venue: venue,
                         start_date: "Oct 30 2023",
                         ticket_price: 1.00,
@@ -68,7 +59,7 @@ export default function UserHomepage() {
             <button id={styles.back}>
                 <Link to='/login'>Log Out</Link>
             </button>
-            <button onClick={() => createEvent()}>Create Event</button>
+            {/* <button onClick={() => createEvent()}>Create Event</button> */}
             <div className={styles.content}>
                 <div className={styles.section_1}>
                     <SearchBar results={[results, setResults]} id={styles.searchbar}/>
