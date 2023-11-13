@@ -61,12 +61,12 @@ public class Event {
           location = v.getLocation();
           hide_location = v.getHide_location();
 
-          start_date = "Jan 01 1970 12:00 AM";
-          end_date = "Jan 01 1970 12:00 AM";
-          ticket_price = 0;
-          name = "N/A";
-          description = "N/A";
-          max_attendees = 0;
+          this.start_date = start_date;
+          this.end_date = end_date;
+          this.ticket_price = ticket_price;
+          this.name = name;
+          this.description = description;
+          this.max_attendees = max_attendees;
      }
 
       public Venue getVenue() {
