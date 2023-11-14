@@ -106,16 +106,24 @@ const VenueSettingsSecurity = (props) => {
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
-                var venue = fetchVenue(username_string);
-                console.log(venue);
-                setUser(venue);
-                setError('Successful password reset!')
-                navigator('/venuesettings/security')
+               
+               return response.json(); 
+                
             }
             else{
                 setError('Unexpected Error occurred. Try again later.')
             } 
-        }); 
+        })
+        .then(retrievedVenue =>{
+            if(retrievedVenue === null){
+                setLoggedIn(false);
+            }
+            else{
+                setUser(retrievedVenue)
+                setError('Successful password reset!')
+                navigator('/venuesettings/security')
+            }
+        })
         }
 
             
