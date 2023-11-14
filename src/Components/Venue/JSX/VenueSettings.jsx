@@ -1,15 +1,11 @@
 import { MyContext } from 'App';
 import 'index.css';
-import styles from 'Components/VenueSettings.module.css';
-import React, {useState, useEffect, useContext} from 'react';
+import styles from 'Components/Venue/CSS/VenueSettings.module.css';
+import React, {useContext} from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import VenueSettingsGeneral from './VenueSettingsGeneral';
 
 function VenueSettings (){
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
     const settings = [{
         name:'General Information',
         id:'general',

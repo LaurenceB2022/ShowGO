@@ -1,12 +1,12 @@
 import 'index.css';
-import styles from 'Components/SearchBar.module.css'
+import styles from 'Components/Other/CSS/SearchBarComponent.module.css'
 import Search from 'Assets/Search.svg';
 import { useState } from 'react';
 
-export default function SearchBar (props) {
+export default function SearchBarComponent (props) {
 
     const [searchType, setSearchType] = useState('title'); //options: title, date-range, cost
-    const [, setResults] = useState(props.results);
+    // const [, setResults] = useState(props.results);
     function search(event) {
         if(event.type !== 'click' && event.key !== 'Enter') return;
         

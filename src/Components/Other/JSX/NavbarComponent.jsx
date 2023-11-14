@@ -1,10 +1,10 @@
 import 'index.css';
-import styles from 'Components/Navbar.module.css';
+import styles from 'Components/Other/CSS/NavbarComponent.module.css';
 import {Link} from 'react-router-dom';
 import { MyContext } from 'App';
 import { useContext } from 'react';
 
-export default function NavBar () {
+export default function NavbarComponent () {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [loggedIn, setLoggedIn] = loggedInState;
     const [userType, setUserType] = userTypeState;

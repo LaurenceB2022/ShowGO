@@ -1,14 +1,13 @@
 import 'index.css';
-import styles from 'Components/EventCreation.module.css';
-import React, {useState, useEffect, useContext} from 'react';
+import styles from 'Components/Venue/CSS/VenueCreateEvent.module.css';
+import React, {useState, useContext} from 'react';
 import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 import DatePicker from "react-datepicker";
-import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import defaultImage from 'Assets/Placeholder.svg'
 
-const EventCreationView = () => {
+const VenueCreateEvent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -175,4 +174,4 @@ const EventCreationView = () => {
         </div>
     )
 }
-export default EventCreationView;
+export default VenueCreateEvent;

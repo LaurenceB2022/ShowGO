@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react';
 import 'index.css';
-import styles from 'Components/LoginBox.module.css';
-import { useNavigate, Link } from 'react-router-dom'; 
+import styles from 'Components/Other/CSS/Login.module.css';
+import { useNavigate} from 'react-router-dom'; 
 import { MyContext } from 'App';
 
-const LoginBox = () => {
+const Login = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -104,4 +104,4 @@ const LoginBox = () => {
     )
 }
 
-export default LoginBox;
+export default Login;

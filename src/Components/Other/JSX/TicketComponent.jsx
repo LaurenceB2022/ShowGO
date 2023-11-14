@@ -1,9 +1,9 @@
 import 'index.css';
-import styles from 'Components/Ticket.module.css';
+import styles from 'Components/Other/CSS/TicketComponent.module.css';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import { Link } from 'react-router-dom';
 
-export default function Ticket(props) {
+export default function TicketComponent(props) {
     const ticketJSON = props.ticket ? props.ticket : 
     {
         guid: '0', //TODO remove me once guid works

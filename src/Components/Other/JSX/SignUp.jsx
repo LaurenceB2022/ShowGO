@@ -1,5 +1,5 @@
 import 'index.css';
-import styles from 'Components/SignUp.module.css';
+import styles from 'Components/Other/CSS/SignUp.module.css';
 import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 import Placeholder from 'Assets/Placeholder.svg';

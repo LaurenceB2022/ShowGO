@@ -1,11 +1,11 @@
 import 'index.css';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from 'Components/VenueOverview.module.css'
+import { useNavigate } from 'react-router-dom';
+import styles from 'Components/Venue/CSS/VenueHomepage.module.css'
 import React, {useState, useContext} from 'react';
-import GridEvents from 'Components/GridEvents';
+import EventGridComponent from 'Components/Other/JSX/EventGridComponent';
 import { MyContext } from 'App';
 
-function VenueOverview(){
+function VenueHomepage(){
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -41,7 +41,7 @@ function VenueOverview(){
                             <h2 onClick={() => setTimeFrame('')}>All Events</h2>
                         </div>
                         <div id={styles.event}>
-                            <GridEvents events={events} time={timeframe} /> 
+                            <EventGridComponent events={events} time={timeframe} /> 
                         </div>
                     </div>
                 </div>
@@ -50,4 +50,4 @@ function VenueOverview(){
     )
 }
 
-export default VenueOverview
+export default VenueHomepage

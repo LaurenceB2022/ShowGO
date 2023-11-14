@@ -1,10 +1,10 @@
 import 'index.css';
-import styles from 'Components/VenueSettings.module.css';
-import React, {useState, useEffect, useContext} from 'react';
+import styles from 'Components/Venue/CSS/VenueSettings.module.css';
+import React, {useState, useContext} from 'react';
 import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
-const VenueSettingsSecurity = (props) => {
+const VenueSettingsSecurityMenuComponent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -147,4 +147,4 @@ const VenueSettingsSecurity = (props) => {
         </div>
     )
 }
-export default VenueSettingsSecurity;
+export default VenueSettingsSecurityMenuComponent;

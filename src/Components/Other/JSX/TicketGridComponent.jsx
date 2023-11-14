@@ -1,10 +1,10 @@
 import 'index.css';
-import styles from 'Components/GridTickets.module.css';
-import Ticket from 'Components/Ticket';
+import styles from 'Components/Other/CSS/TicketGridComponent.module.css';
+import TicketComponent from 'Components/Other/JSX/TicketComponent';
 import { useContext, useEffect, useState } from 'react';
 import { MyContext } from 'App';
 
-export default function GridTickets(props) {
+export default function TicketGridComponent() {
     const {_, __, userState} = useContext(MyContext);
     const [user,] = userState;
     const [data, setData] = useState([]);
@@ -23,7 +23,7 @@ export default function GridTickets(props) {
         <div className={styles.container}>
             {
             data.map(ticketJSON => (
-                <Ticket ticket={ticketJSON}></Ticket>
+                <TicketComponent ticket={ticketJSON}></TicketComponent>
             ))
             }
         </div>

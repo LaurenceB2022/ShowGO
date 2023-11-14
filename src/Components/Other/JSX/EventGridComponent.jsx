@@ -1,9 +1,9 @@
 import 'index.css';
-import styles from 'Components/GridEvents.module.css';
-import Event from 'Components/Event';
+import styles from 'Components/Other/CSS/EventGridComponent.module.css';
+import EventComponent from 'Components/User/JSX/EventComponent';
 import { useEffect, useState } from 'react';
 
-const GridEvents = () => {
+const EventGridComponent = () => {
     
     const [data, setData] = useState([]);
     
@@ -23,10 +23,10 @@ const GridEvents = () => {
           <div className={styles.container}>
            {
             data.map(eventJSON => (
-                <Event event={eventJSON}></Event>
+                <EventComponent event={eventJSON}></EventComponent>
             ))
             }
         </div>
     )
 }
-export default GridEvents
+export default EventGridComponent

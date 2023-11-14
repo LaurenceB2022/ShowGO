@@ -1,16 +1,14 @@
 import 'index.css';
-import styles from 'Components/TicketCheckout.module.css';
+import styles from 'Components/User/CSS/UserCheckout.module.css';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { MyContext } from 'App';
 import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 
-export default function TicketCheckout() {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [user, setUser] = userState;
+export default function UserCheckout() {
+    const {_, __, userState} = useContext(MyContext);
+    const [user,] = userState;
     const id = useParams().id;
     const location = useLocation();
     const navigator = useNavigate();

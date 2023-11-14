@@ -1,11 +1,11 @@
 import 'index.css';
-import styles from 'Components/VenueSettings.module.css';
-import React, {useState, useEffect, useContext} from 'react';
+import styles from 'Components/Venue/CSS/VenueSettings.module.css';
+import React, {useState, useContext} from 'react';
 import defaultImage from 'Assets/Placeholder.svg'
 import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
-const VenueSettingsGeneral = (props) =>{
+const VenueSettingsGeneralMenuComponent = () =>{
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -163,4 +163,4 @@ const VenueSettingsGeneral = (props) =>{
         </div>
     )
 }
-export default VenueSettingsGeneral;
+export default VenueSettingsGeneralMenuComponent;

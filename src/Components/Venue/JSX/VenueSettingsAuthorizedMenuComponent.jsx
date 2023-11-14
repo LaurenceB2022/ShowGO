@@ -1,10 +1,9 @@
 import 'index.css';
-import styles from 'Components/VenueSettings.module.css';
+import styles from 'Components/Venue/CSS/VenueSettings.module.css';
 import React, {useState, useEffect, useContext} from 'react';
-import { Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
-const VenueSettingsAuthorized = (props) => {
+const VenueSettingsAuthorizedMenuComponent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -19,4 +18,4 @@ const VenueSettingsAuthorized = (props) => {
         </div>
     )
 }
-export default VenueSettingsAuthorized;
+export default VenueSettingsAuthorizedMenuComponent;

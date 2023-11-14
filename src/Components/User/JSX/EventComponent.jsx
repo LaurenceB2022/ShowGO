@@ -1,17 +1,10 @@
 import 'index.css';
-import styles from 'Components/Event.module.css';
+import styles from 'Components/User/CSS/EventComponent.module.css';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
-import { useContext } from 'react';
-import { MyContext } from 'App';
-
 
 //TODO add image data
-const Event = (props) => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
+const EventComponent = (props) => {
 
     //TODO update dummy event
     const eventJSON = props.event ? props.event : 
@@ -52,4 +45,4 @@ const Event = (props) => {
         </div>
     )
 }
-export default Event;
+export default EventComponent;
