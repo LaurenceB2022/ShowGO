@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.shifthappens.showgo.entities.Event;
@@ -15,7 +16,7 @@ public interface TicketRepository extends CrudRepository<Ticket, String>{
 
     List<Ticket> findByEventGuid(String eventGuid);
 
-    @Query(value = "SELECT * FROM tickets t, users u WHERE u.username = :username",
+    @Query(value = "SELECT * FROM tickets t WHERE t.owner = :username",
             nativeQuery = true)
-    List<Ticket> findByOwnerUsername(String username);
+    List<Ticket> findByOwnerUsername(@Param("username") String username);
 }

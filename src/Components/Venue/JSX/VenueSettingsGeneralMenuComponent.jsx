@@ -91,16 +91,25 @@ const VenueSettingsGeneralMenuComponent = () =>{
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
-                var venue = fetchVenue(username_string);
-                console.log('Venue object:' + venue);
-                setUser(venue);
-                navigator('/venuesettings/general')
+                return response.json();
+                
             }
             else{
                 setError('Unexpected Error occurred. Try again later.')
+                return null;
             } 
             
-        });
+        })
+        .then(retreivedVenue => {
+            if(retreivedVenue === null){
+                setLoggedIn(false);
+            }
+            else{
+                setUser(retreivedVenue)
+                setError('Successfully changed general information.')
+                navigator('/venuesettings/general')
+            }
+        })
         }
     }
 
