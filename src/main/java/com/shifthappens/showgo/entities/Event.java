@@ -29,7 +29,7 @@ public class Event {
     private String name;
     private String description;
     private int max_attendees;
-    private byte[] image;
+    private String image;
 
     //Taken from venue
     private String location;

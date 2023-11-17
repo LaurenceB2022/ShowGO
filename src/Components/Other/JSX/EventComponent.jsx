@@ -27,7 +27,7 @@ const EventComponent = (props) => {
             <Link to={"/home/event/" + eventJSON.guid} state={{eventJSON: eventJSON}}>
             <p id={styles.name} className={styles.p + ' item_10'}>{eventJSON.name}</p>
             <div className={styles.section_1 + ' item_90'}>
-                <img id={styles.img} className='item_50' src={eventJSON.image ? atob(eventJSON.image): ShowGoLogo}></img>
+                <img id={styles.img} className='item_50' src={eventJSON.image ? eventJSON.image: ShowGoLogo}></img>
                 <div className={styles.time_and_ticket + ' item_50'}>
                     <span className='item_10'>
                         <p className={styles.p + ' ' + styles.field_name}>Start</p>

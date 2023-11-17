@@ -38,8 +38,30 @@ const VenueCreateEvent = () => {
 
     const[imgfile, setFile] = useState(defaultImage);
 
-    const handleImage = (event) => {
-        setFile(URL.createObjectURL(event.target.files[0]));
+    async function handleImage (event) {
+        const file = event.target.files[0];
+        const a = await readFileDataAsBase64(file).then(d => {
+            console.log(file);
+            console.log(d);
+            setFile(d);
+        });
+    }
+
+    function readFileDataAsBase64(file) {
+        
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+    
+            reader.onload = (event) => {
+                resolve(event.target.result);
+            };
+    
+            reader.onerror = (err) => {
+                reject(err);
+            };
+    
+            reader.readAsDataURL(file);
+        });
     }
 
     const handleInput = (event) => {
@@ -102,7 +124,7 @@ const VenueCreateEvent = () => {
                     location: values.address,
                     hide_location: values.visible,
                     max_attendees: values.max,
-                    image: btoa(imgfile)})
+                    image: imgfile})
             };
             fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{
