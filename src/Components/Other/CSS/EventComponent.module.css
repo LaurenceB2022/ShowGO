@@ -3,7 +3,7 @@
 .container{
     background-color: var(--eventbg-blue);
     width: 300px;
-    height: fit-content;
+    height: 184px;
 
     display: flex;
     flex-direction: column;

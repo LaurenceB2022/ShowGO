@@ -5,7 +5,7 @@ import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import defaultImage from 'Assets/Placeholder.svg'
+import defaultImage from 'Assets/Placeholder.svg';
 
 const VenueCreateEvent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
@@ -39,7 +39,6 @@ const VenueCreateEvent = () => {
     const[imgfile, setFile] = useState(defaultImage);
 
     const handleImage = (event) => {
-        console.log(event.target.files);
         setFile(URL.createObjectURL(event.target.files[0]));
     }
 
@@ -93,7 +92,17 @@ const VenueCreateEvent = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000'},
-                body: JSON.stringify({venue: venue_object, start_date: date_start, ticket_price: values.price, end_date: date_end, name: values.name, description: values.description, location: values.address, hide_location: values.visible, max_attendees: values.max})
+                body: JSON.stringify({
+                    venue: venue_object,
+                    start_date: date_start,
+                    ticket_price: values.price,
+                    end_date: date_end,
+                    name: values.name,
+                    description: values.description,
+                    location: values.address,
+                    hide_location: values.visible,
+                    max_attendees: values.max,
+                    image: btoa(imgfile)})
             };
             fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{
