@@ -55,8 +55,8 @@ export default function UserViewEvent() {
                 </div>
                 <div className={styles.image_section + ' item_40'}>
                     <div>
-                        <img id={styles.image} src={eventJSON.image}/>
-                        <p class={styles.p}>{'$' + eventJSON.ticket_price} / Ticket</p>
+                        <img id={styles.image} src={eventJSON.image ? eventJSON.image : (eventJSON.venue.image ? eventJSON.venue.image : ShowGoLogo)}/>
+                        <p class={styles.p}>{'$' + eventJSON.ticket_price.toFixed(2)} / Ticket</p>
                     </div>
                     <button className='button-enabled'>
                         <Link className='link-active' to={'/home/event/' + id + '/checkout'} state={{eventJSON: eventJSON}}>Buy Ticket</Link>

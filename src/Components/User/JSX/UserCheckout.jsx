@@ -66,7 +66,8 @@ export default function UserCheckout() {
                 break;
             case 'expiration_date':
                 const expiration_date = document.getElementById(styles.expiration_date).value;
-                temp[2] = new RegExp('(0[1-9]|10|11|12)/(19[0-9]{2}|20[0-9]{2})').test(expiration_date);
+                const split = expiration_date.split('/');
+                temp[2] = (new RegExp('(0[1-9]|10|11|12)/(20[0-9]{2})').test(expiration_date) && new Date(split[1], split[0]) > new Date());
                 break;
             case 'cvv':
                 const cvv = document.getElementById(styles.cvv).value;
@@ -82,7 +83,7 @@ export default function UserCheckout() {
             </button>
             <div className={styles.section_1 + ' item_20'}>
                 <h1 id={styles.buy_ticket}>Purchase Your Ticket</h1>
-                <p className={styles.p}>{'$' + eventJSON.ticket_price} / Ticket</p>
+                <p className={styles.p}>{'$' + eventJSON.ticket_price.toFixed(2)} / Ticket</p>
             </div>
             <div className={styles.section_2 + ' item_80'}>
                 <div className={styles.field_row}>
@@ -97,7 +98,7 @@ export default function UserCheckout() {
                 </div>
                 <div className={styles.field_row}>
                     <label className='item_40'>Expiration Date</label>
-                    <input id={styles.expiration_date} className={styles.input + ' item_50'} placeholder='MM/YYYY' maxLength='8' onChange={() => checkData('expiration_date')}></input>
+                    <input id={styles.expiration_date} className={styles.input + ' item_50'} placeholder='MM/YYYY' maxLength='7' onChange={() => checkData('expiration_date')}></input>
                     <img className='item_10' src={data[2] ? Checkmark : X} alt=""/>
                 </div>
                 <div className={styles.field_row}>

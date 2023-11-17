@@ -5,8 +5,6 @@
     width: 300px;
     height: 184px;
 
-    display: flex;
-    flex-direction: column;
     box-shadow: 5px 5px;
 }
 
@@ -22,14 +20,15 @@
 
 #name {
     font-size: 32px;
+    height: 40px;
     text-align: center;
     background-color: rgb(195, 232, 236);
 }
 
 #img {
-    height: auto;
-    background-color:aqua;
+    flex-shrink: 0;
     object-fit: cover;
+    height: 144px;
 }
 
 #ticket_price {
@@ -40,7 +39,8 @@
 .time_and_ticket {
     display: flex;
     flex-direction: column;
-    margin: 0px 5px;
+    background-color: white;
+    padding: 2px;
 }
 
 .field_name {

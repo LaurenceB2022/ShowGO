@@ -25,22 +25,22 @@ const EventComponent = (props) => {
         <div className={styles.container}>
             {/* TODO change link to be dynamic based on user login type */}
             <Link to={"/home/event/" + eventJSON.guid} state={{eventJSON: eventJSON}}>
-            <p id={styles.name} className={styles.p + ' item_10'}>{eventJSON.name}</p>
-            <div className={styles.section_1 + ' item_90'}>
-                <img id={styles.img} className='item_50' src={eventJSON.image ? eventJSON.image: (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}></img>
-                <div className={styles.time_and_ticket + ' item_50'}>
-                    <span className='item_10'>
-                        <p className={styles.p + ' ' + styles.field_name}>Start</p>
-                        <p className={styles.p}>{eventJSON.start_date}</p>
-                    </span>
-                    <br></br>
-                    <span className='item_80'>
-                        <p className={styles.p + ' ' + styles.field_name}>End</p>
-                        <p className={styles.p}>{eventJSON.end_date}</p>
-                    </span>
-                    <p className={styles.p + ' item_10'} id={styles.ticket_price}>{'$' + eventJSON.ticket_price}</p>
+                <p id={styles.name} className={styles.p + ' item_10'}>{eventJSON.name}</p>
+                <div className={styles.section_1 + ' item_90'}>
+                    <img id={styles.img} className='item_50' src={eventJSON.image ? eventJSON.image: (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}></img>
+                    <div className={styles.time_and_ticket + ' item_50'}>
+                        <span className='item_10'>
+                            <p className={styles.p + ' ' + styles.field_name}>Start</p>
+                            <p className={styles.p}>{eventJSON.start_date}</p>
+                        </span>
+                        <br></br>
+                        <span className='item_80'>
+                            <p className={styles.p + ' ' + styles.field_name}>End</p>
+                            <p className={styles.p}>{eventJSON.end_date}</p>
+                        </span>
+                        <p className={styles.p + ' item_10'} id={styles.ticket_price}>{'$' + eventJSON.ticket_price.toFixed(2)}</p>
+                    </div>
                 </div>
-            </div>
             </Link>
         </div>
     )

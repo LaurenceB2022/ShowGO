@@ -17,7 +17,7 @@ function VenueHomepage(){
     const navigate = useNavigate();  
 
     const [events, setEvents] = useState([]);
-    const [timeframe, setTimeFrame] = useState('All')
+    const [timeframe, setTimeFrame] = useState('future');
 
     function logOut() {
         setLoggedIn(false);
@@ -31,14 +31,14 @@ function VenueHomepage(){
             <div className={styles.container}>
 
                 <div class={styles.section_1}>
-                    <button id={styles.create_event_button}onClick={() => navigate('/createevent')}>Create Event</button>
+                    <button onClick={() => navigate('/createevent')}>Create Event</button>
                 </div>
                 <div class={styles.section_2}>
                     <div class={styles.section_3}>
                         <div id={styles.search_criteria}>
-                            <h2 onClick={() => setTimeFrame('Future')}>Upcoming Events</h2>
-                            <h2 onClick={() => setTimeFrame('Past')}>Past Events</h2>
-                            <h2 onClick={() => setTimeFrame('')}>All Events</h2>
+                            <button className={styles.h2 + ' ' + (timeframe === 'future' ? 'button-enabled' : '')} onClick={() => setTimeFrame('future')}>Upcoming Events</button>
+                            <button className={styles.h2 + ' ' + (timeframe === 'all' ? 'button-enabled' : '')} onClick={() => setTimeFrame('all')}>All Events</button>
+                            <button className={styles.h2 + ' ' + (timeframe === 'past' ? 'button-enabled' : '')} onClick={() => setTimeFrame('past')}>Past Events</button>
                         </div>
                         <div id={styles.event}>
                             <EventGridComponent events={events} time={timeframe} /> 
