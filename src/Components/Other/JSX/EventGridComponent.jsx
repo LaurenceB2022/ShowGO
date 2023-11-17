@@ -37,40 +37,12 @@ const EventGridComponent = () => {
         setData(x);
     }
 
-    async function handleImage (event) {
-        const file = event.target.files[0];
-        const a = await readFileDataAsBase64(file).then(d => {
-            console.log(file);
-            console.log(d);
-            setTest(d);
-        });
-    }
-
-    function readFileDataAsBase64(file) {
-        
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
-    }
-
     useEffect(() => {
         fetchEvents();
     }, []);
 
       return (
           <div className={styles.container}>
-            <input className={styles.test} type="file" onInput={handleImage}></input>
-            <img src={test}></img>
            {
             data.map(eventJSON => (
                 <EventComponent event={eventJSON}></EventComponent>
