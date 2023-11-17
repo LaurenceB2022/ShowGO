@@ -20,6 +20,7 @@ public class Venue {
     private String location;
     private boolean hide_location;
     private String description;
+    private String pfp;
 
     @OneToMany(mappedBy = "venue")
     private Set<BlockedUser> blockedUsers = new HashSet<>();

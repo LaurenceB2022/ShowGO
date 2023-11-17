@@ -55,7 +55,7 @@ export default function UserViewEvent() {
                 </div>
                 <div className={styles.image_section + ' item_40'}>
                     <div>
-                        <img id={styles.image} src={ShowGoLogo}/>
+                        <img id={styles.image} src={eventJSON.image}/>
                         <p class={styles.p}>{'$' + eventJSON.ticket_price} / Ticket</p>
                     </div>
                     <button className='button-enabled'>

@@ -6,11 +6,15 @@
     overflow: hidden;
     background-color: white;
     width: 520px;
-    height: auto;
+    height: 154px;
 
     display: flex;
     flex-direction: column;
     box-shadow: 5px 5px;
+}
+
+.container:hover {
+    transform: scale(1.1);
 }
 
 .p {
@@ -25,15 +29,16 @@
 }
 
 #img {
-    background-color:aqua;
-    height: auto;
-    width: 30%
-    
+    flex-shrink: 0;
+    object-fit: cover;
+    height: 154px;
+    width: 30%;
 }
 
 .data {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .subtext {

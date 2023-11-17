@@ -17,7 +17,7 @@ export default function TicketComponent(props) {
             {/* TODO change link to be dynamic based on user login type */}
             <Link to={'/home/event/' + ticketJSON.event.guid} state={{eventJSON: ticketJSON.event}}>
                 <div className={styles.section_1}>
-                    <img id={styles.img} className='item_30' src={ShowGoLogo}></img>
+                    <img id={styles.img} className='item_30' src={ticketJSON.event.image ? ticketJSON.event.image : (ticketJSON.event.venue.image ? ticketJSON.event.venue.image : ShowGoLogo)}></img>
                     <div className={styles.data + ' item_70'}>
                         <p id={styles.name} className={styles.p + ' item_10'}>{ticketJSON.event.name}</p>
                         <span className={styles.subtext + ' item_10'}>

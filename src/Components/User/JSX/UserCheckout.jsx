@@ -81,7 +81,7 @@ export default function UserCheckout() {
                 <Link to={'/home/event/' + id} state={{eventJSON: eventJSON}}>Back</Link>
             </button>
             <div className={styles.section_1 + ' item_20'}>
-                <h1 id={styles.buy_ticket}>Buy Ticket</h1>
+                <h1 id={styles.buy_ticket}>Purchase Your Ticket</h1>
                 <p className={styles.p}>{'$' + eventJSON.ticket_price} / Ticket</p>
             </div>
             <div className={styles.section_2 + ' item_80'}>

@@ -17,6 +17,7 @@ public class User {
     private String username;
     private String name;
     private String password;
+    private String pfp;
 
     @OneToMany(mappedBy = "user")
     private Set<BlockedUser> blockedVenues = new HashSet<>();
