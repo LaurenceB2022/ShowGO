@@ -1,26 +1,34 @@
-.p {
-    margin: 0px;
-    font-size: 18px;
-}
+
+#name {}
+#username {}
+#password {}
+#location {}
+#hide_location {}
+#description {}
 
 #content {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    gap: 10px;
     min-height: calc(100vh - var(--navbar-height));
+    display: grid;
+    grid-template-columns: 800px auto;
+    grid-template-rows: auto;
+    column-gap: 40px;
 }
 
-.section_1 {
-    order: 1;
-    flex: 0 0 50%;
+#section_1 {
+    grid-row: 1;
+    grid-column: 1;
+
 }
 
-.section_2 {
-    order: 2;
-    flex: 0 1 50%;
-    display: inline flex;
+#section_2 {
+    display: flex;
+    justify-content: center;
     align-items: center;
+    
+    grid-row: 1;
+    grid-column: 2;
+    
+    height: 100%;
 }
 
 #back {
@@ -28,48 +36,82 @@
     right: 10px;
 }
 
-#formContainer {
-    /* background-color: white; */
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    width: 100%;
-}
-
-#userOptions {
-    /* background-color: green; */
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-}
-
-#formContainer > span {
-    display: inline flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-}
-
 #ticket {
-    width: fit-content;
-    max-width: 700px;
+    width: 80%;
     height: auto;
-    margin: auto;
-
     fill: var(--light-gray);
-
     stroke-width: 30px;
     stroke: var(--dark-green);
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
-#name {}
-#username {}
-#password {}
+#pfp_display {
+    justify-self: center;
+}
+
+.p {
+    margin: 0px 5px 0px 0px;
+    font-size: 18px;
+    text-align: end;
+}
+
+.label {
+    width: auto;
+}
+
+.input {
+    margin: 5px 5px;
+    width: auto;
+}
+
+#formContainer {
+    display: inline grid;
+    grid-template-columns: 400px 350px auto;
+    grid-template-rows: auto;
+    
+}
 
 .validation {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     text-align: end;
+}
+
+#user_type {
+    display: grid;
+    justify-content: center;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto; 
+}
+
+#toggle_password {
+    font-size: 10px;
+    border-width: 3px;
+    justify-self: end;
+}
+
+#sign_up_button {
+    grid-column: 1 / 3;
+    justify-self: center;
+}
+
+.col_1 {
+    grid-column: 1 / 1;
+}
+
+.col_2 {
+    display: inline grid;
+    grid-column: 2 / 2;
+}
+
+.col_3 {
+    display: inline grid;
+    grid-column: 3 / 3;
+}
+
+.col_2_3 {
+    display: inline grid;
+    grid-column: 2 / 3;
 }

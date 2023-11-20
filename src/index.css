@@ -58,6 +58,11 @@
   height: 20px;
 }
 
+.img_medium {
+  width: 100px;
+  height: 100px;
+}
+
 .subtext {
   color: var(--subtext-green);
 }
