@@ -58,7 +58,7 @@ const SignUp = () => {
         if(selectedType === 'venue') {
             const location = document.getElementById(styles.location).value;
             const hide_location = document.getElementById(styles.hide_location).checked;
-            const description = document.getElementById(styles.location).value;
+            const description = document.getElementById(styles.description).value;
             requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
