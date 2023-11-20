@@ -95,7 +95,7 @@ const SignUp = () => {
                     setLoggedIn(true);
                     setUserType(selectedType);
                     setUser(data);
-                    // navigator(selectedType === 'user' ? '/home' : '/venuehome');
+                    navigator(selectedType === 'user' ? '/home' : '/venuehome');
                 } else {
                     console.log("Error creating user");
                 }
