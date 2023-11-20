@@ -18,12 +18,8 @@
     height: calc(100vh - var(--navbar-height));
     min-height: calc(100vh - var(--navbar-height));
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 60% 40%;
     grid-template-rows: auto;
-}
-
-#section_1 {
-    background-color: aquamarine;
 }
 
 #form_container {
@@ -35,8 +31,6 @@
 }
 
 #section_2 {
-    background-color: white;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,9 +38,8 @@
 
 #img {
     margin-top: 50px;
-    width: 50%;
+    width: 70%;
     height: auto;
-    background-color: red;
 }
 
 #save {
@@ -69,23 +62,19 @@
 
 .col_1 {
     grid-column: 1 / 1;
-    background-color: red;
 }
 
 .col_2 {
     display: inline grid;
     grid-column: 2 / 2;
-    background-color: yellow;
 }
 
 .col_3 {
     display: inline grid;
     grid-column: 3 / 3;
-    background-color: blue;
 }
 
 .col_2_3 {
     display: inline grid;
     grid-column: 2 / 3;
-    background-color: green;
 }

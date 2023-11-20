@@ -69,7 +69,6 @@
     display: inline grid;
     grid-template-columns: 400px 350px auto;
     grid-template-rows: auto;
-    
 }
 
 .validation {

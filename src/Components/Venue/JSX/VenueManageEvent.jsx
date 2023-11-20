@@ -33,6 +33,9 @@ export default function VenueManageEvent() {
             <div id={styles.content}>
                 <div id={styles.section_1}>
                     <div id={styles.form_container}>
+                        <br></br>
+                        <br></br>
+                        <br></br>
                         <label className={styles.label + ' ' + styles.col_1}>Event Name</label>
                         <input maxLength='200' className={styles.input + ' ' + styles.col_2_3}></input>
 
