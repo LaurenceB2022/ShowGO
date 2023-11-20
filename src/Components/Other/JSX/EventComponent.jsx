@@ -2,10 +2,15 @@ import 'index.css';
 import styles from 'Components/Other/CSS/EventComponent.module.css';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import { useContext } from 'react';
+import { MyContext } from 'App';
 
 //TODO add image data
 const EventComponent = (props) => {
-
+    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const [loggedIn, setLoggedIn] = loggedInState;
+    const [userType, setUserType] = userTypeState;
+    
     //TODO update dummy event
     const eventJSON = props.event ? props.event : 
     {
@@ -24,7 +29,7 @@ const EventComponent = (props) => {
     return(
         <div className={styles.container}>
             {/* TODO change link to be dynamic based on user login type */}
-            <Link to={"/home/event/" + eventJSON.guid} state={{eventJSON: eventJSON}}>
+            <Link to={(userType === 'user' ? "/home/event/" : "/venuehome/event/") + eventJSON.guid} state={{eventJSON: eventJSON}}>
                 <p id={styles.name} className={styles.p + ' item_10'}>{eventJSON.name}</p>
                 <div className={styles.section_1 + ' item_90'}>
                     <img id={styles.img} className='item_50' src={eventJSON.image ? eventJSON.image: (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}></img>

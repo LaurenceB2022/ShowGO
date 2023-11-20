@@ -76,7 +76,6 @@
 }
 
 .button-enabled {
-  color: var(--dark-green);
   border: 7px solid var(--dark-green);
 }
 

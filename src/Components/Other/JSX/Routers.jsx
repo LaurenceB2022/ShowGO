@@ -15,21 +15,29 @@ import VenueSettingsSecurityMenuComponent from 'Components/Venue/JSX/VenueSettin
 import VenueSettingsBillingMenuComponent from 'Components/Venue/JSX/VenueSettingsBillingMenuComponent';
 import VenueSettingsAuthorizedMenuComponent from 'Components/Venue/JSX/VenueSettingsAuthorizedMenuComponent';
 import VenueSettingsPaymentMenuComponent from 'Components/Venue/JSX/VenueSettingsPaymentMenuComponent';
+import VenueManageEvent from 'Components/Venue/JSX/VenueManageEvent';
+import VenueManageAttendees from 'Components/Venue/JSX/VenueManageAttendees';
 
-const Router = (props) => {
+const Routers = () => {
     return (
       <Routes>
         <Route path='/' element={<Outlet/>}>
           <Route index element={<Login/>} />
           <Route path='login' element={<Login/>}/>
           <Route path='signup' element={<SignUp/>}/>
+
+          {/* Users */}
           <Route path='home' element={<UserHomepage/>}/>
           <Route path='tickets' element={<UserViewTickets/>}/>
           <Route path='home/event/:id' exact element={<UserViewEvent/>}/>
           <Route path='home/event/:id/checkout' element={<UserCheckout/>}/>
           <Route path='home/event/:id/checkout/complete' element={<UserCheckoutComplete/>}/>
+
+          {/* Venues */}
           <Route path='venuehome' element={<VenueHomepage/>}/>
           <Route path='createevent' element={<VenueCreateEvent/>}/>
+          <Route path='venuehome/event/:id' element={<VenueManageEvent/>}/>
+          <Route path='venuehome/event/:id/manage' element={<VenueManageAttendees/>}/>
           <Route path='venuesettings/' element={<VenueSettings/>}>
               <Route path='general' element={<VenueSettingsGeneralMenuComponent/>}/>
               <Route path='security' element={<VenueSettingsSecurityMenuComponent/>}/>
@@ -42,4 +50,4 @@ const Router = (props) => {
       </Routes>
     );
   }
-export default Router; 
+export default Routers; 
