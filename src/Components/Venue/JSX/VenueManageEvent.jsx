@@ -3,6 +3,8 @@ import styles from 'Components/Venue/CSS/VenueManageEvent.module.css';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import YesNoPromptComponent from 'Components/Other/JSX/YesNoPromptComponent';
+import { useState } from 'react';
 
 export default function VenueManageEvent() {
     const id = useParams().id;
@@ -21,16 +23,24 @@ export default function VenueManageEvent() {
         max_attendees: 0}
          : location.state.eventJSON;
 
+    const [promptVisible, setPromptVisible] = useState(false);
+
     function save() {
         //Post request to edit event details
     }
 
-    function promptDeleteConfirmation() {
-        //Show prompt asking if user REALLY wants to delete the event
+    function deleteEvent() {
+        setPromptVisible(false);
+        console.log("Deleting event.");
     }
+
     return (
         <div>
             <div id={styles.content}>
+                {promptVisible ? 
+                    (<YesNoPromptComponent text={"Are you sure you want to delete this event? All information will be lost, and attendees will be refunded."} yesFunction={deleteEvent} noFunction={() => setPromptVisible(false)}></YesNoPromptComponent>)
+                    : <></>       
+                }
                 <div id={styles.section_1}>
                     <div id={styles.form_container}>
                         <br></br>
@@ -66,7 +76,7 @@ export default function VenueManageEvent() {
                         <Link to={'/venuehome/event/' + id + '/manage'}>Manage Attendees</Link>
                     </button>
                 </div>
-                <button id={styles.delete_event} onClick={promptDeleteConfirmation()}>Delete Event</button>
+                <button id={styles.delete_event} onClick={() => setPromptVisible(true)}>Delete Event</button>
                 <button id={styles.save} className='button-enabled'>
                     <Link to='/venuehome' onClick={()=>save()} className='link-active'>Save</Link>
                 </button>

@@ -6,6 +6,8 @@ import UserComponent from 'Components/Other/JSX/UserComponent';
 const UserGridComponent = (props) => {
     
     const [data, setData] = useState([]);
+    var editDataFunction = props.editDataFunction;
+    
     //TODO update dummy event
     const eventJSON = props.event ? props.event : 
     {
@@ -30,11 +32,6 @@ const UserGridComponent = (props) => {
         setData(x);
     }
 
-    function updateGrid(username) {
-        //TODO Should remove User object from data (and DB) based on the username
-        console.log("updateGrid ran with username " + username);
-    }
-
     useEffect(() => {
         fetchEventUsers();
     }, []);
@@ -43,7 +40,7 @@ const UserGridComponent = (props) => {
           <div className={styles.container}>
            {
             data.map(userJSON => (
-                <UserComponent updateGrid={updateGrid} user={userJSON}></UserComponent>
+                <UserComponent deleteFunction={editDataFunction} user={userJSON}></UserComponent>
             ))
             }
         </div>
