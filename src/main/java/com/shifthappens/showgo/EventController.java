@@ -1,7 +1,10 @@
 package com.shifthappens.showgo;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidSearchException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.EventRepository;
 
@@ -21,6 +25,7 @@ import com.shifthappens.showgo.repositories.EventRepository;
 public class EventController {
 
     private final EventRepository eventRepo;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");
 
     public EventController(EventRepository eventRepo) {
         this.eventRepo = eventRepo;
@@ -34,7 +39,7 @@ public class EventController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/events")//dates formatted "MMM DD YYYY"
+    @PostMapping("/events")//dates formatted "MMM DD YYYY "
     public Event makeEvent(@RequestBody Event event) {
         return eventRepo.save(event);
     }
@@ -85,6 +90,73 @@ public class EventController {
         else if (areaToUpdate.equals("hide_location"))
             tr.setHide_location(Boolean.parseBoolean(update));
         eventRepo.save(tr);
+    }
+
+    @GetMapping("/events/filters/{search}/{startDateTime}/{endDateTime}/{lowerPrice}/{upperPrice}")
+    public List<Event> findBySearchAndFilter(@PathVariable String search, @PathVariable String startDateTimeS, @PathVariable String endDateTimeS, @PathVariable String lowerPriceS, @PathVariable String upperPriceS) {
+        List<Event> rtrn = null;
+        final boolean hasSearch = !search.equals("");
+        final boolean hasDates = !startDateTimeS.equals("") && !endDateTimeS.equals("");
+        final boolean hasPrices = !lowerPriceS.equals("") && !upperPriceS.equals("");
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null;
+        double lowerPrice = -1;
+        double upperPrice = -1;
+        List<Event> events = null;
+
+        if (hasSearch) {
+            events = findBySearch(search);
+        }
+        else {
+            events = findAll();
+        }
+        if (hasPrices) {
+            try {
+                lowerPrice = Double.parseDouble(lowerPriceS);
+                upperPrice = Double.parseDouble(upperPriceS);
+            }
+            catch (Exception e) {
+                throw new InvalidSearchException("Invalid price bounds");
+            }
+        }
+        if (hasDates) {
+            try {
+                startDateTime = LocalDateTime.parse(startDateTimeS, formatter);
+                endDateTime = LocalDateTime.parse(endDateTimeS, formatter);
+            }
+            catch (Exception e) {
+                throw new InvalidSearchException("Invalid date format");
+            }
+        }
+
+        if (hasPrices || hasDates) {
+            final double innerLowerPrice = lowerPrice;
+            final double innerUpperPrice = upperPrice;
+            final LocalDateTime innerStartDateTime = startDateTime;
+            final LocalDateTime innerEndDateTime = endDateTime;
+            rtrn = events.stream().filter(event -> {
+                if (innerLowerPrice != -1) {
+                    if (event.getTicket_price() < innerLowerPrice || event.getTicket_price() > innerUpperPrice) {
+                        return false;
+                    }
+                }
+                if (innerStartDateTime != null) {
+                    try {
+                        String startDate = event.getStart_date();
+                        LocalDateTime eventTime = LocalDateTime.parse(startDate, formatter);
+                        if (eventTime.isBefore(innerStartDateTime) || eventTime.isAfter(innerEndDateTime)) {
+                            return false;
+                        }
+                    }   
+                    catch (Exception e) {
+                        return false;
+                    }
+                }
+                return true;
+            }).collect(Collectors.toList());
+        }
+
+        return rtrn;
     }
 
 }

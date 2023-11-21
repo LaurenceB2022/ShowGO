@@ -43,8 +43,8 @@ public class Event {
         location = v.getLocation();
         hide_location = v.getHide_location();
 
-        start_date = "01-01-1970";
-        end_date = "01-01-1970";
+        start_date = "Jan 01 1970 08:00 AM";
+        end_date = "Jan 01 1970 08:00 PM";
         ticket_price = 0;
         name = "default";
         description = "default";
