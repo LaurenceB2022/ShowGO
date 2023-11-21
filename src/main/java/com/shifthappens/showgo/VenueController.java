@@ -56,7 +56,6 @@ public class VenueController {
             throw new InvalidPasswordException();
         }
         return venueRepo.save(venue);
-
     }
 
     @DeleteMapping("/venues/{username}")
