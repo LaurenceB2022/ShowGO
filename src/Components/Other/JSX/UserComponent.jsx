@@ -5,7 +5,7 @@ import ShowGoLogo from 'Assets/ShowGoLogo.png';
 
 export default function UserComponent(props) {
     //TODO update dummy event
-    const updateGrid = props.updateGrid;
+    const deleteFunction = props.deleteFunction;
     const userJSON = props.user ? props.user : 
     {
         username: 'N/A',
@@ -18,7 +18,7 @@ export default function UserComponent(props) {
             <img id={styles.user_pfp} src={false ? null : ShowGoLogo}></img>
             <p className={styles.p}>{userJSON.username}</p>
             <p className={styles.p}>({userJSON.name})</p>
-            <img id={styles.delete_button} src={X} onClick={() => updateGrid(userJSON.username)}></img>
+            <img id={styles.delete_button} src={X} onClick={() => deleteFunction(userJSON)}></img>
         </div>
     )
 }

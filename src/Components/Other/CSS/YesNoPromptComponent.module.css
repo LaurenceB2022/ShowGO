@@ -1,0 +1,47 @@
+#container {
+    position: absolute;
+    background-color: var(--dark-grey-alpha);
+    z-index: 1000;
+
+    width: 100%;
+    height: inherit;
+    overflow-y: hidden;
+}
+
+#content {
+    overflow: auto;
+    position: fixed;
+    background-color: white;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: auto;
+    max-height: 50vh;
+
+    border: 15px solid var(--red);
+    padding: 10px;
+    z-index: 1001;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button {
+    width: 40%;
+    text-align: center;
+    margin: 5px;
+}
+
+.h1 {
+    margin: 10px;
+}
