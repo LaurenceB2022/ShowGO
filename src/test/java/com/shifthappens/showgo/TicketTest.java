@@ -2,25 +2,17 @@ package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.Ticket;
 import com.shifthappens.showgo.entities.User;
-import com.shifthappens.showgo.repositories.TicketRepository;
 
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
-import com.shifthappens.showgo.repositories.EventRepository;
-import com.shifthappens.showgo.repositories.VenueRepository;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.After;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
 import static org.junit.Assert.*;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,14 +23,6 @@ public class TicketTest {
     Ticket Ticket1 = new Ticket(User1, Event1);
     Ticket Ticket2 = new Ticket(User1, null);
     Ticket Ticket3 = new Ticket(null, null);
-
-    @Autowired
-    private VenueRepository VenueRepository;
-
-    @Autowired
-    private EventRepository EventRepository;
-    
-    private EventController EventController;
    
     @Test
     public void testGoodTicket(){
