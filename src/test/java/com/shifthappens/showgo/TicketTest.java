@@ -54,16 +54,14 @@ public class TicketTest {
         /*Test data retrieval*/
         //Testing a bad ticket that has a null event 
         Event EventA = Ticket2.getEvent();
-        assertNotNull(EventA);
-        assertEquals(null, EventA.getName());
+        assertNull(EventA);
     }
 
     @Test
     public void testNullUserTicket(){
         /*Test data retrieval*/
         //Testing a bad ticket that has a null user
-        Event EventA = Ticket3.getEvent();
-        assertNotNull(EventA);
-        assertEquals(null, EventA.getName());
+        User UserA = Ticket3.getOwner();
+        assertNull(UserA);
     }
 }
