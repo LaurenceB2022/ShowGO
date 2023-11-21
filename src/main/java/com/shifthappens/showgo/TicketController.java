@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shifthappens.showgo.entities.Ticket;
+import com.shifthappens.showgo.exceptions.InvalidTicketBuyException;
 import com.shifthappens.showgo.repositories.TicketRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -41,7 +42,7 @@ public class TicketController {
         List<Ticket> tickets = new ArrayList<>();
         ticketRepo.findByEvent(ticket.getEvent()).forEach(t -> tickets.add(t));
         
-        if (tickets.size() >= ticket.getEvent().getMax_attendees()) return null;
+        if (tickets.size() >= ticket.getEvent().getMax_attendees()) throw new InvalidTicketBuyException();
         return ticketRepo.save(ticket);
     }
 }

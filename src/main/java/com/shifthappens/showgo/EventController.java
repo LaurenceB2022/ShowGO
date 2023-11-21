@@ -92,7 +92,7 @@ public class EventController {
         eventRepo.save(tr);
     }
 
-    @GetMapping("/events/filters/{search}/{startDateTime}/{endDateTime}/{lowerPrice}/{upperPrice}")
+    @GetMapping("/events/filters/{search}/{startDateTimeS}/{endDateTimeS}/{lowerPriceS}/{upperPriceS}")
     public List<Event> findBySearchAndFilter(@PathVariable String search, @PathVariable String startDateTimeS, @PathVariable String endDateTimeS, @PathVariable String lowerPriceS, @PathVariable String upperPriceS) {
         List<Event> rtrn = null;
         final boolean hasSearch = !search.equals("");
