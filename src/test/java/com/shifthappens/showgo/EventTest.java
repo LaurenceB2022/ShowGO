@@ -21,7 +21,8 @@ import java.util.List;
 public class EventTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Event Event1 = new Event(Venue1, "test1");
-    Event Event2 = new Event(Venue1, "test2", "April 2 1970 1:00 AM", "April 3 1970 12:00 PM", 5, "SEIUJFNVNFLDLSslkdjfer", 15);
+    Event Event2 = new Event(Venue1, "test2", "Apr 2 1970 1:00 AM", "Apr 3 1970 12:00 PM", 5, "SEIUJFNVNFLDLSslkdjfer", 15);
+    Event Event3 = new Event(Venue1, "test3", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
 
     @Autowired
     private VenueRepository VenueRepository;
@@ -38,6 +39,7 @@ public class EventTest {
         this.VenueRepository.save(Venue1);
         this.EventRepository.save(Event1);
         this.EventRepository.save(Event2);
+        this.EventRepository.save(Event3);
         assertNotNull(Venue1.getUsername());
         assertNotNull(Event1.getVenue());
     }
@@ -108,11 +110,37 @@ public class EventTest {
 
     }
     
+    @Test
+    public void testFilteredSearchDates() {
+        List<Event> events = EventController.findBySearchAndFilter("", "Apr 02 1970 12:00 AM", "Apr 02 1970 03:00 PM", "", "");
+        assertNotNull(events);
+        assertEquals(1, events.size());
+    }
+
+    @Test
+    public void testFilterdSearchPrice() {
+        List<Event> events = EventController.findBySearchAndFilter("", "", "", "100.10", "100.12");
+        assertNotNull(events);
+        assertEquals(1, events.size());
+    }
+
+    @Test
+    public void testFilteredSearchDatesAndBadPrice(){
+        List<Event> events = EventController.findBySearchAndFilter("", "Apr 02 1970 12:00 AM", "Apr 02 1970 03:00 PM", "100.12", "100.13");
+        assertTrue(events.isEmpty());
+    }
+
+    @Test
+    public void testFilteredSearchPriceAndBadDates() {
+        List<Event> events = EventController.findBySearchAndFilter("", "Apr 01 1970 12:00 AM", "Apr 01 1970 03:00 PM", "0", "100.12");
+        assertTrue(events.isEmpty());
+    }
 
     @After
     public void tearDown() throws Exception {
         EventRepository.delete(Event1);
         EventRepository.delete(Event2);
+        EventRepository.delete(Event3);
         VenueRepository.delete(Venue1);
     }
 }
