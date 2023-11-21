@@ -38,6 +38,11 @@ public class EventController {
         return events;
     }
 
+    @GetMapping("/events/{guid}")
+    public Event findEventByGuid(@PathVariable String guid) {
+        return eventRepo.findByguid(guid);
+    }
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/events")//dates formatted "MMM DD YYYY "
     public Event makeEvent(@RequestBody Event event) {
