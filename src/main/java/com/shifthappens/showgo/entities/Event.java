@@ -1,6 +1,5 @@
 package com.shifthappens.showgo.entities;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +29,7 @@ public class Event {
     private String name;
     private String description;
     private int max_attendees;
+    private String image;
 
     //Taken from venue
     private String location;

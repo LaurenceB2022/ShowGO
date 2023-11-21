@@ -8,8 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "venues")
 public class Venue {
 
@@ -20,6 +22,7 @@ public class Venue {
     private String location;
     private boolean hide_location;
     private String description;
+    private String pfp;
 
     @OneToMany(mappedBy = "venue")
     private Set<BlockedUser> blockedUsers = new HashSet<>();

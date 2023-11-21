@@ -1,7 +1,7 @@
 import 'index.css';
-import NavBar from 'Components/Navbar';
+import NavbarComponent from 'Components/Other/JSX/NavbarComponent';
 import {BrowserRouter, Outlet} from 'react-router-dom'
-import Routers from 'Components/Routers';
+import Routers from 'Components/Other/JSX/Routers';
 import React, { useState } from 'react';
 
 export const MyContext = React.createContext();
@@ -29,7 +29,7 @@ function App() {
     <MyProvider>
       <BrowserRouter basename='/showgo'>
         <div className="App">
-          <NavBar/>
+          <NavbarComponent/>
           <Routers/>
         </div>
       </BrowserRouter>

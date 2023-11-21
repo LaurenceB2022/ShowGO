@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
+
+.container{
+    background-color: var(--eventbg-blue);
+    width: 300px;
+    height: 184px;
+
+    box-shadow: 5px 5px;
+    transition: transform 0.5s ease;
+}
+
+.container:hover {
+    transform: scale(1.1);
+    transition: transform 0.5s ease;
+}
+
+
+.p {
+    margin: 0px;
+    font-size: 18px;
+    color: var(--dark-green);
+}
+
+#name {
+    font-size: 32px;
+    height: 40px;
+    text-align: center;
+    background-color: rgb(195, 232, 236);
+}
+
+#img {
+    flex-shrink: 0;
+    object-fit: cover;
+    height: 144px;
+}
+
+#ticket_price {
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+.time_and_ticket {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 2px;
+}
+
+.field_name {
+    font-size: 22px;
+}
+
+.section_1 {
+    display: flex;
+    flex-direction: row;
+}
