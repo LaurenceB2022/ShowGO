@@ -54,13 +54,17 @@ public class VenueTest {
 
         Venue test1Venue = mock(Venue.class);
         when(test1Venue.getUsername()).thenReturn("test1");
-        when(test1Venue.getPassword()).thenReturn("testpassword");
+        when(test1Venue.getPassword()).thenReturn("testPassword!");
         assertThrows(InvalidUsernameException.class, () -> VenueController.signUp(test1Venue));
 
         Venue test2Venue = mock(Venue.class);
-        when(test2Venue.getUsername()).thenReturn("tasegddthrsdfbnytsrrgffwagdghergsffc");
+        when(test2Venue.getUsername()).thenReturn("tasegddthrsdfbnyts");
         when(test2Venue.getPassword()).thenReturn("1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.signUp(test2Venue));
+
+        assertFalse(VenueController.isValidPassword("invalidPassword"));
+        assertFalse(VenueController.isValidPassword("invalidpassword!"));
+        assertTrue(VenueController.isValidPassword("validPassword!"));
     }
 
     @Test

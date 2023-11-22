@@ -2,6 +2,8 @@ package com.shifthappens.showgo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,13 +62,26 @@ public class UserController {
         return user;
     }
 
-    private boolean isValidPassword(String password) {
-        return password.length() >= 6;
+    public boolean isValidPassword(String password) {
+        if (password.length() >= 8) {
+            Pattern letter = Pattern.compile("[A-Z]");
+            Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+            Matcher hasLetter = letter.matcher(password);
+            Matcher hasSpecial = special.matcher(password);
+
+            return hasLetter.find() && hasSpecial.find();
+        }
+        else {
+            return false;
+        }
     }
 
-    private boolean isValidUsername(String username) {
-        return (!username.contains(" ") && 
-                userRepo.findByUsername(username) == null);
+    public boolean isValidUsername(String username) {
+        return (username != null &&
+                !username.isBlank() &&
+                !username.contains(" ") && 
+                userRepo.findByUsername(username) == null && 
+                username.length() <= 20) ;
     }
 
 }
