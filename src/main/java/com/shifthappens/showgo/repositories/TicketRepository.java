@@ -12,6 +12,10 @@ import com.shifthappens.showgo.entities.Ticket;
 
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, String>{
+    @Query(value = "SELECT * FROM tickets t WHERE t.guid = :guid",
+            nativeQuery = true)
+    Ticket findByGuid(@Param("guid") String guid);
+
     List<Ticket> findByEvent(Event event);
 
     List<Ticket> findByEventGuid(String eventGuid);

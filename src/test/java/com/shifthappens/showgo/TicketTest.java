@@ -5,8 +5,11 @@ import com.shifthappens.showgo.entities.User;
 
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidGuidException;
+import com.shifthappens.showgo.exceptions.InvalidTicketBuyException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
+import com.shifthappens.showgo.repositories.EventRepository;
 import com.shifthappens.showgo.repositories.TicketRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,15 +19,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.After;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TicketTest {
@@ -33,10 +32,9 @@ public class TicketTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
    
     Event Event1 = new Event(Venue1, "test1");
+    Event Event2 = new Event(Venue1, "test2");
 
     Ticket Ticket1 = new Ticket(User1, Event1);
-    Ticket Ticket2 = new Ticket(User1, null);
-    Ticket Ticket3 = new Ticket(null, null);
    
 
     @Autowired
@@ -44,52 +42,61 @@ public class TicketTest {
     @Autowired
     private UserRepository UserRepository;
     @Autowired
+    private EventRepository EventRepository;
+    @Autowired
     private TicketRepository TicketRepository;
+
+    private TicketController TicketController;
     
     @Before
     public void setUp() throws Exception {
-        this.TicketRepository.save(Ticket1);
-        this.TicketRepository.save(Ticket2);
-        this.TicketRepository.save(Ticket3);
-
         this.VenueRepository.save(Venue1);
 
         this.UserRepository.save(User1);
+
+        this.EventRepository.save(Event1);
+        this.EventRepository.save(Event2);
+
+        this.TicketRepository.save(Ticket1);
         
-      
+        this.TicketController = new TicketController(this.TicketRepository);
     }
 
     @Test
-    public void testGoodTicket(){
-        /*Test data retrieval*/
-        //Testing a good ticket that has an actual event 
-        Event EventA = Ticket1.getEvent();
-        assertNotNull(EventA);
-        assertEquals(Event1.getName(), EventA.getName());
+    public void testRedeemTicket() {
+        Ticket nullTicket = null;
+        assertThrows(InvalidGuidException.class, () -> TicketController.redeemTicket(nullTicket));
+        assertThrows(InvalidGuidException.class, () -> TicketController.redeemTicket("1"));
+        assertTrue(TicketController.redeemTicket(Ticket1.getGuid()).isRedeemed());
     }
 
     @Test
-    public void testBadTicket(){
-        /*Test data retrieval*/
-        //Testing a bad ticket that has a null event 
-        Event EventA = Ticket2.getEvent();
-        assertNull(EventA);
-    }
-
-    @Test
-    public void testNullUserTicket(){
-        /*Test data retrieval*/
-        //Testing a bad ticket that has a null user
-        User UserA = Ticket3.getOwner();
-        assertNull(UserA);
+    public void testMakeAndDeleteTicket() {
+        Ticket newTicket = new Ticket(User1, Event2);
+        try{
+            assertNotNull(TicketController.createTicket(newTicket).getGuid());
+            assertDoesNotThrow(() -> TicketController.deleteTicket(newTicket));
+        }
+        catch (Exception e) {
+            TicketRepository.delete(newTicket);
+        }
+        
+        Ticket badTicket = new Ticket(User1, Event1);
+        try{
+            assertThrows(InvalidTicketBuyException.class, () -> TicketController.createTicket(badTicket));
+        }
+        catch (Exception e) {
+            TicketRepository.delete(badTicket);
+        }
     }
 
      @After
     public void tearDown() throws Exception {
 
         TicketRepository.delete(Ticket1);
-        TicketRepository.delete(Ticket2);
-        TicketRepository.delete(Ticket3);
+
+        EventRepository.delete(Event1);
+        EventRepository.delete(Event2);
 
         UserRepository.delete(User1);
 

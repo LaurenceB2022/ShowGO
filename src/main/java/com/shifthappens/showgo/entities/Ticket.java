@@ -29,12 +29,21 @@ public class Ticket {
     @JoinColumn(name = "event_guid")
     private Event event;
 
+    private boolean redeemed;
+
     public Ticket(){
     }
 
     public Ticket(User u, Event e) {
         this.owner = u;
         this.event = e;
+        this.redeemed = false;
+    }
+
+    public Ticket(User u, Event e, boolean redeemed) {
+        this.owner = u;
+        this.event = e;
+        this.redeemed = redeemed;
     }
 
     public Event getEvent() {

@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class InvalidTicketBuyAdvice {
+public class InvalidGuidAdvice {
 
   @ResponseBody
-  @ExceptionHandler(InvalidTicketBuyException.class)
+  @ExceptionHandler(InvalidGuidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  String employeeNotFoundHandler(InvalidTicketBuyException ex) {
+  String employeeNotFoundHandler(InvalidGuidException ex) {
     return ex.getMessage();
   }
 }

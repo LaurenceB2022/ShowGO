@@ -48,11 +48,11 @@ public class Event {
         ticket_price = 0;
         name = "default";
         description = "default";
+        max_attendees = 1;
     }
 
     public Event(Venue venue, String name) {
-        this();
-        this.venue = venue;
+        this(venue);
         this.name = name;
     }
 
