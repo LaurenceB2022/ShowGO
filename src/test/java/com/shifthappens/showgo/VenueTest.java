@@ -86,7 +86,7 @@ public class VenueTest {
         when(testVenue.getPassword()).thenReturn("1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));
 
-        Venue Venue0= new Venue("test1", "test0", "testpassword2");
+        Venue Venue0= new Venue("test1", "test0", "testPassword!");
         assertNotNull(VenueController.editSettings(Venue0));
     }
 
