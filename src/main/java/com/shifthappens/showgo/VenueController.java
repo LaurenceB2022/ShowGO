@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
+import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,9 +24,11 @@ import com.shifthappens.showgo.repositories.VenueRepository;
 public class VenueController {
     
     private final VenueRepository venueRepo;
+    private final UserRepository userRepo;
 
-    public VenueController(VenueRepository venueRepo) {
+    public VenueController(VenueRepository venueRepo, UserRepository userRepo) {
         this.venueRepo = venueRepo;
+        this.userRepo = userRepo;
     }
 
     @GetMapping("/venues")
@@ -37,7 +40,6 @@ public class VenueController {
 
     @PostMapping("/venues")
     public Venue signUp(@RequestBody Venue venue) {
-        System.out.println("*****IM SIGNING SOMEONE UP*******");
         if (!isValidUsername(venue.getUsername())) {
             throw new InvalidUsernameException();
         }
@@ -74,7 +76,7 @@ public class VenueController {
         return venue;
     }
 
-    public boolean isValidPassword(String password) {
+    protected boolean isValidPassword(String password) {
         if (password.length() >= 8) {
             Pattern letter = Pattern.compile("[A-Z]");
             Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
@@ -88,11 +90,12 @@ public class VenueController {
         }
     }
 
-    public boolean isValidUsername(String username) {
+    protected boolean isValidUsername(String username) {
         return (username != null &&
                 !username.isBlank() &&
                 !username.contains(" ") && 
-                venueRepo.findByUsername(username) == null && 
+                userRepo.findByUsername(username) == null && 
+                venueRepo.findByUsername(username) == null &&
                 username.length() <= 20) ;
     }
 

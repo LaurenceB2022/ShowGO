@@ -17,15 +17,18 @@ import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.UserRepository;
+import com.shifthappens.showgo.repositories.VenueRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UserController {
     
     private final UserRepository userRepo;
+    private final VenueRepository venueRepo;
 
-    public UserController(UserRepository userRepo) {
+    public UserController(UserRepository userRepo, VenueRepository venueRepo) {
         this.userRepo = userRepo;
+        this.venueRepo = venueRepo;
     }
 
     @GetMapping("/users")
@@ -37,7 +40,6 @@ public class UserController {
 
     @PostMapping("/users")
     public User signUp(@RequestBody User user) {
-        System.out.println("*****IM SIGNING SOMEONE UP*******");
         if (!isValidUsername(user.getUsername())) {
             throw new InvalidUsernameException();
         }
@@ -62,7 +64,7 @@ public class UserController {
         return user;
     }
 
-    public boolean isValidPassword(String password) {
+    protected boolean isValidPassword(String password) {
         if (password.length() >= 8) {
             Pattern letter = Pattern.compile("[A-Z]");
             Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
@@ -76,11 +78,12 @@ public class UserController {
         }
     }
 
-    public boolean isValidUsername(String username) {
+    protected boolean isValidUsername(String username) {
         return (username != null &&
                 !username.isBlank() &&
                 !username.contains(" ") && 
                 userRepo.findByUsername(username) == null && 
+                venueRepo.findByUsername(username) == null &&
                 username.length() <= 20) ;
     }
 

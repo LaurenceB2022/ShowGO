@@ -50,7 +50,7 @@ public class VenueTest {
 
     @Test
     public void testSignUp(){
-        VenueController VenueController = new VenueController(VenueRepository);
+        VenueController VenueController = new VenueController(VenueRepository, UserRepository);
 
         Venue test1Venue = mock(Venue.class);
         when(test1Venue.getUsername()).thenReturn("test1");
@@ -69,8 +69,8 @@ public class VenueTest {
 
     @Test
     public void testLogin(){
-        VenueController VenueController = new VenueController(VenueRepository);
-        UserController UserController = new UserController(UserRepository);
+        VenueController VenueController = new VenueController(VenueRepository, UserRepository);
+        UserController UserController = new UserController(UserRepository, VenueRepository);
         LoginController LoginController = new LoginController(VenueController, UserController);
         //checks for venue login
         assertThrows(InvalidUsernameException.class, () -> LoginController.login("test11", "testpassword"));
@@ -79,7 +79,7 @@ public class VenueTest {
 
     @Test
     public void testSettings(){
-        VenueController VenueController = new VenueController(VenueRepository);
+        VenueController VenueController = new VenueController(VenueRepository, UserRepository);
 
         Venue testVenue = mock(Venue.class);
         when(testVenue.getUsername()).thenReturn("test1");
