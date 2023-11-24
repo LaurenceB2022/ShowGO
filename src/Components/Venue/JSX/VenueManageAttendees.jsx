@@ -52,7 +52,7 @@ export default function VenueManageAttendees() {
     return (
         <div>
             <button id={styles.back}>
-                <Link to={'/venuehome/event/' + id}>Cancel</Link>
+                <Link to={'/venuehome/event/' + id} state={{eventJSON: eventJSON}}>Cancel</Link>
             </button>
             <div id={styles.content}>
                 {promptVisible ? 
