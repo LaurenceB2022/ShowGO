@@ -77,6 +77,7 @@ public class EventController {
         return eventRepo.findBySearch(search);
     }
 
+    //TODO might need to delete if not used
     @GetMapping("/events/{guid}/{areaToUpdate}/{update}")
     public void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
         Event tr = eventRepo.findByguid(guid);
@@ -94,6 +95,19 @@ public class EventController {
             tr.setLocation(update);
         else if (areaToUpdate.equals("hide_location"))
             tr.setHide_location(Boolean.parseBoolean(update));
+        eventRepo.save(tr);
+    }
+
+    @PostMapping("/events/{guid}")
+    public void update(@PathVariable String guid, @RequestBody Event e) {
+        Event tr = eventRepo.findByguid(guid);
+            tr.setStart_date(e.getStart_date());
+            tr.setEnd_date(e.getEnd_date());
+            tr.setTicket_price(e.getTicket_price());
+            tr.setName(e.getName());
+            tr.setDescription(e.getDescription());
+            tr.setLocation(e.getLocation());
+            tr.setHide_location(e.getHide_location());
         eventRepo.save(tr);
     }
 

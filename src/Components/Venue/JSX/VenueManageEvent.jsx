@@ -4,7 +4,8 @@ import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import YesNoPromptComponent from 'Components/Other/JSX/YesNoPromptComponent';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import DatePicker from "react-datepicker";
 
 export default function VenueManageEvent() {
     const id = useParams().id;
@@ -15,24 +16,27 @@ export default function VenueManageEvent() {
         venue: {username: 'N/A',
                 address: 'N/A'},
         start_date: 'Jan 01 1970 12:00 AM',
-        ticket_price: 0.00,
         end_date: 'Jan 01 1970 12:59 PM',
+        ticket_price: 0.00,
         name: 'N/A',
         description: 'N/A',
         location: 'N/A',
         hide_location: 0,
-        max_attendees: 0}
-         : location.state.eventJSON);
-
-    // const[updatedValues, setUpdatedValues] = useState({
-    //     name: eventJSON.name,
-    //     description: eventJSON.description,
-    //     ticket_price: eventJSON.ticket_price,
-    //     location: eventJSON.location,
-    //     hide_location: eventJSON.hide_location,
-    //     max_attendees: eventJSON.max_attendees,
-    //     image: eventJSON.image
-    // });
+        max_attendees: 0,
+        image: null
+        } : {
+            guid: location.state.eventJSON.guid,
+            venue: location.state.eventJSON.venue,
+            start_date: new Date(location.state.eventJSON.start_date),
+            end_date: new Date(location.state.eventJSON.end_date),
+            ticket_price: location.state.eventJSON.ticket_price,
+            name: location.state.eventJSON.name,
+            description: location.state.eventJSON.description,
+            location: location.state.eventJSON.location,
+            hide_location: location.state.eventJSON.hide_location,
+            max_attendees: location.state.eventJSON.max_attendees,
+            image: location.state.eventJSON.image
+         });
 
     function handleInput(event) {
         const val = event.target.type==='checkbox' ? event.target.checked : event.target.value;
@@ -80,8 +84,35 @@ export default function VenueManageEvent() {
     }
 
 
-    function save() {
-        //Post request to edit event details
+    async function save() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'},
+            body: JSON.stringify({
+                guid: eventJSON.guid,
+                venue: eventJSON.venue,
+                start_date: eventJSON.start_date.toDateString().substring(4) + " 12:00 AM",
+                end_date: eventJSON.end_date.toDateString().substring(4) + " 12:59 PM",
+                ticket_price: eventJSON.ticket_price,
+                name: eventJSON.name,
+                description: eventJSON.description,
+                location: eventJSON.location,
+                hide_location: eventJSON.hide_location,
+                max_attendees: eventJSON.max_attendees,
+                image: eventJSON.image
+             })
+        };
+        fetch('http://localhost:8080/events/' + eventJSON.guid, requestOptions)
+        .then(response =>{
+            if(response.ok){
+                console.log('Event successfully updated');
+            }
+            else{
+                console.log('Error updating event: ' + response.type);
+            }
+        })
     }
 
     function deleteEvent() {
@@ -110,6 +141,9 @@ export default function VenueManageEvent() {
                         <label className={styles.label + ' ' + styles.col_1}>Ticket Price</label>
                         <input name='ticket_price' maxLength='6' className={styles.input + ' ' + styles.col_2_3} value={eventJSON['ticket_price']} onChange={(event) => handleInput(event)}></input>
 
+                        <label className={styles.label + ' ' + styles.col_1}>Start Date</label>
+                        <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON['start_date'])} onChange={(time) => setEventJSON({...eventJSON,start_date: time})}/>
+
                         <label className={styles.label + ' ' + styles.col_1}>Location</label>
                         <input name='location' maxLength='100' className={styles.input + ' ' + styles.col_2_3} value={eventJSON['location']} onChange={(event) => handleInput(event)}></input>
                     
@@ -134,7 +168,7 @@ export default function VenueManageEvent() {
                 </div>
                 <button id={styles.delete_event} onClick={() => setPromptVisible(true)}>Delete Event</button>
                 <button id={styles.save} className='button-enabled'>
-                    <Link to='/venuehome' onClick={()=>save()} className='link-active'>Save</Link>
+                    <Link to={'/venuehome/event/' + id} onClick={()=>save()} className='link-active'>Save</Link>
                 </button>
                 <button id={styles.cancel}>
                     <Link to='/venuehome'>Cancel</Link>
