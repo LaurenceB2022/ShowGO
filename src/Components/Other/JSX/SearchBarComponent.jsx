@@ -46,9 +46,6 @@ export default function SearchBarComponent (props) {
                 updateError("Please select a valid date range.", 2500);
                 return;
             }
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-            ];
             startDateVal = startDateVal.toDateString().substring(4) + " 12:00 AM";
             endDateVal = endDateVal.toDateString().substring(4) + " 12:59 PM";
         }

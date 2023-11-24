@@ -1,6 +1,6 @@
 import 'index.css';
 import styles from 'Components/Venue/CSS/VenueManageEvent.module.css';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import YesNoPromptComponent from 'Components/Other/JSX/YesNoPromptComponent';
@@ -10,6 +10,10 @@ import DatePicker from "react-datepicker";
 export default function VenueManageEvent() {
     const id = useParams().id;
     const location = useLocation();
+    const navigator = useNavigate();
+    const [error, setError] = useState("");
+    var timeout = null;
+
     const [promptVisible, setPromptVisible] = useState(false);
     const [eventJSON, setEventJSON] = useState(!location.state ? {
         guid: 'N/A',
@@ -67,7 +71,6 @@ export default function VenueManageEvent() {
     }
 
     function readFileDataAsBase64(file) {
-        
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
     
@@ -83,8 +86,34 @@ export default function VenueManageEvent() {
         });
     }
 
+    //Updates the error message with the given timeout length in ms
+    function updateError(message, ms) {
+        if(timeout) {
+            clearTimeout();
+        }
+        setError(message);
+        timeout = setTimeout(() =>{
+            setError("");
+        }, ms);
+    }
 
     async function save() {
+        const max_attendees = parseInt(eventJSON.max_attendees);
+        const ticket_price = parseFloat(eventJSON.ticket_price);
+
+        if(eventJSON.name.length < 3 || eventJSON.name.length > 200) {
+            updateError("Invalid event name length.", 2500);
+            return;
+        } else if (Number.isNaN(max_attendees) || max_attendees < 1 || max_attendees > 9999) {
+            updateError("Invalid maximum attendee number. Choose a number from 1-9999.", 2500);
+            return;
+        } else if (Number.isNaN(ticket_price) || ticket_price < 0.00 || ticket_price > 999.99) {
+            updateError("Invalid ticket price. Choose a value from 0.00 to 999.99", 2500);
+            return;
+        } else if (!eventJSON.start_date || !eventJSON.end_date || eventJSON.end_date < eventJSON.start_date) {
+            updateError("Please select a valid date range", 2500);
+            return;
+        }
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -95,22 +124,22 @@ export default function VenueManageEvent() {
                 venue: eventJSON.venue,
                 start_date: eventJSON.start_date.toDateString().substring(4) + " 12:00 AM",
                 end_date: eventJSON.end_date.toDateString().substring(4) + " 12:59 PM",
-                ticket_price: eventJSON.ticket_price,
+                ticket_price: ticket_price,
                 name: eventJSON.name,
                 description: eventJSON.description,
                 location: eventJSON.location,
                 hide_location: eventJSON.hide_location,
-                max_attendees: eventJSON.max_attendees,
+                max_attendees: max_attendees,
                 image: eventJSON.image
              })
         };
         fetch('http://localhost:8080/events/' + eventJSON.guid, requestOptions)
         .then(response =>{
             if(response.ok){
-                console.log('Event successfully updated');
+                navigator('/venuehome');
             }
             else{
-                console.log('Error updating event: ' + response.type);
+                updateError("Error updating event.", 2500);
             }
         })
     }
@@ -129,9 +158,6 @@ export default function VenueManageEvent() {
                 }
                 <div id={styles.section_1}>
                     <div id={styles.form_container}>
-                        <br></br>
-                        <br></br>
-                        <br></br>
                         <label className={styles.label + ' ' + styles.col_1}>Event Name</label>
                         <input name='name' maxLength='200' className={styles.input + ' ' + styles.col_2_3} value={eventJSON['name']} onChange={(event) => handleInput(event)}></input>
 
@@ -144,6 +170,9 @@ export default function VenueManageEvent() {
                         <label className={styles.label + ' ' + styles.col_1}>Start Date</label>
                         <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON['start_date'])} onChange={(time) => setEventJSON({...eventJSON,start_date: time})}/>
 
+                        <label className={styles.label + ' ' + styles.col_1}>End Date</label>
+                        <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON['end_date'])} onChange={(time) => setEventJSON({...eventJSON,end_date: time})}/>
+                        
                         <label className={styles.label + ' ' + styles.col_1}>Location</label>
                         <input name='location' maxLength='100' className={styles.input + ' ' + styles.col_2_3} value={eventJSON['location']} onChange={(event) => handleInput(event)}></input>
                     
@@ -165,11 +194,11 @@ export default function VenueManageEvent() {
                     <button>
                         <Link to={'/venuehome/event/' + id + '/manage'} state={{eventJSON: eventJSON}}>Manage Attendees</Link>
                     </button>
+                    <br></br>
+                    <p class={styles.p}>{error}</p>
                 </div>
                 <button id={styles.delete_event} onClick={() => setPromptVisible(true)}>Delete Event</button>
-                <button id={styles.save} className='button-enabled'>
-                    <Link to={'/venuehome/event/' + id} onClick={()=>save()} className='link-active'>Save</Link>
-                </button>
+                <button id={styles.save} className='button-enabled' onClick={()=>save()}>Save</button>
                 <button id={styles.cancel}>
                     <Link to='/venuehome'>Cancel</Link>
                 </button>
