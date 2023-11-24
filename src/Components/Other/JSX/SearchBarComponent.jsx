@@ -29,11 +29,8 @@ export default function SearchBarComponent (props) {
     async function search(event) {
         if(event.type !== 'click' && event.key !== 'Enter') return;
         
-        const value = document.getElementById(styles.input).value;
-        if(value == "") {
-            updateError("Please include search text.", 2500);
-            return;
-        }
+        var value = document.getElementById(styles.input).value;
+        if (value == "") value = " ";
 
         var startDateVal = searchTypes[0] ? startDate : "null";
         var endDateVal = searchTypes[0] ? endDate : "null";
