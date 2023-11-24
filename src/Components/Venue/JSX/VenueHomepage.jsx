@@ -1,7 +1,7 @@
 import 'index.css';
 import { useNavigate } from 'react-router-dom';
 import styles from 'Components/Venue/CSS/VenueHomepage.module.css'
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import EventGridComponent from 'Components/Other/JSX/EventGridComponent';
 import { MyContext } from 'App';
 
@@ -18,6 +18,18 @@ function VenueHomepage(){
 
     const [events, setEvents] = useState([]);
     const [timeframe, setTimeFrame] = useState('future');
+
+    async function fetchEvents() {
+
+        var x = await fetch('http://localhost:8080/events', {
+            method: 'GET',
+        }).then(response => response.json())
+        setEvents(x);
+    }
+
+    useEffect(() => {
+        fetchEvents();
+    }, []);
 
     function logOut() {
         setLoggedIn(false);
@@ -41,7 +53,7 @@ function VenueHomepage(){
                             <button className={styles.h2 + ' ' + (timeframe === 'past' ? 'button-enabled' : '')} onClick={() => setTimeFrame('past')}>Past Events</button>
                         </div>
                         <div id={styles.event}>
-                            <EventGridComponent events={events} time={timeframe} /> 
+                            <EventGridComponent events={[events, setEvents]} time={timeframe} /> 
                         </div>
                     </div>
                 </div>

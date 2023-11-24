@@ -6,12 +6,15 @@ import DatePicker from "react-datepicker";
 
 export default function SearchBarComponent (props) {
 
-    const [searchType, setSearchType] = useState('title'); //options: title, date-range, cost
+    const [searchTypes, setSearchTypes] = useState([false, false]); //[date_range, cost]
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [results, setResults] = props.results;
+
     const [error, setError] = useState("");
     var timeout = null;
 
+    //Updates the error message with the given timeout length in ms
     function updateError(message, ms) {
         if(timeout) {
             clearTimeout();
@@ -21,39 +24,54 @@ export default function SearchBarComponent (props) {
             setError("");
         }, ms);
     }
-    // const [, setResults] = useState(props.results);
-    function search(event) {
+
+    //Searches for events based on the given criteria
+    async function search(event) {
         if(event.type !== 'click' && event.key !== 'Enter') return;
         
         const value = document.getElementById(styles.input).value;
-
-        // TODO
-        switch (searchType) {
-            case 'name':
-                if(value == '') {
-                    updateError("Please type the name of the event you're looking for.", 2500);
-                    return;
-                }
-                break;
-            case 'date-range':
-                if (endDate < startDate) {
-                    updateError("Invalid date range selected.", 2500);
-                    return;
-                }
-                break;
-                case 'cost':
-                    const minCost = parseFloat(document.getElementById(styles.min_cost).value);
-                    const maxCost = parseFloat(document.getElementById(styles.max_cost).value);
-                    if (Number.isNaN(minCost) || Number.isNaN(maxCost)) {
-                        updateError("Please select valid numbers.", 2500);
-                        return;
-                    } else if (minCost > maxCost || minCost < 0 || minCost >= 1000 || maxCost < 0 || maxCost >= 1000) {
-                        updateError("Invalid cost range selected.", 2500);
-                        return;
-                    }
-                break;
+        if(value == "") {
+            updateError("Please include search text.", 2500);
+            return;
         }
-        // searching functionalities
+
+        var startDateVal = searchTypes[0] ? startDate : "null";
+        var endDateVal = searchTypes[0] ? endDate : "null";
+        var minCost = document.getElementById(styles.min_cost) ? parseFloat(document.getElementById(styles.min_cost).value) : -1;
+        var maxCost = document.getElementById(styles.max_cost) ? parseFloat(document.getElementById(styles.max_cost).value) : -1;
+        
+        //date_range
+        if(searchTypes[0]) {
+            if (endDate < startDate) {
+                updateError("Please select a valid date range.", 2500);
+                return;
+            }
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+            startDateVal = startDateVal.toDateString().substring(4) + " 12:00 AM";
+            endDateVal = endDateVal.toDateString().substring(4) + " 12:59 PM";
+        }
+
+        if (searchTypes[1]) {
+            minCost = parseFloat(document.getElementById(styles.min_cost).value);
+            maxCost = parseFloat(document.getElementById(styles.max_cost).value);
+            if (Number.isNaN(minCost) || Number.isNaN(maxCost)) {
+                updateError("Please insert numbers for the ticket cost range.", 2500);
+                return;
+            } else if (minCost > maxCost || minCost < 0 || minCost >= 1000 || maxCost < 0 || maxCost >= 1000) {
+                updateError("Invalid cost range selected (Tickets are $0.00-$999.99).", 2500);
+                return;
+            }
+        }
+        minCost = minCost.toString();
+        maxCost = maxCost.toString();
+        var events = await fetch('http://localhost:8080/events/filters/' + value + '/' + startDateVal + '/' + endDateVal + '/' + minCost + '/' + maxCost, {
+            method: 'GET',
+        }).then(response => response ? response.json() : []);
+        console.log(events.length);
+        setResults(events);
+        console.log(results);
     }
 
     return (
@@ -64,37 +82,42 @@ export default function SearchBarComponent (props) {
                         <input id={styles.input} type="text" placeholder='Search' onKeyUp={search}/>
                         <img id={styles.img} src={Search} onClick={search} alt=""/>
                     </div>
+                    <div id={styles.search_options}>
+                        <span>
+                            <label className={styles.search_label + ' ' + styles.search_checkbox_label}>Date Range</label>
+                            <input className={styles.search_checkbox} type="checkbox" onChange={(value) => {setSearchTypes([value.target.checked, searchTypes[1]])}  } value="date_range"/>
+                        </span>
+                        <span>
+                            <label className={styles.search_label + ' ' + styles.search_checkbox_label}>Price Range</label>
+                            <input className={styles.search_checkbox} type="checkbox" onChange={(value) => {setSearchTypes([searchTypes[0], value.target.checked])}  } value="price_range"/>
+                        </span>
+                    </div>
                     <p className={styles.p}>{error}</p>
                 </div>
-                <select onChange={() => setSearchType(document.getElementById(styles.search_type).value)} id={styles.search_type}>
-                    <option className={styles.option} value="name">Title</option>
-                    <option className={styles.option} value="date-range">Date Range</option>
-                    <option className={styles.option} value="cost">Cost</option>
-                </select>
-            {searchType === 'date-range' &&
-                <div className={styles.flex_column}>
-                    <div>
-                        <label class={styles.search_label}>From</label>
-                        <DatePicker className={styles.search_input} selected={startDate} onChange={(date) => setStartDate(date)} />
+                {searchTypes[0] &&
+                    <div className={styles.flex_column}>
+                        <div>
+                            <label class={styles.search_label}>From</label>
+                            <DatePicker className={styles.search_input} selected={startDate} onChange={(date) => setStartDate(date)} />
+                        </div>
+                        <div>
+                            <label class={styles.search_label}>To</label>
+                            <DatePicker className={styles.search_input} selected={endDate} onChange={(date) => setEndDate(date)} />
+                        </div>
                     </div>
-                    <div>
-                        <label class={styles.search_label}>To</label>
-                        <DatePicker className={styles.search_input} selected={endDate} onChange={(date) => setEndDate(date)} />
+                }
+                {searchTypes[1] &&
+                    <div className={styles.flex_column}>
+                        <div>
+                            <label class={styles.search_label}>Min</label>
+                            <input id={styles.min_cost} class={styles.search_input} type="text" placeholder='Min Cost' onKeyUp={search}/>
+                        </div>
+                        <div>
+                            <label class={styles.search_label}>Max</label>
+                            <input id={styles.max_cost} class={styles.search_input} type="text" placeholder='Max Cost' onKeyUp={search}/>
+                        </div>
                     </div>
-                </div>
-            }
-            {searchType === 'cost' &&
-                <div className={styles.flex_column}>
-                    <div>
-                        <label class={styles.search_label}>Min</label>
-                        <input id={styles.min_cost} class={styles.search_input} type="text" placeholder='Minimum cost' onKeyUp={search}/>
-                    </div>
-                    <div>
-                        <label class={styles.search_label}>Max</label>
-                        <input id={styles.max_cost} class={styles.search_input} type="text" placeholder='Maximum cost' onKeyUp={search}/>
-                    </div>
-                </div>
-            }
+                }
             </div>
         </div>   
     );

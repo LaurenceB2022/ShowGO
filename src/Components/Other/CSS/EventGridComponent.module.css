@@ -4,6 +4,6 @@
     flex-wrap: wrap;
     margin: 20px 0px;
     row-gap: 20px;
-    column-gap: 20px;
+    column-gap: 40px;
     justify-content: center;
 }

@@ -101,8 +101,8 @@ public class EventController {
     public List<Event> findBySearchAndFilter(@PathVariable String search, @PathVariable String startDateTimeS, @PathVariable String endDateTimeS, @PathVariable String lowerPriceS, @PathVariable String upperPriceS) {
         List<Event> rtrn = null;
         final boolean hasSearch = !search.equals("");
-        final boolean hasDates = !startDateTimeS.equals("") && !endDateTimeS.equals("");
-        final boolean hasPrices = !lowerPriceS.equals("") && !upperPriceS.equals("");
+        final boolean hasDates = !startDateTimeS.equals("null") && !endDateTimeS.equals("null");
+        final boolean hasPrices = !lowerPriceS.equals(String.valueOf(-1)) && !upperPriceS.equals(String.valueOf(-1));
         LocalDateTime startDateTime = null;
         LocalDateTime endDateTime = null;
         double lowerPrice = -1;
@@ -133,7 +133,7 @@ public class EventController {
                 throw new InvalidSearchException("Invalid date format");
             }
         }
-
+        rtrn = events;
         if (hasPrices || hasDates) {
             final double innerLowerPrice = lowerPrice;
             final double innerUpperPrice = upperPrice;
@@ -148,20 +148,22 @@ public class EventController {
                 if (innerStartDateTime != null) {
                     try {
                         String startDate = event.getStart_date();
+                        System.out.println(startDate);
                         LocalDateTime eventTime = LocalDateTime.parse(startDate, formatter);
+                        System.out.println(eventTime);
                         if (eventTime.isBefore(innerStartDateTime) || eventTime.isAfter(innerEndDateTime)) {
                             return false;
                         }
                     }   
                     catch (Exception e) {
+                        System.out.println("error");
                         return false;
                     }
                 }
                 return true;
             }).collect(Collectors.toList());
         }
-
-        return rtrn;
+        return rtrn == null ? new ArrayList<Event>() : rtrn;
     }
 
 }
