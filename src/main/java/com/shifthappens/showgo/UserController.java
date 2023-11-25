@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shifthappens.showgo.entities.User;
+import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.UserRepository;
@@ -85,6 +86,17 @@ public class UserController {
                 userRepo.findByUsername(username) == null && 
                 venueRepo.findByUsername(username) == null &&
                 username.length() <= 20) ;
+    }
+
+    @PostMapping("/user/settings")
+    public User editSettings(@RequestBody User user) {
+        if (userRepo.findByUsername(user.getUsername()) == null) {
+            throw new InvalidUsernameException();
+        }
+        if (!isValidPassword(user.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+        return userRepo.save(user);
     }
 
 }
