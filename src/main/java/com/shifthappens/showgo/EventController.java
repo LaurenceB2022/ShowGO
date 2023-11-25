@@ -77,6 +77,27 @@ public class EventController {
         return eventRepo.findBySearch(search);
     }
 
+    //TODO might need to delete if not used
+    @GetMapping("/events/{guid}/{areaToUpdate}/{update}")
+    public void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
+        Event tr = eventRepo.findByguid(guid);
+        if (areaToUpdate.equals("start_date"))
+            tr.setStart_date(update);
+        else if (areaToUpdate.equals("end_date"))
+            tr.setEnd_date(update);
+        else if (areaToUpdate.equals("ticket_price"))
+            tr.setTicket_price(Float.parseFloat(update));
+        else if (areaToUpdate.equals("name"))
+            tr.setName(update);
+        else if (areaToUpdate.equals("description"))
+            tr.setDescription(update);
+        else if (areaToUpdate.equals("location"))
+            tr.setLocation(update);
+        else if (areaToUpdate.equals("hide_location"))
+            tr.setHide_location(Boolean.parseBoolean(update));
+        eventRepo.save(tr);
+    }
+
     @PostMapping("/events/{guid}")
     public void update(@PathVariable String guid, @RequestBody Event e) {
         Event tr = eventRepo.findByguid(guid);
