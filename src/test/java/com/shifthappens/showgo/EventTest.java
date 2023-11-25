@@ -112,14 +112,14 @@ public class EventTest {
     
     @Test
     public void testFilteredSearchDates() {
-        List<Event> events = EventController.findBySearchAndFilter("", "Apr 02 1970 12:00 AM", "Apr 02 1970 03:00 PM", "", "");
+        List<Event> events = EventController.findBySearchAndFilter("", "Apr 02 1970 12:00 AM", "Apr 02 1970 03:00 PM", "-1", "-1");
         assertNotNull(events);
         assertEquals(1, events.size());
     }
 
     @Test
     public void testFilterdSearchPrice() {
-        List<Event> events = EventController.findBySearchAndFilter("", "", "", "100.10", "100.12");
+        List<Event> events = EventController.findBySearchAndFilter("", "null", "null", "100.10", "100.12");
         assertNotNull(events);
         assertEquals(1, events.size());
     }

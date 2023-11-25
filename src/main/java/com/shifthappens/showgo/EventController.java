@@ -162,9 +162,7 @@ public class EventController {
                 if (innerStartDateTime != null) {
                     try {
                         String startDate = event.getStart_date();
-                        System.out.println(startDate);
                         LocalDateTime eventTime = LocalDateTime.parse(startDate, formatter);
-                        System.out.println(eventTime);
                         if (eventTime.isBefore(innerStartDateTime) || eventTime.isAfter(innerEndDateTime)) {
                             return false;
                         }

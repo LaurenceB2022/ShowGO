@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 public class VenueTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Venue Venue2= new Venue("test2", "test2", "testpassword");
+    Venue Venue3 = new Venue("test3", "test3", "testPassword!");
 
     @Autowired
     private VenueRepository VenueRepository;
@@ -34,6 +35,7 @@ public class VenueTest {
         //save Venue, verify has Username value after save
         this.VenueRepository.save(Venue1);
         this.VenueRepository.save(Venue2);
+        this.VenueRepository.save(Venue3);
         assertNotNull(Venue1.getUsername());
         assertNotNull(Venue2.getUsername());
     }
@@ -90,9 +92,32 @@ public class VenueTest {
         assertNotNull(VenueController.editSettings(Venue0));
     }
 
+    @Test
+    public void testGetEditDeleteTimes() {
+        VenueController VenueController = new VenueController(VenueRepository, UserRepository);
+
+        long getStart = System.currentTimeMillis();
+        VenueController.findVenue(Venue3.getUsername());
+        long getEnd = System.currentTimeMillis();
+        assertTrue((getEnd - getStart)/1000 <= 3);
+
+        Venue Venue3Edit = new Venue(Venue3.getUsername(), "new name", "newPassword!");
+        long editStart = System.currentTimeMillis();
+        VenueController.editSettings(Venue3Edit);
+        long editEnd = System.currentTimeMillis();
+        assertTrue((editEnd - editStart)/1000 <= 3);
+
+        long deleteStart = System.currentTimeMillis();
+        VenueController.deleteVenue(Venue3Edit.getUsername());
+        long deleteEnd = System.currentTimeMillis();
+        assertTrue((deleteEnd - deleteStart)/1000 <= 3);
+
+    }
+
     @After
     public void tearDown() throws Exception {
         VenueRepository.delete(Venue1);
         VenueRepository.delete(Venue2);
+        VenueRepository.delete(Venue3);
     }
 }

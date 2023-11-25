@@ -52,7 +52,6 @@ public class VenueController {
 
     @PostMapping("/venues/settings")
     public Venue editSettings(@RequestBody Venue venue) {
-        System.out.println("*****IM SIGNING SOMEONE UP*******");
         if (venueRepo.findByUsername(venue.getUsername()) == null) {
             throw new InvalidUsernameException();
         }
