@@ -128,8 +128,8 @@ export default function VenueManageAttendees() {
                 <h1>Attendee List for {eventJSON.name}</h1>
                 <div className={styles.horizontal_line}></div>
                 <AttendeeGridComponent updateFunction={promptUpdateUser} deleteFunction={promptDeleteUser} tickets={[tickets, setTickets]}></AttendeeGridComponent>
-                <p className={styles.statistic}>Tickets Sold: N/A</p>
-                <p className={styles.statistic}>Total Revenue: N/A</p>
+                <p className={styles.statistic}>Tickets Sold: {tickets.length}</p>
+                <p className={styles.statistic}>Total Revenue: ${(tickets.length * eventJSON.ticket_price).toFixed(2)}</p>
             </div>
         </div>
     )

@@ -39,7 +39,6 @@ function VenueHomepage(){
     }
     return(
         <div>
-            <button id={styles.back} onClick={() => logOut()}>Log Out</button>
             <div className={styles.container}>
 
                 <div class={styles.section_1}>

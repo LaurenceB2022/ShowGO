@@ -4,11 +4,6 @@
     height: calc(100vh - var(--navbar-height));
 }
 
-#back {
-    position: absolute;
-    right: 10px;
-}
-
 .section_1 {
     min-height: 100px;
 }
