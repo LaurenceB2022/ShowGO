@@ -22,9 +22,6 @@ export default function UserHomepage() {
 
     return (
         <div>
-            <button id={styles.back}>
-                <Link to='/login'>Log Out</Link>
-            </button>
             <div className={styles.content}>
                 <div className={styles.section_1}>
                     <SearchBarComponent results={[results, setResults]} id={styles.searchbar}/>

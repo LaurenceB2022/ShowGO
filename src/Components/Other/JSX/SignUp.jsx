@@ -16,7 +16,7 @@ const SignUp = () => {
 
     const [selectedType, setSelectedType] = useState(null); //'user' or 'venue'
     const [userNameValid, setUsernameValid] = useState(false);
-    const [passwordChecks, setPasswordChecks] = useState([false, false]);
+    const [passwordChecks, setPasswordChecks] = useState([false, false, false, false]);
     const [showPassword, setShowPassword] = useState(false);
     const [pfpSelection, setPfpSelection] = useState(ShowGoLogo);
     
@@ -44,8 +44,8 @@ const SignUp = () => {
     }
 
     function checkPasswordValid() {
-        var password = document.getElementById(styles.password);
-        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(password.value), (password.value.length >= 8 && password.value.length <= 40)]);
+        var password = document.getElementById(styles.password).value;
+        setPasswordChecks([/^[a-zA-Z0-9!?#$%&*]+$/.test(password), password.match(/[!?#$%&*]/), password.match(/[A-Z]/), (password.length >= 8 && password.length <= 40)]);
     }
 
     function signUp() {
@@ -165,12 +165,16 @@ const SignUp = () => {
 
                         <label className={styles.label + ' ' + styles.col_1}>Password *</label>
                         <input  maxLength='40' type={showPassword ? 'text' : 'password'} className={styles.input + ' ' + styles.col_2} id={styles.password} onChange={() => checkPasswordValid()}></input>
-                        <img className={styles.col_3} src={passwordChecks[0] && passwordChecks[1] ? Checkmark : X} alt=""/>
+                        <img className={styles.col_3} src={passwordChecks.every(v => v) ? Checkmark : X} alt=""/>
                         
-                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')}>Only alphanumeric characters</p>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')}>No spaces</p>
                         <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[0] ? Checkmark : X} alt=""/>
-                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')}>Between 8-40 characters</p>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')}>One special character (!,?,#,$,%,&,*),</p>
                         <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[1] ? Checkmark : X} alt=""/>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[2] ? 'text-valid' : 'text-invalid')}>One capital letter</p>
+                        <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[2] ? Checkmark : X} alt=""/>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[3] ? 'text-valid' : 'text-invalid')}>Between 8-40 characters</p>
+                        <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[3] ? Checkmark : X} alt=""/>
                         <button id={styles.toggle_password} className={styles.col_2 + ' ' + (showPassword ? 'button-enabled' : '')} onClick={() => togglePassword()}>Show Password</button>
 
                         {selectedType === 'venue' ? 

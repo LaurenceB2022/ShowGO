@@ -2,7 +2,7 @@
 
 .container{
     background-color: var(--eventbg-blue);
-    width: 420px;
+    width: 410px;
     height: 184px;
 
     box-shadow: 5px 5px;
@@ -17,7 +17,7 @@
 
 .p {
     margin: 0px;
-    font-size: 18px;
+    font-size: 17px;
     color: var(--dark-green);
 }
 

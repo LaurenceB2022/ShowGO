@@ -145,7 +145,22 @@ export default function VenueManageEvent() {
     }
 
     function deleteEvent() {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'}
+        };
         setPromptVisible(false);
+        fetch('http://localhost:8080/events/' + eventJSON.guid, requestOptions)
+        .then(response => {
+            if (response.ok) {
+                console.log("Event successfully deleted.");
+                navigator("/venuehome");
+            } else {
+                updateError("Error deleting event.", 2500);
+            }
+        })
         console.log("Deleting event.");
     }
 

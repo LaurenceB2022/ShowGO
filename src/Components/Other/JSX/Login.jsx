@@ -48,7 +48,6 @@ const Login = () => {
                 }
             })
             .then(userOrVenue => {
-                console.log(userOrVenue);
                 if (userOrVenue === null) {
                     setLoggedIn(false);
                 }
@@ -92,7 +91,6 @@ const Login = () => {
                 <span className={styles.button_container}>
                     <button type="button" onClick={() => handleLogin()}>Log In</button>
                     <button className='button-enabled' type='button' onClick={() => navigator('/signup')}>Sign Up</button>
-                    {/* <Link to='/signup' className={styles.ButtonStyle1}>Sign Up</Link> */}
                 </span>
                 {error?<label>{error}</label>:null}   
             

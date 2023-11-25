@@ -170,7 +170,6 @@ public class EventController {
                         }
                     }   
                     catch (Exception e) {
-                        System.out.println("error");
                         return false;
                     }
                 }
