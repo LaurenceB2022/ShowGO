@@ -3,6 +3,7 @@ import styles from 'Components/Other/CSS/NavbarComponent.module.css';
 import {Link} from 'react-router-dom';
 import { MyContext } from 'App';
 import { useContext } from 'react';
+import ShowGoLogo from 'Assets/ShowGoLogo.png';
 
 export default function NavbarComponent () {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
@@ -28,7 +29,7 @@ export default function NavbarComponent () {
                 {loggedIn && userType==='user' ?
                     (<>
                     <text className={styles.text}>{user.name}</text>
-                    <img src={user.pfp}/>
+                    <img src={user.pfp ? user.pfp : ShowGoLogo}/>
                     <Link to='/home' className={styles.navbarLink}>Home</Link>
                     <Link to='/settings' className={styles.navbarLink}>Settings</Link>
                     <Link to='/tickets' className={styles.navbarLink}>Tickets</Link>
@@ -39,7 +40,7 @@ export default function NavbarComponent () {
                 {loggedIn && userType==='venue' ?
                     (<>
                     <text className={styles.text}>{user.name}</text>
-                    <img src={user.pfp}/>
+                    <img src={user.pfp ? user.pfp : ShowGoLogo}/>
                     <Link to='/venuehome' className={styles.navbarLink}>Home</Link>
                     <Link to='/venuesettings/general' className={styles.navbarLink}>Settings</Link>
                     <Link to='/login' className={styles.navbarLink} onClick={() => logOut()}>Sign Out</Link>

@@ -9,7 +9,7 @@ function VenueHomepage(){
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
+    const [user, setUser] = userState;
 
     //Debug, remove later
     setLoggedIn(true);
@@ -20,8 +20,7 @@ function VenueHomepage(){
     const [timeframe, setTimeFrame] = useState('future');
 
     async function fetchEvents() {
-
-        var x = await fetch('http://localhost:8080/events', {
+        var x = await fetch('http://localhost:8080/events/venue/' + user.username, {
             method: 'GET',
         }).then(response => response.json())
         setEvents(x);

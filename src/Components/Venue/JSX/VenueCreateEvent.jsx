@@ -5,7 +5,6 @@ import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import defaultImage from 'Assets/Placeholder.svg';
 
 const VenueCreateEvent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
@@ -36,7 +35,7 @@ const VenueCreateEvent = () => {
         .then(response => response.json());
     }
 
-    const[imgfile, setFile] = useState(defaultImage);
+    const[imgfile, setFile] = useState(null);
 
     async function handleImage (event) {
         const file = event.target.files[0];
@@ -82,7 +81,7 @@ const VenueCreateEvent = () => {
         console.log('Entered the createEvent method.')
         var valid = true;
 
-        if(values.name === '' || values.address === '' || values.description==='' || values.max <= 0 || values.price <= 0.0){
+        if(values.name === '' || values.description==='' || values.max <= 0 || values.price <= 0.0){
             console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
             valid = false;

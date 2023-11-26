@@ -11,14 +11,15 @@ export default function UserViewEvent() {
         venue: {username: 'N/A',
                 address: 'N/A'},
         start_date: 'Jan 01 1970 12:00 AM',
+        end_date: 'Jan 01 1970 12:59 PM',
         ticket_price: 0.00,
-        end_date: 'Jan 01 1970 12:00 AM',
         name: 'N/A',
         description: 'N/A',
         location: 'N/A',
         hide_location: 0,
-        max_attendees: 0}
-         : location.state.eventJSON;
+        max_attendees: 0,
+        image: null
+        } : location.state.eventJSON;
 
     return (
         <div id={styles.content}>
@@ -49,18 +50,20 @@ export default function UserViewEvent() {
                         </tr>
                         <tr>
                             <td>Address:</td>
-                            <td>{eventJSON.venue.address}</td>
+                            <td>{eventJSON.hide_location ? "<hidden>" : (eventJSON.location != "" ? eventJSON.location : eventJSON.venue.location)}</td>
                         </tr>
                     </table>
                 </div>
                 <div className={styles.image_section + ' item_40'}>
                     <div>
-                        <img id={styles.image} src={eventJSON.image ? eventJSON.image : (eventJSON.venue.image ? eventJSON.venue.image : ShowGoLogo)}/>
+                        <img id={styles.image} src={eventJSON.image ? eventJSON.image : (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}/>
                         <p class={styles.p}>{'$' + eventJSON.ticket_price.toFixed(2)} / Ticket</p>
                     </div>
-                    <button className='button-enabled'>
+                    {new Date(eventJSON.end_date) > new Date() ? 
+                    (<button className='button-enabled'>
                         <Link className='link-active' to={'/home/event/' + id + '/checkout'} state={{eventJSON: eventJSON}}>Buy Ticket</Link>
-                    </button>
+                    </button>) : (<></>)
+                    }
                 </div>
             </div>
         </div>

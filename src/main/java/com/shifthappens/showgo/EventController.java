@@ -44,7 +44,7 @@ public class EventController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/events")//dates formatted "MMM DD YYYY "
+    @PostMapping("/events")
     public Event makeEvent(@RequestBody Event event) {
         return eventRepo.save(event);
     }
@@ -72,14 +72,11 @@ public class EventController {
         return events;
     }
 
-    @GetMapping("/events/{search}")
-    public List<Event> findBySearch(@PathVariable String search) {
+    protected List<Event> findBySearch(@PathVariable String search) {
         return eventRepo.findBySearch(search);
     }
 
-    //TODO might need to delete if not used
-    @GetMapping("/events/{guid}/{areaToUpdate}/{update}")
-    public void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
+    protected void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
         Event tr = eventRepo.findByguid(guid);
         if (areaToUpdate.equals("start_date"))
             tr.setStart_date(update);
