@@ -1,6 +1,7 @@
 package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.User;
+import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.UserRepository;
@@ -39,6 +40,49 @@ public class UserTest {
         this.UserRepository.save(User3);
         assertNotNull(User1.getUsername());
         assertNotNull(User2.getUsername());
+    }
+    @Test
+    public void testFetchData(){
+        /*Test data retrieval*/
+        User UserA = UserRepository.findByUsername("test2");
+        assertNotNull(UserA);
+        assertEquals("test2", UserA.getName());
+        User UserB = UserRepository.findByUsername("test1");
+        assertNotNull(UserB);
+        assertEquals("test1", UserB.getName());
+    }
+
+    @Test
+    public void testSignUp(){
+        UserController UserController = new UserController(UserRepository, VenueRepository);
+
+        User testvalidUser = new User("ValidUsername","displayname", "Validpassword!");
+        assertNotNull(UserController.signUp(testvalidUser));        
+        UserRepository.delete(testvalidUser);
+
+        User test1User = mock(User.class);
+        when(test1User.getUsername()).thenReturn("invalid username");
+        when(test1User.getPassword()).thenReturn("Validpassword!");
+        assertThrows(InvalidUsernameException.class, () -> UserController.signUp(test1User));
+
+        User test2User = mock(User.class);
+        when(test2User.getUsername()).thenReturn("Validusername");
+        when(test2User.getPassword()).thenReturn("invalid password");
+        assertThrows(InvalidPasswordException.class, () -> UserController.signUp(test2User));
+
+        assertFalse(UserController.isValidPassword("invalidPassword"));
+        assertFalse(UserController.isValidPassword("invalidpassword!"));
+        assertTrue(UserController.isValidPassword("validPassword!"));
+    }
+
+    @Test
+    public void testLogin(){
+        VenueController VenueController = new VenueController(VenueRepository, UserRepository);
+        UserController UserController = new UserController(UserRepository, VenueRepository);
+        LoginController LoginController = new LoginController(VenueController, UserController);
+        //checks for venue login
+        assertThrows(InvalidUsernameException.class, () -> LoginController.login("test11", "testPassword!"));
+        assertThrows(InvalidPasswordException.class, () -> LoginController.login("test1", "testpassworddd"));
     }
     
     @Test
