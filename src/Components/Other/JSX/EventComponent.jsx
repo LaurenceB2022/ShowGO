@@ -14,18 +14,19 @@ const EventComponent = (props) => {
     //TODO update dummy event
     const eventJSON = props.event ? props.event : 
     {
-        guid: '0',
-        image: null, //NOT IMPLEMENTED
+        guid: 'N/A',
+        venue: {username: 'N/A',
+                address: 'N/A'},
+        start_date: 'Jan 01 1970 12:00 AM',
+        end_date: 'Jan 01 1970 12:59 PM',
+        ticket_price: 0.00,
         name: 'N/A',
-        ticket_price: 'N/A',
+        description: 'N/A',
         location: 'N/A',
         hide_location: 0,
-        start_date: "Jan 01 1970 12:00 AM",
-        end_date: "Jan 01 1970 12:00 AM",
-        description: "N/A",
-        max_attendees: 0
+        max_attendees: 0,
+        image: null
     };
-
     return(
         <div className={styles.container}>
             {/* TODO change link to be dynamic based on user login type */}

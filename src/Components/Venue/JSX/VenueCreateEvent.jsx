@@ -7,7 +7,6 @@ import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
 import DateTimePicker from 'react-datetime-picker';
 import "react-datepicker/dist/react-datepicker.css";
-import defaultImage from 'Assets/Placeholder.svg';
 
 
 
@@ -42,7 +41,7 @@ const VenueCreateEvent = () => {
         .then(response => response.json());
     }
 
-    const[imgfile, setFile] = useState(defaultImage);
+    const[imgfile, setFile] = useState(null);
 
     async function handleImage (event) {
         const file = event.target.files[0];
@@ -90,7 +89,7 @@ const VenueCreateEvent = () => {
         console.log(tempStartTime[0])
         console.log(tempEndTime[0])
 
-        if(values.name === '' || values.address === '' || values.description==='' || values.max <= 0 || values.price <= 0.0){
+        if(values.name === '' || values.description==='' || values.max <= 0 || values.price <= 0.0){
             console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
             return false;
