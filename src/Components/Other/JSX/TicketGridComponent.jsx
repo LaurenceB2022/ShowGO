@@ -12,7 +12,9 @@ export default function TicketGridComponent() {
     async function fetchTickets() {
         await fetch('http://localhost:8080/tickets/user/' + user.username, {
             method: 'GET'
-        }).then(response => response.json()).then(data => setData(data));
+        }).then(response => response.json())
+        .then(tickets => tickets.filter(ticket => !ticket.redeemed && new Date(ticket.event.end_date) > new Date()))
+        .then(data => setData(data));
     }
 
     useEffect(() => {
