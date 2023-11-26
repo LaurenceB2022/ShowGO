@@ -4,8 +4,12 @@ import React, {useState, useContext} from 'react';
 import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 import DatePicker from "react-datepicker";
+import TimePicker from 'react-time-picker';
+import DateTimePicker from 'react-datetime-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import defaultImage from 'Assets/Placeholder.svg';
+
+
 
 const VenueCreateEvent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
@@ -19,6 +23,8 @@ const VenueCreateEvent = () => {
     const[error, setErrors] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [startTime, setStartTime] = useState('10:00');
+    const [endTime, setEndTime] = useState('10:00');
     const[values, setValues] = useState({
         name: '',
         description: '',
@@ -77,29 +83,56 @@ const VenueCreateEvent = () => {
         event.preventDefault();
         createEvent()
     }
-    
-    async function createEvent () {
-        console.log('Entered the createEvent method.')
-        var valid = true;
+
+    function checkValid(){
+        var tempStartTime = startTime.split(':');
+        var tempEndTime = endTime.split(':');
+        console.log(tempStartTime[0])
+        console.log(tempEndTime[0])
 
         if(values.name === '' || values.address === '' || values.description==='' || values.max <= 0 || values.price <= 0.0){
             console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
-            valid = false;
+            return false;
         }
-        if(startDate > endDate){
+        if(startDate > endDate ){
             console.log('invalid date range');
             setErrors('Error, invalid date range for event.')
-            valid = false;
+            return false;
         }
+        if(startTime.split(':').length !== 2 && endTime.split(':').length !== 2){
+            return false;
+        }
+        if((startDate === endDate) && (tempStartTime[0] > tempEndTime[0])){
+            setErrors('Error, invalid time range for event.')
+            console.log(tempStartTime[0])
+            console.log(tempEndTime[0])
+            return false;
+        }
+        if((startDate === endDate) && (tempStartTime[0] === tempEndTime[0]) && (tempStartTime[1] > tempEndTime[1])){
+            setErrors('Error, invalid time range for event')
+            console.log(tempStartTime[1])
+            console.log(tempEndTime[1])
+            return false;
+        }
+        return true;
+    }
+    
+    async function createEvent () {
+        console.log('Entered the createEvent method.')
+        var valid = checkValid();
+        console.log(startTime)
+        console.log(endTime);
         
         
-        if(valid){
+        if(valid === true){
             console.log('Values in the fields were verified, sending POST request.')
             var date_start_string = startDate.toDateString().split(' ');
             var date_end_string = endDate.toDateString().split(' ');
-            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3];
-            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3];
+            var date_start_time = startTime.toString().split(':');
+            var date_end_time = endTime.toString().split(':');
+            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + date_start_time[0] + ":" + date_start_time[1];
+            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + date_end_time[0] + ":" + date_start_time[1];
             console.log('Username: ' + username.toString())
 
             var username_values = username[0];
@@ -166,12 +199,12 @@ const VenueCreateEvent = () => {
                 <div className={styles.datetime_container}>
                     <label>Start Date</label>
                     <DatePicker className={styles.date} selected={startDate} onChange={(date) => setStartDate(date)} />
-                    {/*<TimePicker className={styles.time} onChange={() => setStartTime()} value={timeStartValue} /> */}
+                    <input type='time' className={styles.time} min="00:00" max="23:59" onChange={(event) => setStartTime(event.target.value)}/>
                 </div>
                 <div className={styles.datetime_container}>
                     <label>End Date</label>
                     <DatePicker className={styles.date} selected={endDate} onChange={(date) => setEndDate(date)} />
-                    {/*<TimePicker className={styles.time} onChange={() => setEndTime()} value={timeEndValue} /> */}
+                    <input type='time' className={styles.time} min="00:00" max="23:59" onChange={(event) => setEndTime(event.target.value)}/>
                 </div>
                 <span>
                     <label>Address</label>
