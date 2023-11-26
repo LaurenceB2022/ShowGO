@@ -44,7 +44,7 @@ public class EventController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/events")//dates formatted "MMM DD YYYY "
+    @PostMapping("/events")
     public Event makeEvent(@RequestBody Event event) {
         return eventRepo.save(event);
     }
@@ -72,7 +72,7 @@ public class EventController {
         return events;
     }
 
-    @GetMapping("/events/{search}")
+    @GetMapping("/events/search/{search}")
     public List<Event> findBySearch(@PathVariable String search) {
         return eventRepo.findBySearch(search);
     }
