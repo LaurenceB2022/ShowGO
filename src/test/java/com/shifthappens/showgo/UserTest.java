@@ -1,7 +1,6 @@
 package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.User;
-import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.UserRepository;
