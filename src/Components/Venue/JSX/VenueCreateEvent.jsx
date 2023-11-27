@@ -126,12 +126,21 @@ const VenueCreateEvent = () => {
         
         if(valid === true){
             console.log('Values in the fields were verified, sending POST request.')
+            var am_pm_start = 'AM'
+            var am_pm_end = 'AM'
             var date_start_string = startDate.toDateString().split(' ');
             var date_end_string = endDate.toDateString().split(' ');
             var date_start_time = startTime.toString().split(':');
             var date_end_time = endTime.toString().split(':');
-            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + date_start_time[0] + ":" + date_start_time[1];
-            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + date_end_time[0] + ":" + date_start_time[1];
+            if(parseInt(date_start_time[0]) > 12){
+                am_pm_start = 'PM'
+            }
+            if(parseInt(date_end_time[0]) > 12){
+                am_pm_end = 'PM'
+            }
+
+            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + (date_start_time[0]%12) + ":" + date_start_time[1] + " " + am_pm_start;
+            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + (date_end_time[0]%12) + ":" + date_start_time[1] + " " + am_pm_end;
             console.log('Username: ' + username.toString())
 
             var username_values = username[0];
