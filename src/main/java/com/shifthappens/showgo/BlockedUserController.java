@@ -39,7 +39,7 @@ public class BlockedUserController {
         return blockedUsers;
     }
 
-    @PostMapping("/BlockedUsers/{userUsername}/{venueUsername}")
+    @PostMapping("/blockedUsers/{userUsername}/{venueUsername}")
     public BlockedUser blockUser(@PathVariable String userUsername, @PathVariable String venueUsername) {
         User user = userRepo.findByUsername(userUsername);
         Venue venue = venueRepo.findByUsername(venueUsername);

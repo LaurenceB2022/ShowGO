@@ -7,9 +7,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "blocked_users")
+@Data
 public class BlockedUser {
     
     @Id
@@ -23,22 +25,6 @@ public class BlockedUser {
     @ManyToOne
     @JoinColumn(name= "venue_username")
     private Venue venue;
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Venue getVenue() {
-        return this.venue;
-    }
-
-    public void setVenue(Venue venue) {
-        this.venue = venue;
-    }
 
     public BlockedUser() {
     }
