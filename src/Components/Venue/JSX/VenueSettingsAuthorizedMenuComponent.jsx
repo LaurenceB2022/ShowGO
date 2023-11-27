@@ -19,6 +19,9 @@ const VenueSettingsAuthorizedMenuComponent = () => {
     async function search(event){
         if(event.type !== 'click' && event.key !== 'Enter') return;
 
+        var events = await fetch('http://localhost:8080/users/' + value + '/' + startDateVal + '/' + endDateVal + '/' + minCost + '/' + maxCost, {
+            method: 'GET',
+        }).then(response => response ? response.json() : []);
     }
 
     /*TO DO: Sprint 5 */

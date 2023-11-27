@@ -12,35 +12,41 @@ const AuthorizedUserComponent = (props) => {
     const filter = props.results;
     console.log(filter)
 
-    async function getBannedUsers(){
+    function getBannedUsers(){
         const requestOptions = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000'},
         }
-        var result = await fetch('http://localhost:8080/blockedUsers/venue/' + username, requestOptions)
+        fetch('http://localhost:8080/blockedUsers/venue/' + username, requestOptions)
         .then(response => response.json())
-        if(result !== null){
-            setUsers(result);
-        }
-        else{
-            setUsers('');
-        }
+        .then(data => {
+            if(data !== null){
+                setUsers(data);
+            }
+            else{
+                setUsers('');
+            }
+        })
+        
     }
 
-    async function getSearchedUsers(){
+    function getSearchedUsers(){
         const requestOptions = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000'}
         }
-        var result = await fetch('http://localhost:8080/user/' + filter, requestOptions)
+        fetch('http://localhost:8080/user/' + filter, requestOptions)
         .then(response => response.json())
-        if(result !== null){
-            setUsers(result);
-        }
+        .then(data => { 
+            if(data !== null){
+                setUsers(data);
+            }
+        })
+        
 
     }
 
@@ -48,7 +54,7 @@ const AuthorizedUserComponent = (props) => {
         if(filter === 'automatic'){
             getBannedUsers();
         }
-        else{
+        else if(filter !== ''){
             getSearchedUsers();
         }
         
