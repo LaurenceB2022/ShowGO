@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shifthappens.showgo.entities.Ticket;
 import com.shifthappens.showgo.exceptions.InvalidGuidException;
 import com.shifthappens.showgo.exceptions.InvalidTicketBuyException;
+import com.shifthappens.showgo.repositories.BlockedUserRepository;
 import com.shifthappens.showgo.repositories.TicketRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -21,8 +22,11 @@ import com.shifthappens.showgo.repositories.TicketRepository;
 public class TicketController {
     private final TicketRepository ticketRepo;
 
-    public TicketController(TicketRepository ticketRepo) {
+    private final BlockedUserRepository blockedUserRepo;
+
+    public TicketController(TicketRepository ticketRepo, BlockedUserRepository blockedUserRepo) {
         this.ticketRepo = ticketRepo;
+        this.blockedUserRepo = blockedUserRepo;
     }
 
     @GetMapping("/tickets/{eventGuid}")
@@ -41,10 +45,17 @@ public class TicketController {
 
     @PostMapping("/tickets")
     public Ticket createTicket(@RequestBody Ticket ticket) {
+        if (ticket == null) {
+            throw new InvalidTicketBuyException("Ticket is null");
+        }
+        if (blockedUserRepo.findByUserAndVenue(ticket.getOwner().getUsername(), ticket.getEvent().getVenue().getUsername()) != null) {
+            throw new InvalidTicketBuyException("Buyer is a blocked user");
+        }
+
         List<Ticket> tickets = new ArrayList<>();
         ticketRepo.findByEvent(ticket.getEvent()).forEach(t -> tickets.add(t));
         
-        if (tickets.size() >= ticket.getEvent().getMax_attendees()) throw new InvalidTicketBuyException();
+        if (tickets.size() >= ticket.getEvent().getMax_attendees()) throw new InvalidTicketBuyException("Event is at maximum attendance");
         return ticketRepo.save(ticket);
     }
 

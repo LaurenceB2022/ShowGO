@@ -9,6 +9,7 @@ import com.shifthappens.showgo.exceptions.InvalidGuidException;
 import com.shifthappens.showgo.exceptions.InvalidTicketBuyException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
+import com.shifthappens.showgo.repositories.BlockedUserRepository;
 import com.shifthappens.showgo.repositories.EventRepository;
 import com.shifthappens.showgo.repositories.TicketRepository;
 import org.junit.Test;
@@ -45,6 +46,8 @@ public class TicketTest {
     private EventRepository EventRepository;
     @Autowired
     private TicketRepository TicketRepository;
+    @Autowired
+    private BlockedUserRepository BlockedUserRepository;
 
     private TicketController TicketController;
     
@@ -59,7 +62,7 @@ public class TicketTest {
 
         this.TicketRepository.save(Ticket1);
         
-        this.TicketController = new TicketController(this.TicketRepository);
+        this.TicketController = new TicketController(this.TicketRepository, this.BlockedUserRepository);
     }
 
     @Test
