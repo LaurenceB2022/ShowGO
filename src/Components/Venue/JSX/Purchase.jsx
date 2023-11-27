@@ -8,11 +8,14 @@ const Purchase = (props) => {
     
     const ticketJSON = props.purchase;
     const event_guid = ticketJSON.event_guid;
-    const[event, setEvent] = useState('');
-    console.log(ticketJSON + "Purchase")
-    console.log(ticketJSON.event_guid + "Purchase GUID")
+    //const event = ticketJSON[0];
+    //const[event, setEvent] = useState('');
+    console.log(ticketJSON + "Purchase here")
+    console.log(ticketJSON.start_date + " " + ticketJSON.name)
+    console.log(ticketJSON.event_guid + "Purchase GUID here")
 
-    async function getEvent(){
+    /*
+    function getEvent(){
         fetch('http://localhost:8080/events/' + event_guid, {
             method:'GET'
         })
@@ -34,13 +37,13 @@ const Purchase = (props) => {
 
     useEffect(() => {
         getEvent();
-    }, []);
+    }, []); */
 
     return(
         <div className={styles.payment}>
-            <p>{event.start_date}</p>
-            <p>{event.name}</p>
-            <p>${event.ticket_price}</p>
+            <p>{ticketJSON.start_date}</p>
+            <p>{ticketJSON.name}</p>
+            <p>${ticketJSON.ticket_price}</p>
         </div>
     )
 }

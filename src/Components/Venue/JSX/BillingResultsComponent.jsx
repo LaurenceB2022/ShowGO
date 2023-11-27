@@ -6,13 +6,19 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import Purchase from './Purchase';
 
 const BillingResultComponent = (props) => {
+    const[seed, setSeed] = useState(1)
+    const reset = () => {
+        setSeed(Math.random());
+    }
     const [data, setData] = useState([]);
+    var n = 0;
     const [event, setEvent] = useState([]);
     const [ticketResult, setTickets] = useState([])
     /* The GUIDS of events to use to fetch tickets */
     const eventsGUID = props.guid;
     console.log(props.guid + " venue event GUIDs");
 
+    /*
     function fetchEvent(event_guid){
         fetch('http://localhost:8080/events/' + event_guid, {
             method:'GET'
@@ -30,9 +36,9 @@ const BillingResultComponent = (props) => {
                 })
             }
         })
-    }
+    } */
 
-    /*
+    
     async function fetchTickets(guid){
         const requestOptions = {
             method: 'GET',
@@ -40,26 +46,20 @@ const BillingResultComponent = (props) => {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000'},
         }
-        fetch('http://localhost:8080/tickets/' + guid, requestOptions)
+        var x = await fetch('http://localhost:8080/tickets/' + guid, requestOptions)
             .then(response => response.json())
-            .then(data => {
-                if(data){
-                    console.log(data + " ticket found")
-                    return data;
-                }
-                else{
-                    return ''
-                }
-            })
+        return x;
     }
-    */
+    
 
     async function fetchPurchases(){
         const guids = []
-        console.log('Fetching purchases ' + eventsGUID)
-        if(eventsGUID !== '' && eventsGUID !== null){
+        console.log('Fetching purchases here ' + eventsGUID)
+        if(eventsGUID !== '' && eventsGUID !== null && eventsGUID.length > 0){
             eventsGUID.forEach(async eventGUID => {
                 console.log(eventGUID.guid + " guid")
+                //var result = await fetchTickets(eventGUID.guid)
+                
                 const requestOptions = {
                     method: 'GET',
                     headers: {
@@ -67,15 +67,18 @@ const BillingResultComponent = (props) => {
                         'Access-Control-Allow-Origin': 'http://localhost:3000'},
                 }
                 var result = await fetch('http://localhost:8080/tickets/' + eventGUID.guid, requestOptions)
-                    .then(response => response.json())
-                if(result !== null || result !== ''){
+                .then(response => response.json()) 
+                console.log(result + " ticket result here")
+                if(result.length > 0){
                     
                     result.forEach(ticket =>{
-                        console.log("ticket found " + ticket)
+                        console.log("ticket found here " + ticket)
                         console.log(ticket + " " + eventGUID + " ")
-                        var nt = [ticket, eventGUID]
-                        console.log(nt[0] + " " + nt[1] + "separated values")
-                        guids.push({ticket, eventGUID})
+                        var nt = [eventGUID]
+                        //console.log(nt[0] + " " + nt[1] + "separated values")
+                        guids.push(eventGUID)
+                        console.log(eventGUID)
+                        console.log(guids)
                         setData(guids)
                     })
                         
@@ -93,7 +96,6 @@ const BillingResultComponent = (props) => {
 
     useEffect(() => {
         fetchPurchases();
-
     }, []);
 
     return (
@@ -106,10 +108,9 @@ const BillingResultComponent = (props) => {
             <div>
                 
                 {
-                    
-                    (data !== null) ? data.map(purchaseJSON => (
-                            
-                            <Purchase purchase={purchaseJSON[0]} event={purchaseJSON[1]} ></Purchase>
+                    (data !== null && data.length > 0) ? data.map(purchaseJSON => (
+                           
+                            <Purchase key={n+=1} purchase={purchaseJSON}></Purchase>
                     )) : <></>
                             
                 

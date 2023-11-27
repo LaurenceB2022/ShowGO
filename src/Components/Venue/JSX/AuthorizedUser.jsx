@@ -13,24 +13,15 @@ const AuthorizedUser = (prop) => {
 
     const handleInput = (event) => {
         event.preventDefault();
-        if(mode === 'remove'){
-            var requestOptions = {
-                method: 'DELETE'
-            }
-            fetch('http://localhost:8080/blockedUser/' + user_name + '/' + venue_name, {method: 'DELETE'})
-            .then(response => response.json())
+        var requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'}
         }
-        else {
-            var requestOptions = {
-                method: 'POST',
-                headers:  {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000'}
-            }
-            fetch('http://localhost:8080/blockedUser/' + user_name + '/' + venue_name, requestOptions)
-            .then(response => response.json())
-    
-        }
+        fetch('http://localhost:8080/blockedUsers/' + user_name + '/' + venue_name, requestOptions)
+        .then(response => response.json())
+       
         
 
     }

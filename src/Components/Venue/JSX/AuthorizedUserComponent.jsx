@@ -20,17 +20,12 @@ const AuthorizedUserComponent = (props) => {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:3000'},
         }
-        fetch('http://localhost:8080/blockedUsers/venue/' + username, requestOptions)
+        var x = await fetch('http://localhost:8080/blockedUsers/venue/' + username, requestOptions)
         .then(response => response.json())
-        .then(data => {
-            if(data !== ''){
-                setUsers(data);
-                console.log(users + " found users")
-            }
-            else{
-                setUsers([]);
-            }
-        })
+        //console.log(x[0].user)
+        setUsers(x)
+
+        
         
     }
 
@@ -42,8 +37,8 @@ const AuthorizedUserComponent = (props) => {
         <div>
             <div>
             {
-                (users !== null && users !== '') ? users.map(userJSON => (
-                    <AuthorizedUser username={userJSON.username} venue_name={username} mode={mode}/>
+                (users !== null && users !== '' && users.length > 0) ? users.map(userJSON => (
+                    <AuthorizedUser username={userJSON.user.username} venue_name={username} mode={mode}/>
                 )) : <></>
                 
             }

@@ -21,6 +21,13 @@
     overflow: auto;
     box-sizing: border-box;
     border-radius:3px;
+    font-family: 'Sen', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+    white-space: normal;
 }
 
 #search {

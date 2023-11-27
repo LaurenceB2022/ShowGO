@@ -12,12 +12,13 @@ const AuthorizedUserComponentSearch = (props) => {
     const[users, setUsers] = useState([])
     console.log(filter + " filter in component")
     console.log(username + " venue name in component")
+    console.log("test")
 
     return (
         <div>
             <div>
                 {
-                    (filter.username !== '' && filter.username !== null) ? filter.map(userJSON => {
+                    (filter.length > 0) ? filter.map(userJSON => {
                         <AuthorizedUser username={userJSON.username} venue_name={username} mode={mode} />
                     }) : <></>
                 }

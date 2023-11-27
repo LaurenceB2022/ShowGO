@@ -15,7 +15,7 @@ const VenueSettingsBillingMenuComponent = () =>{
     console.log(username.username)
 
     
-    async function getGUID() {
+    function getGUID() {
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -26,22 +26,26 @@ const VenueSettingsBillingMenuComponent = () =>{
         //Gets Events
         console.log(username[0].username)
         fetch('http://localhost:8080/events/venue/' + username[0].username, requestOptions)
-        .then(response => response.json())
+        .then(response => response.json()) 
         .then(data => {
             if(data){
                 console.log(data + " data received")
+                console.log(events + "from events")
                 setEvents(data);
             }
             else{
+                console.log(events + "from events")
                 setEvents([])
             }
-        })
-        /*console.log(values + "from username") */
+        }) 
         
-        console.log(events + "from events")
+        /*console.log(values + "from username") */
+        //console.log(events + "from events")
+        //return events;
+        
 
         /*
-        if(events !== '' && events !== null){
+        if(events !== '' && events !== null && events.length > 0){
             console.log(events)
             console.log("test")
             const array = [];
@@ -56,14 +60,15 @@ const VenueSettingsBillingMenuComponent = () =>{
             });
             
         }
-            */
-            /*console.log(values + " Array")
-            setGUID(values);
-            */
+            
+            console.log(values + " Array")
+            setGUID(values); */
+            
         
         
     } 
 
+    
     useEffect(() => {
         getGUID();
     }, []);  
@@ -76,6 +81,7 @@ const VenueSettingsBillingMenuComponent = () =>{
                 <p>{username.name}</p>
                 <input className={styles.billing_search} type='text' placeholder='Search Payment By Number' />
             </span>
+            
             <div className={styles.billing_result_box}>
                 <BillingResultComponent guid={events} />
             </div>

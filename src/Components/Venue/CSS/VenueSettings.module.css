@@ -117,11 +117,11 @@
 
 .payment p{
     font-family: 'Sen', sans-serif;
-    font-size: 14px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
     line-height: normal; 
-    color:#4F6367;
+    color:black;
 }
 
 .billing_container h1{
