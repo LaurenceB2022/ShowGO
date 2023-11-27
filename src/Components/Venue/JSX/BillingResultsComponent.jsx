@@ -7,7 +7,8 @@ import Purchase from './Purchase';
 
 const BillingResultComponent = (props) => {
     const [data, setData] = useState([]);
-    const [event, setEvent] = useState('');
+    const [event, setEvent] = useState([]);
+    const [ticketResult, setTickets] = useState([])
     /* The GUIDS of events to use to fetch tickets */
     const eventsGUID = props.guid;
     console.log(props.guid + " venue event GUIDs");
@@ -31,7 +32,8 @@ const BillingResultComponent = (props) => {
         })
     }
 
-    function fetchTickets(guid){
+    /*
+    async function fetchTickets(guid){
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -50,23 +52,40 @@ const BillingResultComponent = (props) => {
                 }
             })
     }
+    */
 
-    function fetchPurchases(){
+    async function fetchPurchases(){
         const guids = []
-        
+        console.log('Fetching purchases ' + eventsGUID)
         if(eventsGUID !== '' && eventsGUID !== null){
-            eventsGUID.forEach(eventGUID => {
+            eventsGUID.forEach(async eventGUID => {
                 console.log(eventGUID.guid + " guid")
-                var result = fetchTickets(eventGUID.guid)
-                console.log(result + " fetch ticket result")
-                if(result !== ''){
-                    console.log(result + " ticket")
-                    guids.push(result);
+                const requestOptions = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': 'http://localhost:3000'},
+                }
+                var result = await fetch('http://localhost:8080/tickets/' + eventGUID.guid, requestOptions)
+                    .then(response => response.json())
+                if(result !== null || result !== ''){
+                    
+                    result.forEach(ticket =>{
+                        console.log("ticket found " + ticket)
+                        console.log(ticket + " " + eventGUID + " ")
+                        var nt = [ticket, eventGUID]
+                        console.log(nt[0] + " " + nt[1] + "separated values")
+                        guids.push({ticket, eventGUID})
+                        setData(guids)
+                    })
+                        
+                    
                 }
             });     
-            setData(guids); 
+            
         }
-        
+        console.log('Settings GUIDs')
+        setData(guids); 
         
         console.log(data + " tickets");
         
@@ -74,6 +93,7 @@ const BillingResultComponent = (props) => {
 
     useEffect(() => {
         fetchPurchases();
+
     }, []);
 
     return (
@@ -89,7 +109,7 @@ const BillingResultComponent = (props) => {
                     
                     (data !== null) ? data.map(purchaseJSON => (
                             
-                            <Purchase purchase={purchaseJSON} ></Purchase>
+                            <Purchase purchase={purchaseJSON[0]} event={purchaseJSON[1]} ></Purchase>
                     )) : <></>
                             
                 

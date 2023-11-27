@@ -4,6 +4,7 @@ import Search from 'Assets/Search.svg';
 import React, {useState, useEffect, useContext} from 'react';
 import { MyContext } from 'App';
 import AuthorizedUserComponent from './AuthorizedUserComponent';
+import AuthorizedUserComponentSearch from './AuthorizedUserComponentSearch'
 
 const VenueSettingsAuthorizedMenuComponent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
@@ -13,15 +14,24 @@ const VenueSettingsAuthorizedMenuComponent = () => {
     const [venue, setVenue] = useState('');
     const username = userState;
     const [userSearch, setUserSearch] = useState('');
+    const [results, setResults] = useState([]);
     const [error, setError] = useState("");
     console.log(username[0].username)
 
-    async function search(event){
-        if(event.type !== 'click' && event.key !== 'Enter') return;
-
-        var events = await fetch('http://localhost:8080/users/' + value + '/' + startDateVal + '/' + endDateVal + '/' + minCost + '/' + maxCost, {
+    function search(event){
+        console.log('Reached Searched Users')
+        /*if(event.type !== 'click' && event.key !== 'Enter') return; */
+        event.preventDefault()
+        fetch('http://localhost:8080/user/' + userSearch, {
             method: 'GET',
-        }).then(response => response ? response.json() : []);
+        }).then(response => response ? response.json() : [])
+        .then(data => {
+            if(data){
+                console.log(data + 'Setting Results')
+                setResults(data);
+            }
+        })
+        
     }
 
     /*TO DO: Sprint 5 */
@@ -36,7 +46,7 @@ const VenueSettingsAuthorizedMenuComponent = () => {
                         <input id={styles.input} type="text" placeholder='Search User' onChange={(event) => setUserSearch(event.target.value)}/>
                         <img id={styles.img} src={Search} onClick={search} alt=""/>
                     </div>
-                <AuthorizedUserComponent username={username[0].username} results={userSearch} remove='add'/>
+                <AuthorizedUserComponentSearch username={username[0].username} results={results} remove='add'/>
             </div>
         </div>
     )

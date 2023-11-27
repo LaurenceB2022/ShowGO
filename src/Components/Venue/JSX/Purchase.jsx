@@ -8,11 +8,11 @@ const Purchase = (props) => {
     
     const ticketJSON = props.purchase;
     const event_guid = ticketJSON.event_guid;
-    const[event, setEvent] = useState(null);
+    const[event, setEvent] = useState('');
     console.log(ticketJSON + "Purchase")
     console.log(ticketJSON.event_guid + "Purchase GUID")
 
-    function getEvent(){
+    async function getEvent(){
         fetch('http://localhost:8080/events/' + event_guid, {
             method:'GET'
         })

@@ -8,8 +8,8 @@ const AuthorizedUser = (prop) => {
     const user_name = prop.username;
     const venue_name = prop.venue_name;
     const mode = prop.mode;
-    
-
+    console.log('Reached Authorized User')
+    console.log('Authorized User: ' + user_name)
 
     const handleInput = (event) => {
         event.preventDefault();

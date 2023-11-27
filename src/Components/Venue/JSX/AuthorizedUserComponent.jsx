@@ -6,13 +6,14 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import AuthorizedUser from './AuthorizedUser';
 
 const AuthorizedUserComponent = (props) => {
-    const[users, setUsers] = useState([])
     const username = props.username;
     const mode = props.remove;
     const filter = props.results;
-    console.log(filter)
+    const[users, setUsers] = useState([])
+    console.log(username + " venue name in component")
 
-    function getBannedUsers(){
+    async function getBannedUsers(){
+        console.log('Reached banned users')
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -22,52 +23,33 @@ const AuthorizedUserComponent = (props) => {
         fetch('http://localhost:8080/blockedUsers/venue/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
-            if(data !== null){
+            if(data !== ''){
                 setUsers(data);
+                console.log(users + " found users")
             }
             else{
-                setUsers('');
+                setUsers([]);
             }
         })
         
-    }
-
-    function getSearchedUsers(){
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:3000'}
-        }
-        fetch('http://localhost:8080/user/' + filter, requestOptions)
-        .then(response => response.json())
-        .then(data => { 
-            if(data !== null){
-                setUsers(data);
-            }
-        })
-        
-
     }
 
     useEffect(() => {
-        if(filter === 'automatic'){
-            getBannedUsers();
-        }
-        else if(filter !== ''){
-            getSearchedUsers();
-        }
-        
+        getBannedUsers();
     }, []);
 
     return (
         <div>
+            <div>
             {
                 (users !== null && users !== '') ? users.map(userJSON => (
                     <AuthorizedUser username={userJSON.username} venue_name={username} mode={mode}/>
                 )) : <></>
+                
             }
+            </div>
         </div>
+        
     )
 }
 export default AuthorizedUserComponent;

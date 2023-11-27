@@ -9,29 +9,13 @@ const VenueSettingsBillingMenuComponent = () =>{
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
     const [_, setUser] = userState;
-    const [events, setEvents] = useState(null);
+    const [events, setEvents] = useState([]);
     const username = userState;
     const [guid, setGUID] = useState('');
     console.log(username.username)
 
-    async function getEvent(guidJSON){
-        const requestOptions2 = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:3000'}
-        }
-        var venue_obj2 = await fetch('http://localhost:8080/events/venue/' + guidJSON, requestOptions2)
-            .then(response => response.json());
-        if(venue_obj2 != null){
-            
-            return venue_obj2;
-        }
-        return '';
-    }
-
     
-    function getGUID() {
+    async function getGUID() {
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -47,6 +31,9 @@ const VenueSettingsBillingMenuComponent = () =>{
             if(data){
                 console.log(data + " data received")
                 setEvents(data);
+            }
+            else{
+                setEvents([])
             }
         })
         /*console.log(values + "from username") */
@@ -90,7 +77,7 @@ const VenueSettingsBillingMenuComponent = () =>{
                 <input className={styles.billing_search} type='text' placeholder='Search Payment By Number' />
             </span>
             <div className={styles.billing_result_box}>
-                <BillingResultComponent guid={events}></BillingResultComponent>
+                <BillingResultComponent guid={events} />
             </div>
         </div>
     )
