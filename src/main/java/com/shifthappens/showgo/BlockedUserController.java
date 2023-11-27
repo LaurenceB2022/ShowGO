@@ -47,6 +47,9 @@ public class BlockedUserController {
         if (user == null || venue == null) {
             throw new InvalidUsernameException();
         }
+        if (blockedUserRepo.findByUserAndVenue(userUsername, venueUsername) != null) {
+            throw new InvalidUsernameException();
+        }
 
         return blockedUserRepo.save(new BlockedUser(user, venue));
 
