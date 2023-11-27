@@ -88,7 +88,7 @@ const BillingResultComponent = (props) => {
             
         }
         console.log('Settings GUIDs')
-        setData(guids); 
+        //setData(guids); 
         
         console.log(data + " tickets");
         
