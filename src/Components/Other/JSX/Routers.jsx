@@ -17,6 +17,7 @@ import VenueSettingsAuthorizedMenuComponent from 'Components/Venue/JSX/VenueSett
 import VenueSettingsPaymentMenuComponent from 'Components/Venue/JSX/VenueSettingsPaymentMenuComponent';
 import VenueManageEvent from 'Components/Venue/JSX/VenueManageEvent';
 import VenueManageAttendees from 'Components/Venue/JSX/VenueManageAttendees';
+import UserSettings from 'Components/User/JSX/UserSettings';
 
 const Routers = () => {
     return (
@@ -29,6 +30,7 @@ const Routers = () => {
           {/* Users */}
           <Route path='home' element={<UserHomepage/>}/>
           <Route path='tickets' element={<UserViewTickets/>}/>
+          <Route path='settings' element={<UserSettings/>}/>
           <Route path='home/event/:id' exact element={<UserViewEvent/>}/>
           <Route path='home/event/:id/checkout' element={<UserCheckout/>}/>
           <Route path='home/event/:id/checkout/complete' element={<UserCheckoutComplete/>}/>

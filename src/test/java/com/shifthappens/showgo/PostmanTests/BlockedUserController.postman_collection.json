@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "616eb4eb-3384-4ff7-9b19-22cdec46370f",
+		"name": "BlockedUserController",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31402263"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/blockedUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blockedUsers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blockedUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/blockedUsers/venue/completeuser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blockedUsers/venue/completeuser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blockedUsers",
+						"venue",
+						"completeuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/blockedUsers/user/completeuser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blockedUsers/user/completeuser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blockedUsers",
+						"user",
+						"completeuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/blockedUsers/jerma985/completeuser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blockedUsers/jerma985/completeuser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blockedUsers",
+						"jerma985",
+						"completeuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/blockedUsers/jerma985/completeuser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blockedUsers/jerma985/completeuser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blockedUsers",
+						"jerma985",
+						"completeuser"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -77,10 +77,11 @@
 
 .billing_container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
-    height: fit-content;
+    height: 100%;
     align-content: center;
+    background-color: white;
 }
 
 .billing_container_span{
@@ -97,13 +98,44 @@
     height: 75%;
 }
 
-.billing_result_box{
+.billing_container_box{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 3px;
+    border-color: #4F6367;
+}
 
+.payment{
+    align-items: center;
+    background-color: white;
+    align-content: center;
+    padding: 10%;
+}
+
+.payment p{
+    font-family: 'Sen', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:black;
 }
 
 .billing_container h1{
     font-family: 'Sen', sans-serif;
     font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+}
+
+.billing_container h2{
+    font-family: 'Sen', sans-serif;
+    font-size: 40px;
     font-style: normal;
     font-weight: 400;
     line-height: normal; 
@@ -128,7 +160,6 @@
     width: 100%;
     height: fit-content;
     gap: 20px 20px;
-    
     
 }
 
@@ -214,4 +245,26 @@
     width: 100%;
     height: 100%;
     
+}
+
+.payment_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    align-content: center;
+    font-family: 'Sen', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+    color:#4F6367;
+}
+
+.payment_container h1{
+    align-content: center;
+    font-size: 40px;
+}
+
+.payment_container label{
+    font-size: 32px;
 }

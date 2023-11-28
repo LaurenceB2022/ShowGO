@@ -1,9 +1,14 @@
 package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.BlockedUser;
+import com.shifthappens.showgo.entities.Event;
+import com.shifthappens.showgo.entities.Ticket;
 import com.shifthappens.showgo.entities.User;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidTicketBuyException;
 import com.shifthappens.showgo.repositories.BlockedUserRepository;
+import com.shifthappens.showgo.repositories.EventRepository;
+import com.shifthappens.showgo.repositories.TicketRepository;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
@@ -15,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -31,15 +38,24 @@ public class BlockedUserTest {
     BlockedUser BlockedUser2= new BlockedUser(User1, Venue2);
     BlockedUser BlockedUser3= new BlockedUser(User2, Venue2);
 
+    Event Event1 = new Event(Venue1);
+
     @Autowired
     private VenueRepository VenueRepository;
     @Autowired
     private UserRepository UserRepository;
     @Autowired
     private BlockedUserRepository BlockedUserRepository;
+    @Autowired
+    private TicketRepository TicketRepository;
+    @Autowired
+    private EventRepository EventRepository;
+
+    private TicketController TicketController;
     
     @Before
     public void setUp() throws Exception {
+        TicketController = new TicketController(this.TicketRepository, this.BlockedUserRepository);
 
         this.VenueRepository.save(Venue1);
         this.VenueRepository.save(Venue2);
@@ -50,6 +66,8 @@ public class BlockedUserTest {
         this.BlockedUserRepository.save(BlockedUser1);
         this.BlockedUserRepository.save(BlockedUser2);
         this.BlockedUserRepository.save(BlockedUser3);
+
+        this.EventRepository.save(Event1);
 
         assertNotNull(BlockedUser1.getUser());
         assertNotNull(BlockedUser2.getUser());
@@ -73,8 +91,20 @@ public class BlockedUserTest {
 
     }
 
+    @Test
+    public void testBuyTicketAsBlockedUser() {
+        Ticket mockTicket = mock(Ticket.class);
+
+        when(mockTicket.getOwner()).thenReturn(User1);
+        when(mockTicket.getEvent()).thenReturn(Event1);
+
+        assertThrows(InvalidTicketBuyException.class, () -> TicketController.createTicket(mockTicket));
+    }
+
     @After
     public void tearDown() throws Exception {
+        EventRepository.delete(Event1);
+
         BlockedUserRepository.delete(BlockedUser1);
         BlockedUserRepository.delete(BlockedUser2);
         BlockedUserRepository.delete(BlockedUser3);

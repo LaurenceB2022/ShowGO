@@ -39,12 +39,15 @@ public class BlockedUserController {
         return blockedUsers;
     }
 
-    @PostMapping("/BlockedUsers/{userUsername}/{venueUsername}")
-    public BlockedUser blockUser(@PathVariable String userUsername, @PathVariable String venuUsername) {
+    @PostMapping("/blockedUsers/{userUsername}/{venueUsername}")
+    public BlockedUser blockUser(@PathVariable String userUsername, @PathVariable String venueUsername) {
         User user = userRepo.findByUsername(userUsername);
-        Venue venue = venueRepo.findByUsername(venuUsername);
+        Venue venue = venueRepo.findByUsername(venueUsername);
 
         if (user == null || venue == null) {
+            throw new InvalidUsernameException();
+        }
+        if (blockedUserRepo.findByUserAndVenue(userUsername, venueUsername) != null) {
             throw new InvalidUsernameException();
         }
 

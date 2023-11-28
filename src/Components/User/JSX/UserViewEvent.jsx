@@ -2,8 +2,13 @@ import 'index.css';
 import styles from 'Components/User/CSS/UserViewEvent.module.css';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import { useContext, useEffect } from 'react';
+import { MyContext } from 'App';
 
 export default function UserViewEvent() {
+    const {_, __, userState} = useContext(MyContext);
+    const [user, ___] = userState;
+
     const id = useParams().id;
     const location = useLocation();
     const eventJSON = !location.state ? {
@@ -20,6 +25,31 @@ export default function UserViewEvent() {
         max_attendees: 0,
         image: null
         } : location.state.eventJSON;
+        var blocked = false;
+        var eventFull = false;
+
+        async function checkCanPurchaseTicket() {
+            var tickets = await fetch('http://localhost:8080/tickets/' + eventJSON.guid, {
+                method: 'GET',
+            }).then(response => response.json());
+            console.log(tickets.length);
+            if (tickets.length >= eventJSON.max_attendees) {
+                eventFull = true;
+            }
+
+            var blockedUsers = await fetch('/blockedUsers/venue/' + eventJSON.venue.username, {
+                method: 'GET',
+            }).then(response => response.json());
+            if (blockedUsers.includes(user.username)) {
+                blocked = true;
+            }
+            
+        }
+    
+        useEffect(() => {
+            checkCanPurchaseTicket();
+        }, []);
+    
 
     return (
         <div id={styles.content}>
@@ -59,7 +89,7 @@ export default function UserViewEvent() {
                         <img id={styles.image} src={eventJSON.image ? eventJSON.image : (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}/>
                         <p class={styles.p}>{'$' + eventJSON.ticket_price.toFixed(2)} / Ticket</p>
                     </div>
-                    {new Date(eventJSON.end_date) > new Date() ? 
+                    {new Date(eventJSON.end_date) > new Date() && !blocked && !eventFull ? 
                     (<button className='button-enabled'>
                         <Link className='link-active' to={'/home/event/' + id + '/checkout'} state={{eventJSON: eventJSON}}>Buy Ticket</Link>
                     </button>) : (<></>)
