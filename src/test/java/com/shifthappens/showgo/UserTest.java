@@ -38,6 +38,7 @@ public class UserTest {
         this.UserRepository.save(User1);
         this.UserRepository.save(User2);
         this.UserRepository.save(User3);
+        this.UserRepository.save(User4);
         assertNotNull(User1.getUsername());
         assertNotNull(User2.getUsername());
     }
@@ -56,7 +57,7 @@ public class UserTest {
     public void testSignUp(){
         UserController UserController = new UserController(UserRepository, VenueRepository);
 
-        User testvalidUser = new User("Validusername","displayname", "Validpassword!");
+        User testvalidUser = new User("Validusername1","displayname", "Validpassword!");
         assertNotNull(UserController.signUp(testvalidUser));        
         UserRepository.delete(testvalidUser);
 
@@ -66,7 +67,7 @@ public class UserTest {
         assertThrows(InvalidUsernameException.class, () -> UserController.signUp(test1User));
 
         User test2User = mock(User.class);
-        when(test2User.getUsername()).thenReturn("Validusername");
+        when(test2User.getUsername()).thenReturn("Validusername2");
         when(test2User.getPassword()).thenReturn("invalid password");
         assertThrows(InvalidPasswordException.class, () -> UserController.signUp(test2User));
 
@@ -105,6 +106,7 @@ public class UserTest {
         UserRepository.delete(User1);
         UserRepository.delete(User2);
         UserRepository.delete(User3);
+        UserRepository.delete(User4);
     }
 
 }
