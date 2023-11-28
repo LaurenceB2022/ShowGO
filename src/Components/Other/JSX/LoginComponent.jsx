@@ -1,10 +1,14 @@
 import React, {useContext, useState} from 'react';
 import 'index.css';
-import styles from 'Components/Other/CSS/Login.module.css';
+import styles from 'Components/Other/CSS/LoginComponent.module.css';
 import { useNavigate} from 'react-router-dom'; 
 import { MyContext } from 'App';
 
-const Login = () => {
+/*
+    The LoginComponent displays a login field for users and venues to sign in. If a login is invalid, an error message is
+    displayed. Otherwise, the user or venue is sent to their respective homepage.
+*/
+export default function LoginComponent() {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
     const [, setUserType] = userTypeState;
@@ -15,9 +19,10 @@ const Login = () => {
     const [usernameField, setUsernameField] = useState('');
     const [passwordField, setPasswordField] = useState('');
 
+    //Validates data 
     const validate = () =>{
         var result = true;
-        if(usernameField === '' || usernameField === null || passwordField === '' || passwordField === null){
+        if(usernameField == '' || passwordField == ''){
             result = false;
             setError('Error, Missing Credentials.')
         }
@@ -79,27 +84,20 @@ const Login = () => {
                 </svg> 
             </div>
             <div>
-            
                 <div>
                     <label htmlFor='username'>Username</label>
-                    <input name='username' onChange={(e) => setUsernameField(e.target.value)}  type="username"></input>
+                    <input name='username' onChange={(e) => setUsernameField(e.target.value)} type="username"></input>
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
-                    <input name='password' onChange={(e) => setPasswordField(e.target.value)}  type="password"></input>
+                    <input name='password' onChange={(e) => setPasswordField(e.target.value)} type="password"></input>
                 </div>
                 <span className={styles.button_container}>
                     <button type="button" onClick={() => handleLogin()}>Log In</button>
                     <button className='button-enabled' type='button' onClick={() => navigator('/signup')}>Sign Up</button>
                 </span>
                 {error?<label>{error}</label>:null}   
-            
-            
             </div>           
-            
-            
         </div>
     )
 }
-
-export default Login;

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import SignUp from 'Components/Other/JSX/SignUp'
 import { Outlet } from 'react-router-dom';
-import Login from 'Components/Other/JSX/Login';
+import LoginComponent from 'Components/Other/JSX/LoginComponent';
 import UserHomepage from 'Components/User/JSX/UserHomepage';
 import VenueHomepage from 'Components/Venue/JSX/VenueHomepage';
 import UserViewEvent from 'Components/User/JSX/UserViewEvent';
@@ -23,8 +23,9 @@ const Routers = () => {
     return (
       <Routes>
         <Route path='/' element={<Outlet/>}>
-          <Route index element={<Login/>} />
-          <Route path='login' element={<Login/>}/>
+          {/* Login / Signup */}
+          <Route index element={<LoginComponent/>} />
+          <Route path='login' element={<LoginComponent/>}/>
           <Route path='signup' element={<SignUp/>}/>
 
           {/* Users */}

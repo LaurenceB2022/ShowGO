@@ -8,21 +8,8 @@
     gap: 30px;
 }
 
-.redeemed {
-    background-color: lightgreen !important;
-}
-
 #user_pfp {
     margin-left: 5px;
-}
-
-#delete_button {
-    cursor: pointer;
-}
-#checkin_button {
-    justify-content: flex-end;
-    width: 60px;
-    cursor: pointer;
 }
 
 #buttons {
@@ -34,7 +21,21 @@
     gap: 25px;
 }
 
+#checkin_button {
+    justify-content: flex-end;
+    width: 60px;
+    cursor: pointer;
+}
+
+#delete_button {
+    cursor: pointer;
+}
+
 .p {
     font-size: 30px;
     margin: 10px 0px;
+}
+
+.redeemed {
+    background-color: lightgreen !important;
 }
