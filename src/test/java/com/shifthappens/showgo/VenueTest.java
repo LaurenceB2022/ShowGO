@@ -3,6 +3,7 @@ package com.shifthappens.showgo;
 import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
+import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
@@ -99,10 +100,17 @@ public class VenueTest {
         when(test2Venue.getPassword()).thenReturn("1");
         assertThrows(InvalidUsernameException.class, () -> VenueController.editSettings(test2Venue));
 
-        //Authorized Users
-
+        Venue test3Venue = new Venue("ValidUsername1", "test", "");
+        test3Venue.setDescription("");
+        assertThrows(InvalidVenueCreationException.class, () -> VenueController.checkParams(test3Venue));
+        test3Venue.setLocation("");
+        assertThrows(InvalidVenueCreationException.class, () -> VenueController.checkParams(test3Venue));
         Venue Venue0= new Venue("test1", "test0", "testPassword!");
         assertNotNull(VenueController.editSettings(Venue0));
+        
+        //Authorized Users
+
+        
     }
 
     @Test
