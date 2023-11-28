@@ -143,8 +143,8 @@ const VenueCreateEvent = () => {
             
 
 
-            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + (date_start_hour%12) + ":" + date_start_time[1] + " " + am_pm_start;
-            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + (date_end_hour%12) + ":" + date_start_time[1] + " " + am_pm_end;
+            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + (date_start_hour) + ":" + date_start_time[1] + " " + am_pm_start;
+            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + (date_end_hour) + ":" + date_start_time[1] + " " + am_pm_end;
             console.log('Username: ' + username.toString())
             console.log(new Date(date_start))
             console.log(new Date(date_end))
