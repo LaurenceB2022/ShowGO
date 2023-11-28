@@ -114,6 +114,8 @@ const VenueCreateEvent = () => {
         }
         return true;
     }
+
+    
     
     async function createEvent () {
         console.log('Entered the createEvent method.')
@@ -130,15 +132,19 @@ const VenueCreateEvent = () => {
             var date_end_string = endDate.toDateString().split(' ');
             var date_start_time = startTime.toString().split(':');
             var date_end_time = endTime.toString().split(':');
+            var date_start_minute = date_start_time[0].padStart(2, '0');
+            var date_end_minute = date_end_time[0].padStart(2, '0');
             if(parseInt(date_start_time[0]) > 12){
                 am_pm_start = 'PM'
             }
             if(parseInt(date_end_time[0]) > 12){
                 am_pm_end = 'PM'
             }
+            
 
-            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + (date_start_time[0]%12) + ":" + date_start_time[1] + " " + am_pm_start;
-            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + (date_end_time[0]%12) + ":" + date_start_time[1] + " " + am_pm_end;
+
+            var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + (date_start_minute%12) + ":" + date_start_time[1] + " " + am_pm_start;
+            var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + (date_end_minute%12) + ":" + date_start_time[1] + " " + am_pm_end;
             console.log('Username: ' + username.toString())
             console.log(new Date(date_start))
             console.log(new Date(date_end))

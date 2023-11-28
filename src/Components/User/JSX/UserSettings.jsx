@@ -23,7 +23,7 @@ const UserSettings = () => {
         var valid = true;
         
         if(data.password !== '' && data.confirm_password !== ''){
-            if(! /^[a-zA-Z0-9]+$/.test(data.password) || data.password !== data.confirm_password){
+            if(!/^[a-zA-Z0-9!?#$&*]+$/.test(data.password) || data.password !== data.confirm_password || data.password.length < 8 || data.password.length > 40){
                 valid = false;
                 setError('Error, invalid password entered.')
             }
@@ -65,6 +65,7 @@ const UserSettings = () => {
                     pfp: image_string
                 })
             }
+            console.log('Reached here')
             fetch('http://localhost:8080/user/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
                 return response.ok ? response.json() : null;
