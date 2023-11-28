@@ -87,11 +87,19 @@ public class VenueTest {
     @Test
     public void testSettings(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
-
-        Venue testVenue = mock(Venue.class);
-        when(testVenue.getUsername()).thenReturn("test1");
-        when(testVenue.getPassword()).thenReturn("1");
+        //Security Page
+        Venue testVenue = new Venue("test1", "test", "1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));
+        testVenue.setPassword("ValidPassword!");
+        assertNotNull(VenueController.editSettings(testVenue));
+
+        //General Page
+        Venue test2Venue = mock(Venue.class);
+        when(test2Venue.getUsername()).thenReturn("tasegddthrsdfbnyts");
+        when(test2Venue.getPassword()).thenReturn("1");
+        assertThrows(InvalidUsernameException.class, () -> VenueController.editSettings(test2Venue));
+
+        //Authorized Users
 
         Venue Venue0= new Venue("test1", "test0", "testPassword!");
         assertNotNull(VenueController.editSettings(Venue0));
