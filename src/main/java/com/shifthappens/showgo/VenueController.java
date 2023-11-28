@@ -1,5 +1,6 @@
 package com.shifthappens.showgo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
+import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
@@ -96,6 +100,18 @@ public class VenueController {
                 userRepo.findByUsername(username) == null && 
                 venueRepo.findByUsername(username) == null &&
                 username.length() <= 20) ;
+    }
+
+    protected void checkParams(Venue venue) {
+        if (venue.getName().equals("")) {
+            throw new InvalidVenueCreationException("Invalid name");
+        }
+        if (venue.getDescription() != null && venue.getDescription().length() > 1000 || venue.getDescription().equals("")) {
+            throw new InvalidVenueCreationException("Invalid description length");
+        }
+        if (venue.getLocation() != null && venue.getLocation().length() > 100) {
+            throw new InvalidVenueCreationException("Invalid location");
+        }
     }
 
 }
