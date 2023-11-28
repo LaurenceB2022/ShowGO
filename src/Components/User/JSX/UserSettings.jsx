@@ -12,12 +12,39 @@ const UserSettings = () => {
     const [error, setError] = useState('');
     const username = userState[0];
     const navigator = useNavigate(); 
+    const[imgfile, setFile] = useState(null);
 
     const [data, setData] = useState({
         name: '',
         password: '',
         confirm_password: ''
     });
+
+    async function handleImage (event) {
+        const file = event.target.files[0];
+        const a = await readFileDataAsBase64(file).then(d => {
+            console.log(file);
+            console.log(d);
+            setFile(d);
+        });
+    }
+
+    function readFileDataAsBase64(file) {
+        
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+    
+            reader.onload = (event) => {
+                resolve(event.target.result);
+            };
+    
+            reader.onerror = (err) => {
+                reject(err);
+            };
+    
+            reader.readAsDataURL(file);
+        });
+    }
 
     function validateInformation(){
         var valid = true;
@@ -49,6 +76,9 @@ const UserSettings = () => {
             }
             if(data.password !== '' && data.confirm_password !== ''){
                 password_string = data.password;
+            }
+            if(imgfile !== null){
+                image_string = imgfile;
             }
             console.log(username)
             console.log(username_string)
@@ -106,6 +136,13 @@ const UserSettings = () => {
     /*Add functionality to change image, display name, password */
     return(
         <div className={styles.content}>
+            <span>
+                <label>User Profile Image</label>
+                <input className={styles.button1} type="file" onChange={handleImage} />Choose File
+            </span>
+            <div className={styles.image_container}>
+                <img src={imgfile} alt=""/>
+            </div>
             <span className={styles.span_format}>
                 <label>Display Name</label>
                 <input type='text' name='name' value={data.name} onChange={handleInput}></input>
@@ -121,6 +158,7 @@ const UserSettings = () => {
             <div className={styles.errorspace}>
                     {error?<label>{error}</label>:null} 
                 </div>
+            
             <div className={styles.container_buttons}>
                 <button className={styles.button1} onClick={handleSubmit}>Save</button>
                 <button className={styles.button2} onClick={console.log('Navigating back to home')}>

@@ -6,7 +6,7 @@ const Purchase = (props) => {
     const eventJSON = props.eventJSON;
 
     return(
-        <div className={styles.payment}>
+        <div>
             <p>{eventJSON.start_date}</p>
             <p>{eventJSON.name}</p>
             <p>${eventJSON.ticket_price}</p>
