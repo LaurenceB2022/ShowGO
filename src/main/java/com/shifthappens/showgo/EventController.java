@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
+import com.shifthappens.showgo.exceptions.InvalidGuidException;
 import com.shifthappens.showgo.exceptions.InvalidSearchException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.EventRepository;
@@ -40,12 +42,17 @@ public class EventController {
 
     @GetMapping("/events/{guid}")
     public Event findEventByGuid(@PathVariable String guid) {
-        return eventRepo.findByguid(guid);
+        Event event =  eventRepo.findByguid(guid);
+        if (event == null) {
+            throw new InvalidGuidException();
+        }
+        return event;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/events")
     public Event makeEvent(@RequestBody Event event) {
+        checkParams(event);
         return eventRepo.save(event);
     }
 
@@ -97,6 +104,7 @@ public class EventController {
 
     @PostMapping("/events/{guid}")
     public void update(@PathVariable String guid, @RequestBody Event e) {
+        checkParams(e);
         Event tr = eventRepo.findByguid(guid);
             tr.setStart_date(e.getStart_date());
             tr.setEnd_date(e.getEnd_date());
@@ -172,6 +180,32 @@ public class EventController {
             }).collect(Collectors.toList());
         }
         return rtrn == null ? new ArrayList<Event>() : rtrn;
+    }
+
+    protected void checkParams(Event event) {
+        if (event.getStart_date() != null && event.getEnd_date() != null) {
+            LocalDateTime start_date = LocalDateTime.parse(event.getStart_date(), formatter);
+            LocalDateTime end_date = LocalDateTime.parse(event.getEnd_date(), formatter);
+
+            if (end_date.isBefore(start_date)) {
+                throw new InvalidEventCreationException("Invalid date range");
+            }
+        }
+        if (event.getName().equals("")) {
+            throw new InvalidEventCreationException("Invalid name");
+        }
+        if (event.getMax_attendees() <= 0) {
+            throw new InvalidEventCreationException("Invalid max attendees");
+        }
+        if (event.getTicket_price() <= 0) {
+            throw new InvalidEventCreationException("Invalid ticket price");
+        }
+        if (event.getDescription() != null && event.getDescription().length() > 1000 || event.getDescription().equals("")) {
+            throw new InvalidEventCreationException("Invalid description length");
+        }
+        if (event.getLocation() != null && event.getLocation().length() > 100) {
+            throw new InvalidEventCreationException("Invalid location");
+        }
     }
 
 }
