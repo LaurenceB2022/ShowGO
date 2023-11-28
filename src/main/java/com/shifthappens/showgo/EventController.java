@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
+import com.shifthappens.showgo.exceptions.InvalidGuidException;
 import com.shifthappens.showgo.exceptions.InvalidSearchException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.EventRepository;
@@ -41,7 +42,11 @@ public class EventController {
 
     @GetMapping("/events/{guid}")
     public Event findEventByGuid(@PathVariable String guid) {
-        return eventRepo.findByguid(guid);
+        Event event =  eventRepo.findByguid(guid);
+        if (event == null) {
+            throw new InvalidGuidException();
+        }
+        return event;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

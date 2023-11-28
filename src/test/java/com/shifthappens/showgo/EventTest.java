@@ -3,11 +3,13 @@ package com.shifthappens.showgo;
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
 import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
+import com.shifthappens.showgo.exceptions.InvalidGuidException;
 import com.shifthappens.showgo.repositories.EventRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.hibernate.graph.InvalidGraphException;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,12 @@ public class EventTest {
         assertEquals("SEIUJFNVNFLDLSslkdjfer", events.get(0).getDescription());
         assertEquals(1, events.size());
 
+    }
+
+    @Test
+    public void testFindEventByGuid() {
+        assertThrows(InvalidGuidException.class, () -> EventController.findEventByGuid("1"));
+        assertDoesNotThrow(() -> EventController.findEventByGuid(Event1.getGuid()));
     }
 
     @Test
