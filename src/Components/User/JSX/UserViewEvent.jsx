@@ -67,6 +67,10 @@ export default function UserViewEvent() {
                             <td>{eventJSON.venue.username}</td>
                         </tr>
                         <tr>
+                            <td>Location:</td>
+                            <td>{eventJSON.venue.location}</td>
+                        </tr>
+                        <tr>
                             <td>Start Date:</td>
                             <td>{eventJSON.start_date}</td>
                         </tr>
