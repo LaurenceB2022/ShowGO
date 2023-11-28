@@ -24,6 +24,7 @@ public class UserTest {
     User User1= new User("test1", "test1", "testPassword!");
     User User2= new User("test2", "test2", "testPassword!");
     User User3 = new User("test3", "test3", "testPassword!");
+    User User4 = new User("ValidUsername", "test3", "Validpassword!");
 
     @Autowired
     private VenueRepository VenueRepository;
@@ -55,7 +56,7 @@ public class UserTest {
     public void testSignUp(){
         UserController UserController = new UserController(UserRepository, VenueRepository);
 
-        User testvalidUser = new User("ValidUsername","displayname", "Validpassword!");
+        User testvalidUser = new User("Validusername","displayname", "Validpassword!");
         assertNotNull(UserController.signUp(testvalidUser));        
         UserRepository.delete(testvalidUser);
 
@@ -80,8 +81,10 @@ public class UserTest {
         UserController UserController = new UserController(UserRepository, VenueRepository);
         LoginController LoginController = new LoginController(VenueController, UserController);
         //checks for venue login
-        assertThrows(InvalidUsernameException.class, () -> LoginController.login("test11", "testPassword!"));
-        assertThrows(InvalidPasswordException.class, () -> LoginController.login("test1", "testpassworddd"));
+        assertThrows(InvalidUsernameException.class, () -> LoginController.login("invalid username", "Validpassword!"));
+        assertThrows(InvalidUsernameException.class, () -> LoginController.login("invalid username", "invalid password"));
+        assertThrows(InvalidPasswordException.class, () -> LoginController.login("Validusername", "invalid password"));
+        assertNotNull(LoginController.login("ValidUsername", "Validpassword!"));
     }
     
     @Test
