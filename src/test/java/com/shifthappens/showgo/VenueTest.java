@@ -53,6 +53,9 @@ public class VenueTest {
     @Test
     public void testSignUp(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
+        Venue testvalidUser = new Venue("ValidUsername","displayname", "Validpassword!");
+        assertNotNull(VenueController.signUp(testvalidUser));
+        VenueRepository.delete(testvalidUser);        
 
         Venue test1Venue = mock(Venue.class);
         when(test1Venue.getUsername()).thenReturn("test1");
@@ -75,8 +78,10 @@ public class VenueTest {
         UserController UserController = new UserController(UserRepository, VenueRepository);
         LoginController LoginController = new LoginController(VenueController, UserController);
         //checks for venue login
-        assertThrows(InvalidUsernameException.class, () -> LoginController.login("test11", "testpassword"));
-        assertThrows(InvalidPasswordException.class, () -> LoginController.login("test1", "testpassworddd"));
+        assertThrows(InvalidUsernameException.class, () -> LoginController.login("invalid username", "Validpassword!"));
+        assertThrows(InvalidUsernameException.class, () -> LoginController.login("invalid username", "invalid password"));
+        assertThrows(InvalidPasswordException.class, () -> LoginController.login("Validusername", "invalid password"));
+        assertNotNull(LoginController.login("Validusername", "Validpassword!"));
     }
 
     @Test

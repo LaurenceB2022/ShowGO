@@ -51,7 +51,7 @@ const BillingResultComponent = (props) => {
                 <h2>Event</h2>
                 <h2>Amount</h2>
             </div>
-            <div>
+            <div className={styles.billing_container_results}>
                 {data != null ?
                 data.map(eventJSON => <Purchase key={n+=1} eventJSON={eventJSON}></Purchase>) : <></>
                 }
