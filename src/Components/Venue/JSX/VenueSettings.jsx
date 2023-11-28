@@ -5,7 +5,7 @@ import React, {useContext} from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 function VenueSettings (){
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const {_, __, userState} = useContext(MyContext);
     const settings = [{
         name:'General Information',
         id:'general',
@@ -29,7 +29,6 @@ function VenueSettings (){
     ]
 
     return(
-
         <div className={styles.parent_container}>
             <div className={styles.parent_sidebar}>
                 <ul>
