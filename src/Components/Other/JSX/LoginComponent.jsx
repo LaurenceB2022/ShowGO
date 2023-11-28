@@ -10,68 +10,77 @@ import { MyContext } from 'App';
 */
 export default function LoginComponent() {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
-
+    const setLoggedIn = loggedInState[1];
+    const setUserType = userTypeState[1];
+    const setUser = userState[1];
     const navigator = useNavigate();
     const [error, setError]=useState();
-    const [usernameField, setUsernameField] = useState('');
-    const [passwordField, setPasswordField] = useState('');
+    var timeout = null;
 
-    //Validates data 
-    const validate = () =>{
+    //Updates the error message with the given timeout length in ms
+    function updateError(message, ms) {
+        console.log("error updates");
+        if(timeout) {
+            clearTimeout();
+        }
+        setError(message);
+        timeout = setTimeout(() =>{
+            setError("");
+        }, ms);
+    }
+
+    //Validates inputted user data upon clicking login. Displays an error message when validation fails.
+    function validate(username, password) {
         var result = true;
-        if(usernameField == '' || passwordField == ''){
+        if(username == '' || password == ''){
+            updateError('Please enter all credentials.', 2500);
+            return false;
+        } else if(!(/^[a-zA-Z0-9!?#$%&*]+$/.test(password)) || !password.match(/[!?#$%&*]/) || !password.match(/[A-Z]/) || password.length < 8 || password.length > 40){
             result = false;
-            setError('Error, Missing Credentials.')
+            updateError('Invalid password format.', 2500);
+            return false;
+        } else if(!(/^[a-zA-Z0-9]+$/.test(username))){
+            updateError('Invalid username.', 2500);
+            return false;
+        } else {
+            return true;
         }
-        if(!(/^[a-zA-Z0-9]+$/.test(passwordField.valueOf))){
-            result = false;
-            setError('Error, Invalid Password Format.')
-        }
-        if(!(/^[a-zA-Z0-9]+$/.test(usernameField.valueOf))){
-            result = false;
-            setError('Error, Invalid Username Format.')
-        }
-        return result;
-    }  
-    const handleLogin = () => {
-        
-        if(validate){
+    } 
+
+    function handleLogin() {
+        var usernameField = document.getElementById(styles.username).value;
+        var passwordField = document.getElementById(styles.password).value;
+        if(validate(usernameField, passwordField)){ //Validated
             const requestOptions = {
                 method: 'GET'
             };
+            //Fetch user / venue using username and password
             fetch('http://localhost:8080/login/' + usernameField + '/' + passwordField, requestOptions)    
             .then(promise => {
                 if (promise.ok) {
                     return promise.json();  
                 } else {
-                    console.error(error);
-                    setError('Invalid Login Credentials');
+                    updateError('Invalid login credentials.', 2500);
                     return null;
                 }
             })
             .then(userOrVenue => {
                 if (userOrVenue === null) {
                     setLoggedIn(false);
-                }
-                else {
+                } else {
+                    //Set global context values and navigate to the respective homepage
                     setUser(userOrVenue);
                     setLoggedIn(true);
-                    if (userOrVenue.location === undefined) {//users dont have location
+                    if (userOrVenue.location === undefined) {//If no location, must be a User
                         setUserType('user');
                         navigator('/home');
-                    }
-                    else {
+                    } else {
                         setUserType('venue');
                         navigator('/venuehome');
                     }
                 }
             });
         }
-        
-        
     }
 
     return (
@@ -85,18 +94,18 @@ export default function LoginComponent() {
             </div>
             <div>
                 <div>
-                    <label htmlFor='username'>Username</label>
-                    <input name='username' onChange={(e) => setUsernameField(e.target.value)} type="username"></input>
+                    <label>Username</label>
+                    <input maxLength='20' className={styles.input} id={styles.username} type="username"></input>
                 </div>
                 <div>
-                    <label htmlFor='password'>Password</label>
-                    <input name='password' onChange={(e) => setPasswordField(e.target.value)} type="password"></input>
+                    <label>Password</label>
+                    <input maxLength='40' className={styles.input} id={styles.password} type="password"></input>
                 </div>
-                <span className={styles.button_container}>
-                    <button type="button" onClick={() => handleLogin()}>Log In</button>
-                    <button className='button-enabled' type='button' onClick={() => navigator('/signup')}>Sign Up</button>
+                <span id={styles.button_container}>
+                    <button className={styles.button} type="button" onClick={() => handleLogin()}>Log In</button>
+                    <button className={styles.button + ' button-enabled'} type='button' onClick={() => navigator('/signup')}>Sign Up</button>
                 </span>
-                {error?<label>{error}</label>:null}   
+                {error ? <label>{error}</label> : <></>}   
             </div>           
         </div>
     )
