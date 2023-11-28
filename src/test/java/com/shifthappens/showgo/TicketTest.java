@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @SpringBootTest
 public class TicketTest {
     User User1 = new User("Username1", "Bill", "Password1");
+    User User2 = new User("username2", "testUser1", "Password!");
 
     Venue Venue1= new Venue("test1", "test1", "testpassword");
    
@@ -56,6 +57,7 @@ public class TicketTest {
         this.VenueRepository.save(Venue1);
 
         this.UserRepository.save(User1);
+        this.UserRepository.save(User2);
 
         this.EventRepository.save(Event1);
         this.EventRepository.save(Event2);
@@ -93,6 +95,12 @@ public class TicketTest {
         }
     }
 
+    @Test
+    public void testGetTicketByOwner() {
+        assertEquals(1, TicketController.findByOwner(User1.getUsername()).size());
+        assertTrue(TicketController.findByOwner(User2.getUsername()).isEmpty());
+    }
+
      @After
     public void tearDown() throws Exception {
 
@@ -102,6 +110,7 @@ public class TicketTest {
         EventRepository.delete(Event2);
 
         UserRepository.delete(User1);
+        UserRepository.delete(User2);
 
         VenueRepository.delete(Venue1);
        
