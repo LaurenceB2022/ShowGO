@@ -2,6 +2,7 @@ package com.shifthappens.showgo;
 
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
 import com.shifthappens.showgo.repositories.EventRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
 
@@ -20,8 +22,10 @@ import java.util.List;
 @SpringBootTest
 public class EventTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
+    Venue VenueBadLocation = new Venue("test1234", "test1","MyPassword!");
+    
     Event Event1 = new Event(Venue1, "test1");
-    Event Event2 = new Event(Venue1, "test2", "Apr 2 1970 1:00 AM", "Apr 3 1970 12:00 PM", 5, "SEIUJFNVNFLDLSslkdjfer", 15);
+    Event Event2 = new Event(Venue1, "test2", "Apr 04 1970 01:00 AM", "Apr 05 1970 12:00 PM", 5, "SEIUJFNVNFLDLSslkdjfer", 15);
     Event Event3 = new Event(Venue1, "test3", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
 
     @Autowired
@@ -78,9 +82,31 @@ public class EventTest {
     }
 
     @Test
-    public void testMakeEvent() {
+    public void testEventRestrictions() {
         EventRepository.delete(Event2);
         assertEquals(Event2.getName(), EventController.makeEvent(Event2).getName());
+
+
+        Event EventBadDate = new Event(Venue1, "test3", "Apr 03 1970 01:00 AM", "Apr 02 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
+        Event EventBadAttendees = new Event(Venue1, "test3", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", -1);
+        Event EventBadName = new Event(Venue1, "", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
+        
+        StringBuilder hundredString = new StringBuilder();
+        for (int i = 0; i < 100; i++) {
+            hundredString.append("0");
+        }
+        VenueBadLocation.setLocation(hundredString.toString());
+        Event EventBadLocation = new Event(VenueBadLocation, "test3", "Apr 03 1970 01:00 AM", "Apr 02 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
+
+        Event EventBadDescription = new Event(Venue1, "test3", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "", 15);
+        Event EventAllGood = new Event(Venue1, "test3", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
+
+        assertThrows(InvalidEventCreationException.class , () -> EventController.checkParams(EventBadDate));
+        assertThrows(InvalidEventCreationException.class , () -> EventController.checkParams(EventBadAttendees));
+        assertThrows(InvalidEventCreationException.class , () -> EventController.checkParams(EventBadName));
+        assertThrows(InvalidEventCreationException.class , () -> EventController.checkParams(EventBadLocation));
+        assertThrows(InvalidEventCreationException.class , () -> EventController.checkParams(EventBadDescription));
+        assertDoesNotThrow(() -> EventController.checkParams(EventAllGood));
     }
 
     @Test
