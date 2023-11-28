@@ -28,12 +28,16 @@ const VenueSettingsBillingMenuComponent = () =>{
             else{
                 setEvents([])
             }
+            console.log("events retrieved");
         })
     } 
 
-    
+    var ran = false;
     useEffect(() => {
+    if (!ran) {
+        ran = true;
         getEvents();
+    }
     }, []);  
 
     return (
@@ -45,7 +49,7 @@ const VenueSettingsBillingMenuComponent = () =>{
             </span>
             
             <div className={styles.billing_result_box}>
-                <BillingResultComponent eventsJSON={events} />
+                <BillingResultComponent eventsJSON={[events, setEvents]} />
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
 import 'index.css';
 import styles from 'Components/Venue/CSS/VenueSettings.module.css';
-import { useEffect } from 'react';
 
 const Purchase = (props) => {
     

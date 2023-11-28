@@ -5,38 +5,44 @@ import Purchase from './Purchase';
 import { useLocation } from 'react-router';
 
 const BillingResultComponent = (props) => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     var n = 0;
-    const eventsJSON = props.eventsJSON;
+    const [eventsJSON, _] = props.eventsJSON;
+    const location = useLocation();
+
+    function getTickets() {
+        var tickets = [];
+        eventsJSON.forEach(async event => {
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000'},
+                }
+                var result = await fetch('http://localhost:8080/tickets/' + event.guid, requestOptions)
+                .then(response => response.json()).then(dat => {
+                console.log(dat);
+                if(dat != null && dat.length > 0){
+                    for (var i = 0; i < dat.length; i++) {
+                        tickets.push(event);
+                    }
+                    setData(tickets);
+                }
+            });
+        });
+    }
 
     async function fetchPurchases(){
-        const tickets = [];
-        console.log(eventsJSON);
         if(eventsJSON != null && eventsJSON.length > 0){
-            eventsJSON.forEach(async event => {
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': 'http://localhost:3000'},
-                    }
-                    var result = await fetch('http://localhost:8080/tickets/' + event.guid, requestOptions)
-                    .then(response => response.json()).then(data => {
-                        if(data.length > 0){
-                            for (var i = 0; i < data.length; i++) {
-                                tickets.push(event);
-                            }
-                        }
-                    });
-                });
-            setData(tickets);
-            console.log(data);
+            await getTickets();
         }
     }
 
     useEffect(() => {
-        fetchPurchases();
-    }, []);
+        if (eventsJSON.length > 0) {
+            fetchPurchases();
+        }
+    }, [eventsJSON]);
 
     return (
         <div className={styles.billing_container_box}>
@@ -47,9 +53,7 @@ const BillingResultComponent = (props) => {
             </div>
             <div>
                 {data != null ?
-                data.map(eventJSON => (
-                    <Purchase key={n+=1} eventJSON={eventJSON}></Purchase>
-                )) : <></>
+                data.map(eventJSON => <Purchase key={n+=1} eventJSON={eventJSON}></Purchase>) : <></>
                 }
             </div>
         </div>
