@@ -1,11 +1,14 @@
 package com.shifthappens.showgo;
 
+import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
+import com.shifthappens.showgo.repositories.BlockedUserRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +21,10 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
+import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class VenueTest {
@@ -29,6 +36,8 @@ public class VenueTest {
     private VenueRepository VenueRepository;
     @Autowired
     private UserRepository UserRepository;
+    @Autowired
+    private BlockedUserRepository BlockedUserRepository;
     
     @Before
     public void setUp() throws Exception {
@@ -88,6 +97,7 @@ public class VenueTest {
     @Test
     public void testSettings(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
+        BlockedUserController BlockedUserController = new BlockedUserController(BlockedUserRepository, UserRepository, VenueRepository);
         //Security Page
         Venue testVenue = new Venue("test1", "test", "1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));
@@ -107,6 +117,7 @@ public class VenueTest {
         assertThrows(InvalidVenueCreationException.class, () -> VenueController.checkParams(test3Venue));
         Venue Venue0= new Venue("test1", "test0", "testPassword!");
         assertNotNull(VenueController.editSettings(Venue0));
+
     }
 
     @Test
