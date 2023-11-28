@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,10 +53,12 @@ public class BlockedUserTest {
     private EventRepository EventRepository;
 
     private TicketController TicketController;
+    private BlockedUserController BlockedUserController;
     
     @Before
     public void setUp() throws Exception {
         TicketController = new TicketController(this.TicketRepository, this.BlockedUserRepository);
+        BlockedUserController = new BlockedUserController(BlockedUserRepository, UserRepository, VenueRepository);
 
         this.VenueRepository.save(Venue1);
         this.VenueRepository.save(Venue2);
@@ -89,6 +92,15 @@ public class BlockedUserTest {
         assertEquals(User1.getUsername(), BlockedUserA.getUser().getUsername());
         assertEquals(Venue1.getUsername(), BlockedUserA.getVenue().getUsername());
 
+    }
+    @Test
+    public void testSettings(){
+        //Authorized Users
+        assertTrue(BlockedUserRepository.findByVenueUsername("test3").isEmpty());
+        assertFalse(BlockedUserRepository.findByVenueUsername("test1").isEmpty());
+
+        assertNotNull(BlockedUserController.blockUser("test22", "test1"));
+        assertDoesNotThrow(() -> BlockedUserController.deleteBlockedUser("test22", "test1"));
     }
 
     @Test
