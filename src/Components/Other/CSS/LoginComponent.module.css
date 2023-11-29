@@ -20,7 +20,7 @@
 }
 
 #go {
-  color:#FE5F55
+  color: var(--red);
 }
 
 .ticket{
@@ -36,6 +36,11 @@
 .input {
   margin: 0.5rem 0;
   padding: 1rem;
+}
+
+.p {
+  color: var(--red);
+  text-align: center;
 }
 
 #button_container{

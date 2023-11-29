@@ -31,12 +31,10 @@ export default function LoginComponent() {
 
     //Validates inputted user data upon clicking login. Displays an error message when validation fails.
     function validate(username, password) {
-        var result = true;
-        if(username == '' || password == ''){
+        if(username === '' || password === ''){
             updateError('Please enter all credentials.', 2500);
             return false;
         } else if(!(/^[a-zA-Z0-9!?#$%&*]+$/.test(password)) || !password.match(/[!?#$%&*]/) || !password.match(/[A-Z]/) || password.length < 8 || password.length > 40){
-            result = false;
             updateError('Invalid password format.', 2500);
             return false;
         } else if(!(/^[a-zA-Z0-9]+$/.test(username))){
@@ -105,7 +103,7 @@ export default function LoginComponent() {
                     <button className={styles.button} type="button" onClick={() => handleLogin()}>Log In</button>
                     <button className={styles.button + ' button-enabled'} type='button' onClick={() => navigator('/signup')}>Sign Up</button>
                 </span>
-                {error ? <label>{error}</label> : <></>}   
+                {error ? <p className={styles.p}>{error}</p> : <></>}   
             </div>           
         </div>
     )

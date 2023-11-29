@@ -10,6 +10,9 @@
   --dark-grey-alpha: hsla(0, 0%, 31%, 0.6);
   --red: #FE5F55;
   --eventbg-blue: #A8DDE9;
+  --eventnamebg-blue: rgb(195, 232, 236);
+  --white: white;
+  --ticket-redeemed: lightgreen;
   
   /**Distances**/
   --navbar-height: 50px;
