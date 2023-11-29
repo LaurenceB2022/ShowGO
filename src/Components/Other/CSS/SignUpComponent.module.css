@@ -56,6 +56,10 @@
     text-align: end;
 }
 
+#error {
+    color: var(--red) !important;
+}
+
 .label {
     width: auto;
 }

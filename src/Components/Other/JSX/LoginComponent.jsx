@@ -101,7 +101,7 @@ export default function LoginComponent() {
                 </div>
                 <span id={styles.button_container}>
                     <button className={styles.button} type="button" onClick={() => handleLogin()}>Log In</button>
-                    <button className={styles.button + ' button-enabled'} type='button' onClick={() => navigator('/signup')}>Sign Up</button>
+                    <button className={styles.button + ' button_enabled'} type='button' onClick={() => navigator('/signup')}>Sign Up</button>
                 </span>
                 {error ? <p className={styles.p}>{error}</p> : <></>}   
             </div>           

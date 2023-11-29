@@ -4,6 +4,10 @@ import Search from 'Assets/Search.svg';
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 
+/*
+    SearchBarComponent allows users to search the event listing. Users can also specific a filter in the search bar to search all fields.
+    Additional filtering options exist for selecting a date range and price range, which can further narrow results.
+*/
 export default function SearchBarComponent (props) {
 
     const [error, setError] = useState("");
