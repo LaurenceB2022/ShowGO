@@ -10,6 +10,9 @@
   --dark-grey-alpha: hsla(0, 0%, 31%, 0.6);
   --red: #FE5F55;
   --eventbg-blue: #A8DDE9;
+  --eventnamebg-blue: rgb(195, 232, 236);
+  --white: white;
+  --ticket-redeemed: lightgreen;
   
   /**Distances**/
   --navbar-height: 50px;
@@ -68,23 +71,27 @@
   color: var(--subtext-green);
 }
 
-.text-valid {
+.text_valid {
   color: var(--dark-green)
 }
 
-.text-invalid {
+.text_invalid {
   color: var(--red);
 }
 
-.button-enabled {
+.button_enabled {
   border: 7px solid var(--dark-green);
   color: var(--dark-green);
 }
 
-.button-disabled {
+.button_disabled {
   color: var(--red);
   cursor: not-allowed;
   border: 7px solid var(--red);
+}
+
+.invalid {
+  color: var(--red);
 }
 
 /**Element Styling**/
@@ -106,10 +113,6 @@ body, html, #root, .App {
 
 p {
   color: var(--green);
-}
-
-.invalid {
-  color: var(--red);
 }
 
 h1 {

@@ -63,6 +63,7 @@ export default function VenueManageAttendees() {
     }
 
     function cancelOperation() {
+        setUpdatePromptVisible(false);
         setDeletePromptVisible(false);
         setSelectedTicket(null);
     }

@@ -106,7 +106,7 @@ export default function UserCheckout() {
                     <input id={styles.cvv} className={styles.input + ' item_50'} type='text' maxLength='4' onChange={() => checkData('cvv')}></input>
                     <img className='item_10' src={data[3] ? Checkmark : X} alt=""/>
                 </div>
-                <button className={data.every(v => v) ? 'button-enabled' : 'button-disabled'} onClick={() => purchaseTicket()}>Purchase</button>
+                <button className={data.every(v => v) ? 'button_enabled' : 'button_disabled'} onClick={() => purchaseTicket()}>Purchase</button>
             </div>
         </div>
     )

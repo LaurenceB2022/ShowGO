@@ -4,11 +4,22 @@ import X from 'Assets/X.svg';
 import Checkmark from 'Assets/Checkmark.svg';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
 
+/*
+    AttendeeComponent displays a single User using ticket data to be used within an AttendeeGridComponent.
+    Also upon clicking the checkmark or X, the corresponding update and delete functions will run in the parent
+    of the corresponding AttendeeGridComponent.
+*/
 export default function AttendeeComponent(props) {
-    //TODO update dummy event
     const updateFunction = props.updateFunction;
     const deleteFunction = props.deleteFunction;
-    const ticket = props.ticket ? props.ticket : [];
+    const ticket = props.ticket ? props.ticket :
+    {
+        owner: {
+            username: 'N/A',
+            name: 'N/A',
+            pfp: null
+        }
+    };
 
     return (
         <div className={ticket.redeemed ? styles.redeemed : ''} id={styles.content}>

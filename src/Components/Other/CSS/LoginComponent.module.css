@@ -1,0 +1,62 @@
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: inherit;
+  min-height: calc(100vh - var(--navbar-height));
+  height: calc(100vh - var(--navbar-height));
+}
+
+#logo {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#logo h1 {
+  font-size: 72px !important;
+}
+
+#go {
+  color: var(--red);
+}
+
+.ticket{
+  width: 80px;
+  height: 80px;
+ 
+  fill: var(--light-gray);
+  stroke-width: 10px;
+  stroke: var(--dark-green); 
+  margin-left: 20px;
+}
+  
+.input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+}
+
+.p {
+  color: var(--red);
+  text-align: center;
+}
+
+#button_container{
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+  
+.button {
+  box-sizing: border-box;
+  width: 252px;
+  height: 77px;
+  margin: 0px;
+}
+
+#username{}
+#password{}

@@ -94,7 +94,7 @@ export default function UserViewEvent() {
                         <p class={styles.p}>{'$' + eventJSON.ticket_price.toFixed(2)} / Ticket</p>
                     </div>
                     {new Date(eventJSON.end_date) > new Date() && !blocked && !eventFull ? 
-                    (<button className='button-enabled'>
+                    (<button className='button_enabled'>
                         <Link className='link-active' to={'/home/event/' + id + '/checkout'} state={{eventJSON: eventJSON}}>Buy Ticket</Link>
                     </button>) : (<></>)
                     }
