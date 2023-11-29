@@ -3,7 +3,6 @@
     flex-direction: row;
     align-items: center;
     color: var(--red);
-    margin: 10px 0px 10px 0px;
     align-items: flex-start;
 }
 
