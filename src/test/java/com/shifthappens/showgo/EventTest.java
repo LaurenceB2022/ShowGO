@@ -9,7 +9,6 @@ import com.shifthappens.showgo.repositories.VenueRepository;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.hibernate.graph.InvalidGraphException;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class EventTest {
 
     @Test
     public void testFetchData(){
-        /*Test data retrieval*/
+        //Test data retrieval
         Event EventA = EventRepository.findByguid(Event1.getGuid());
         assertNotNull(EventA);
         assertEquals(Event1.getName(), EventA.getName());
@@ -60,22 +59,16 @@ public class EventTest {
 
     @Test
     public void testSearchEvent(){
-
         List<Event> events = EventController.findBySearch("test1");
         assertNotNull(events);
-
         events = EventController.findBySearch("test2");
         assertNotNull(events);
-
         events = EventController.findBySearch("April");
         assertNotNull(events);
-
         events = EventController.findBySearch("1970");
         assertNotNull(events);
-
         events = EventController.findBySearch("1:00 AM");
         assertNotNull(events);
-
         events = EventController.findBySearch("SEIUJFNVNFLDLSslkdjfer");
         assertNotNull(events);
         assertEquals("SEIUJFNVNFLDLSslkdjfer", events.get(0).getDescription());
@@ -100,7 +93,7 @@ public class EventTest {
         Event EventBadName = new Event(Venue1, "", "Apr 02 1970 01:00 AM", "Apr 03 1970 12:00 PM", (float)100.11, "SsdrgbsfEIUdfergaJFNVNFLDLSslkdjferasdgsrtdf", 15);
         
         StringBuilder hundredString = new StringBuilder();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {//builds a string with length 100
             hundredString.append("0");
         }
         VenueBadLocation.setLocation(hundredString.toString());
@@ -119,28 +112,25 @@ public class EventTest {
 
     @Test
     public void testUpdateEvent() {
-        EventController.update(Event2.getGuid(), "start_date", "Jan 01 2000 1:00 PM"); //check start_date update
+        Event Event2Update = new Event(Venue1, "updated", "Jan 01 2000 1:00 PM", "Jan 01 2000 12:00 AM", (float)6.5, "this is a new description", 10);
+        Event2Update.setLocation("yo mamas house");
+        Event2Update.setHide_location(true);
+        EventController.update(Event2.getGuid(), Event2Update);
+
+        //check start date update
         assertEquals(EventRepository.findByguid(Event2.getGuid()).getStart_date(), "Jan 01 2000 1:00 PM");
-
-        EventController.update(Event2.getGuid(), "end_date", "Jan 01 2000 12:00 AM"); //check end_date update
+        //check end date update
         assertEquals(EventRepository.findByguid(Event2.getGuid()).getEnd_date(), "Jan 01 2000 12:00 AM");
-
-        EventController.update(Event2.getGuid(), "ticket_price", "6.5"); //check ticket price update
+        //check ticket price update
         assertEquals(EventRepository.findByguid(Event2.getGuid()).getTicket_price(), 6.5, 0.001);
-
-        EventController.update(Event1.getGuid(), "name", "updated"); //check name update
-        assertEquals(EventRepository.findByguid(Event1.getGuid()).getName(), "updated");
-        EventController.update(Event1.getGuid(), "name", "test1");
-        assertEquals(Event1.getName(), "test1");
-
-        EventController.update(Event2.getGuid(), "description", "this is a new description"); //check description update
+        //check name update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).getName(), "updated");
+        //check description update
         assertEquals(EventRepository.findByguid(Event2.getGuid()).getDescription(), "this is a new description");
-
-        EventController.update(Event2.getGuid(), "location", "yo mamas house"); //check description update
+        //check description update
         assertEquals(EventRepository.findByguid(Event2.getGuid()).getLocation(), "yo mamas house");
-
-        EventController.update(Event2.getGuid(), "hide_location", "True"); //check description update
-        assertEquals(EventRepository.findByguid(Event2.getGuid()).getHide_location(), true);
+        //check description update
+        assertEquals(EventRepository.findByguid(Event2.getGuid()).isHide_location(), true);
 
     }
     

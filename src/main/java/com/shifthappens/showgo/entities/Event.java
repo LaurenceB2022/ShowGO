@@ -19,6 +19,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String guid;
     
+    //Foreign key to venue
     @ManyToOne
     @JoinColumn(name = "venue")
     private Venue venue;
@@ -68,62 +69,5 @@ public class Event {
           this.description = description;
           this.max_attendees = max_attendees;
      }
-
-      public Venue getVenue() {
-         return venue;
-    }
-
-    public void setVenue(Venue venue) {
-         this.venue = venue;
-    }
-
-    public String getName() {
-         return name;
-    }
-
-    public void setName(String name) {
-         this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-         this.location = location;
-    }
-
-    public void setStart_date(String date) {
-         start_date = date;
-    }
-
-    public String getStart_date() {
-        return start_date;
-    }
-
-    public String getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(String date) {
-         end_date = date;
-    }
-
-    public String getDescription() {
-         return this.description;
-     }
-
-    public boolean getHide_location() {
-         return hide_location;
-     }
-
-    public void setHide_location(boolean visibility) {
-         this.hide_location = visibility;
-    }
-
-    public void setDescription(String description) {
-         this.description = description;
-    }
-
 
 }
