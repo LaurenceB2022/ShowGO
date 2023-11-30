@@ -3,7 +3,6 @@ import 'index.css';
 import styles from 'Components/Other/CSS/LoginComponent.module.css';
 import { useNavigate} from 'react-router-dom'; 
 import { MyContext } from 'App';
-import TicketGridComponent from './TicketGridComponent';
 
 /*
     The LoginComponent displays a login field for users and venues to sign in. If a login is invalid, an error message is
@@ -84,7 +83,6 @@ export default function LoginComponent() {
 
     return (
         <div id={styles.content}>
-            <TicketGridComponent></TicketGridComponent>
             <div id={styles.logo}>
                 <h1>Show</h1>
                 <h1 id={styles.go}>GO</h1>
