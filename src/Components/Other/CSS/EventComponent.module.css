@@ -26,6 +26,7 @@
     height: 56px;
     text-align: center;
     overflow-y: hidden;
+    overflow-x: hidden;
     background-color: var(--eventnamebg-blue);
     white-space: normal;
 }
