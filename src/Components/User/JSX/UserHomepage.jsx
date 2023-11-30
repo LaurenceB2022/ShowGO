@@ -29,8 +29,9 @@ export default function UserHomepage() {
         //If not logged in, redirect to login screen
         if(!loggedInState[0]) {
             navigator('/login');
+        } else {
+            fetchEvents();
         }
-        fetchEvents();
     }, [loggedInState, navigator]);
 
     return (

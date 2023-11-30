@@ -1,9 +1,24 @@
 import 'index.css';
 import styles from 'Components/User/CSS/UserViewTickets.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TicketGridComponent from 'Components/Other/JSX/TicketGridComponent';
+import { useContext, useEffect } from 'react';
+import { MyContext } from 'App';
 
+/*
+    UserViewTickets allows Users to view their tickets. It displays a grid of tickets based on the logged in user.
+*/
 export default function UserViewTickets() {
+
+    const navigator = useNavigate();
+    const loggedInState = useContext(MyContext).loggedInState;
+
+    useEffect(() => {
+        //If not logged in, redirect to login screen
+        if(!loggedInState[0]) {
+            navigator('/login');
+        }
+    }, [loggedInState, navigator]);
 
     return (
         <div id={styles.content}>
