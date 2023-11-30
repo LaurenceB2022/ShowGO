@@ -4,6 +4,9 @@ import TicketComponent from 'Components/Other/JSX/TicketComponent';
 import { useContext, useEffect, useState } from 'react';
 import { MyContext } from 'App';
 
+/*
+    TicketGridComponent displays a grid of TicketComponents based on the logged in user.
+*/
 export default function TicketGridComponent() {
     const userState = useContext(MyContext).userState;
     const user = userState[0];
@@ -20,7 +23,7 @@ export default function TicketGridComponent() {
 
     useEffect(() => {
         fetchTickets();
-    }, []);
+    });
     
     return (
         <div className={styles.container}>

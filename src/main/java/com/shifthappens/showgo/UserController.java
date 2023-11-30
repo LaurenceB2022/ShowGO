@@ -67,7 +67,7 @@ public class UserController {
     protected boolean isValidPassword(String password) {
         if (password.length() >= 8) {
             Pattern letter = Pattern.compile("[A-Z]");
-            Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+            Pattern special = Pattern.compile ("[!@#$&*()_+=|<>?{}\\[\\]~-]");
             Matcher hasLetter = letter.matcher(password);
             Matcher hasSpecial = special.matcher(password);
 

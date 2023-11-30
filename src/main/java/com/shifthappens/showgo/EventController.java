@@ -100,13 +100,13 @@ public class EventController {
             tr.setDescription(e.getDescription());
             tr.setLocation(e.getLocation());
             tr.setHide_location(e.isHide_location());
+            tr.setImage(e.getImage());
         eventRepo.save(tr);
     }
 
     //Search events by a price range, date range, and/or a search input
     @GetMapping("/events/filters/{search}/{startDateTimeS}/{endDateTimeS}/{lowerPriceS}/{upperPriceS}")
     public List<Event> findBySearchAndFilter(@PathVariable String search, @PathVariable String startDateTimeS, @PathVariable String endDateTimeS, @PathVariable String lowerPriceS, @PathVariable String upperPriceS) {
-        List<Event> rtrn = null;
         final boolean hasSearch = !search.equals("");
         final boolean hasDates = !startDateTimeS.equals("null") && !endDateTimeS.equals("null");
         final boolean hasPrices = !lowerPriceS.equals(String.valueOf(-1)) && !upperPriceS.equals(String.valueOf(-1));
@@ -140,34 +140,36 @@ public class EventController {
                 throw new InvalidSearchException("Invalid date format");
             }
         }
-        rtrn = events;
         if (hasPrices || hasDates) {
-            final double innerLowerPrice = lowerPrice;
-            final double innerUpperPrice = upperPrice;
-            final LocalDateTime innerStartDateTime = startDateTime;
-            final LocalDateTime innerEndDateTime = endDateTime;
-            rtrn = events.stream().filter(event -> {
-                if (innerLowerPrice != -1) {//if there is a price range, filter by price range
-                    if (event.getTicket_price() < innerLowerPrice || event.getTicket_price() > innerUpperPrice) {
-                        return false;
-                    }
-                }
-                if (innerStartDateTime != null) {//if there is a date range, filter by date range
-                    try {
-                        String startDate = event.getStart_date();
-                        LocalDateTime eventTime = LocalDateTime.parse(startDate, formatter);
-                        if (eventTime.isBefore(innerStartDateTime) || eventTime.isAfter(innerEndDateTime)) {
-                            return false;
-                        }
-                    }   
-                    catch (Exception e) {
-                        return false;
-                    }
-                }
-                return true;
-            }).collect(Collectors.toList());
+            return filterHelper(lowerPrice, upperPrice, startDateTime, endDateTime, events);   
         }
-        return rtrn == null ? new ArrayList<Event>() : rtrn;
+        else {
+            return events;
+        }
+    }
+
+    protected List<Event> filterHelper(final double innerLowerPrice, final double innerUpperPrice, final LocalDateTime innerStartDateTime, final LocalDateTime innerEndDateTime, List<Event> events) {
+        List<Event> rtrn = events.stream().filter(event -> {
+            if (innerLowerPrice != -1) {//if there is a price range, filter by price range
+                if (event.getTicket_price() < innerLowerPrice || event.getTicket_price() > innerUpperPrice) {
+                    return false;
+                }
+            }
+            if (innerStartDateTime != null) {//if there is a date range, filter by date range
+                try {
+                    String startDate = event.getStart_date();
+                    LocalDateTime eventTime = LocalDateTime.parse(startDate, formatter);
+                    if (eventTime.isBefore(innerStartDateTime) || eventTime.isAfter(innerEndDateTime)) {
+                        return false;
+                    }
+                }   
+                catch (Exception e) {
+                    return false;
+                }
+            }
+            return true;
+        }).collect(Collectors.toList());
+    return rtrn == null ? new ArrayList<Event>() : rtrn;
     }
 
     //Used to check whether an event is valid, throws InvalidEventCreationException if not

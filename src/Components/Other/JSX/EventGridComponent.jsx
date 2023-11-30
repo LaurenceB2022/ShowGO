@@ -5,7 +5,7 @@ import EventComponent from 'Components/Other/JSX/EventComponent';
 /*
     EventGridComponent displays a list of EventComponents.
 */
-const EventGridComponent = (props) => {
+export default function EventGridComponent(props) {
     
     const events = props.events != null ? props.events[0] : null;
 
@@ -18,4 +18,3 @@ const EventGridComponent = (props) => {
         </div>
     )
 }
-export default EventGridComponent

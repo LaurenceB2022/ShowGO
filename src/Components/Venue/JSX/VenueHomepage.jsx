@@ -20,22 +20,29 @@ function VenueHomepage(){
     const [timeframe, setTimeFrame] = useState('future');
 
     async function fetchEvents() {
-        var x = await fetch('http://localhost:8080/events/venue/' + user.username, {
+        setEvents([]);
+        await fetch('http://localhost:8080/events/venue/' + user.username, {
             method: 'GET',
-        }).then(response => response.json())
-        setEvents(x);
+        }).then(response => response.json()).then(data => {
+            switch (timeframe) {
+                case 'future':
+                    data = data.filter(event => new Date(event.start_date) > new Date());
+                    break;
+                case 'past':
+                    data = data.filter(event => new Date(event.end_date) < new Date());
+                    break;
+                default:
+                    break;
+            }
+            setEvents(data);
+        });
     }
 
     useEffect(() => {
+        console.log("ran");
         fetchEvents();
-    }, []);
+    }, [timeframe]);
 
-    function logOut() {
-        setLoggedIn(false);
-        setUserType(null);
-        setUser(null);
-        navigate('/login');
-    }
     return(
         <div>
             <div className={styles.container}>

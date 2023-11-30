@@ -1,130 +1,120 @@
 import { MyContext } from 'App';
 import 'index.css';
 import styles from 'Components/User/CSS/UserSettings.module.css';
-import React, {useContext, useState, useEffect} from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import React, {useContext, useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import ShowGoLogo from 'Assets/ShowGoLogo.png';
+import Resizer from "react-image-file-resizer";
 
-const UserSettings = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
+/*
+    UserSettings allows a user to change their display name, password, and profile picture. Displays errors if inputted data is invalid.
+*/
+export default function UserSettings() {
+    const [user, setUser] = useContext(MyContext).userState;
     const [error, setError] = useState('');
-    const username = userState[0];
+    var timeout = null;
+    
+    const loggedInState = useContext(MyContext).loggedInState;
     const navigator = useNavigate(); 
-    const[imgfile, setFile] = useState(null);
-
-    const [data, setData] = useState({
-        name: '',
+    //Stores inserted data
+    var [data, setData] = useState({
+        name: user ? user.name : '',
         password: '',
-        confirm_password: ''
+        confirm_password: '',
+        pfp: user ? user.pfp : null
     });
 
+    useEffect(() => {
+        //If not logged in, redirect to login screen
+        if(!loggedInState[0]) {
+            navigator('/login');
+        }
+    }, [loggedInState, navigator]);
+
+    //Updates the error message with the given timeout length in ms
+    function updateError(message, ms) {
+        if(timeout) {
+            clearTimeout();
+        }
+        setError(message);
+        timeout = setTimeout(() =>{
+            setError("");
+        }, ms);
+    }
+
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
         const file = event.target.files[0];
-        const a = await readFileDataAsBase64(file).then(d => {
-            console.log(file);
-            console.log(d);
-            setFile(d);
-        });
-    }
-
-    function readFileDataAsBase64(file) {
         
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+        if (!file) {
+            setData({
+                ...data,
+                'pfp': null
+                }); 
+            return;
+        };
+
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {
+                setData({
+                    ...data,
+                    'pfp': uri
+                    }); 
+            }, 'base64');
     }
 
+    //Validates the entered username and password fields
     function validateInformation(){
-        var valid = true;
-        
+        //Password fields should be empty or both filled correctly
+        if(data.name.length < 1 || data.name.length > 40) {
+            updateError('Invalid username entered.', 2500);
+            return false;
+        }
+
+        if((data.password !== '' && data.confirm_password === '') || (data.password === '' && data.confirm_password !== '')) {
+            updateError('Please fill both password fields.', 2500);
+            return false;
+        }
         if(data.password !== '' && data.confirm_password !== ''){
-            if(!/^[a-zA-Z0-9!?#$&*]+$/.test(data.password) || data.password !== data.confirm_password || data.password.length < 8 || data.password.length > 40){
-                valid = false;
-                setError('Error, invalid password entered.')
+            if(!(/^[a-zA-Z0-9!?#$&*]+$/.test(data.password) && data.password.match(/[!?#$&*]/) && data.password.match(/[A-Z]/) && data.password.length >= 8 && data.password.length <= 40 && data.password === data.confirm_password)){
+                updateError('Invalid password entered.', 2500);
+                return false;
             }
         }
-        if((data.password !== '' && data.confirm_password === '') || (data.password === '' && data.confirm_password !== '')){
-            valid = false;
-            setError('Error, missing fields.')
-        }
-        return valid;
+        return true;
     }
 
-    function submitInformation(){
+    //Saves the user if entered information is invalid
+    function save() {
         var valid = validateInformation();
-        if(valid){
-            var user_values = username;
-            var username_string = user_values.username;
-            var name_string = user_values.name;
-            var password_string = user_values.password;
-            var image_string = user_values.pfp;
-            if(data.name !== ''){
-                name_string = data.name;
-                console.log('Reached name')
-            }
-            if(data.password !== '' && data.confirm_password !== ''){
-                password_string = data.password;
-            }
-            if(imgfile !== null){
-                image_string = imgfile;
-            }
-            console.log(username)
-            console.log(username_string)
-            console.log(name_string)
-            
+        if (!valid) return;
             
             var requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    username: username_string,
-                    name: name_string,
-                    password: password_string,
-                    pfp: image_string
+                    username: user.username,
+                    name: data.name,
+                    password: data.password ? data.password : user.password,
+                    pfp: data.pfp
                 })
-            }
-            console.log('Reached here')
-            fetch('http://localhost:8080/user/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+            };
+            fetch('http://localhost:8080/user/settings', requestOptions)
             .then(response => {
                 return response.ok ? response.json() : null;
             }).then(data => {
                 if (data) {
-                    console.log(data);
                     setUser(data);
-                    setError('Update Successful.')
-                    navigator('/home')
-                    
+                    updateError('Settings update successful.', 2500);
                 } else {
-                    setError('Error, unsucessful update attempt. Try again later.')
-                    console.log("Error creating user");
-                    navigator('/settings')
+                    updateError('Settings update unsuccessful.', 2500);
                 }
             });
-                 
-        }
-        else{
-            setError('Error, invalid password entered.')
-        }
     }
 
-    const handleSubmit = (event) =>{
-        event.preventDefault();
-        submitInformation();
-    }
-
-    const handleInput = (event) =>{
+    //Updates state values based on input
+    function handleInput(event) {
         const value = event.target.value;
         setData({
             ...data,
@@ -133,39 +123,27 @@ const UserSettings = () => {
         );
     }
     
-    /*Add functionality to change image, display name, password */
     return(
-        <div className={styles.content}>
-            <span>
-                <label>User Profile Image</label>
-                <input className={styles.button1} type="file" onChange={handleImage} />Choose File
-            </span>
-            <div className={styles.image_container}>
-                <img src={imgfile} alt=""/>
-            </div>
-            <span className={styles.span_format}>
-                <label>Display Name</label>
-                <input type='text' name='name' value={data.name} onChange={handleInput}></input>
-            </span>
-            <span className={styles.span_format}>
-                <label>New Password</label>
-                <input type='text' name='password' value={data.password} onChange={handleInput}></input>
-            </span>
-            <span className={styles.span_format}>
-                <label>Confirm Password</label>
-                <input type='text' name='confirm_password' value={data.confirm_password} onChange={handleInput}></input>
-            </span>
-            <div className={styles.errorspace}>
-                    {error?<label>{error}</label>:null} 
+        <div id={styles.content}>
+                <div id={styles.section_1}>
+                    <div id={styles.form_container}>
+                        <label className={styles.label + ' ' + styles.col_1}>Display Name</label>
+                        <input name='name' maxLength='40' className={styles.input + ' ' + styles.col_2_3} value={data.name} onChange={(event) => handleInput(event)}></input>
+
+                        <label className={styles.label + ' ' + styles.col_1}>New Password</label>
+                        <input name='password' maxLength='40' className={styles.input + ' ' + styles.col_2_3} onChange={(event) => handleInput(event)}></input>
+                        
+                        <label className={styles.label + ' ' + styles.col_1}>Confirm Password</label>
+                        <input name='confirm_password' maxLength='40' className={styles.input + ' ' + styles.col_2_3} onChange={(event) => handleInput(event)}></input>
+                    </div>
                 </div>
-            
-            <div className={styles.container_buttons}>
-                <button className={styles.button1} onClick={handleSubmit}>Save</button>
-                <button className={styles.button2} onClick={console.log('Navigating back to home')}>
-                    <Link to='/home'>Cancel</Link>
-                </button>
-            </div>
+                <div id={styles.section_2}>
+                    <img alt='pfp' name='image' id={styles.img} src={data.pfp ? data.pfp : ShowGoLogo}/>
+                    <input accept="image/*" className={styles.input + ' ' + styles.col_2_3} type="file" onChange={handleImage}/>
+                </div>
+                <button id={styles.save} className='button_enabled' onClick={()=>save()}>Save</button>
+                <button id={styles.cancel} onClick={() => navigator('/home')}>Cancel</button>
+                <p class={styles.p}>{error}</p>
         </div>
     )
 }
-export default UserSettings;
