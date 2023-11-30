@@ -6,7 +6,7 @@ import styles from 'Components/Other/CSS/YesNoPromptComponent.module.css';
     to indicate the action taken for each button as well as a message.
 */
 export default function YesNoPromptComponent(props) {
-    var text = props.txt ? props.txt : '';
+    var text = props.text ? props.text : '';
     var yesFunction = props.yesFunction ? props.yesFunction : () => {};
     var noFunction = props.noFunction ? props.noFunction : () => {};
     return (

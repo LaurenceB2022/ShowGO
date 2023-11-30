@@ -19,8 +19,8 @@ export default function VenueManageEvent() {
         guid: 'N/A',
         venue: {username: 'N/A',
                 address: 'N/A'},
-        start_date: 'Jan 01 1970 12:00 AM',
-        end_date: 'Jan 01 1970 12:59 PM',
+        start_date: new Date('Jan 01 1970 12:00 AM'),
+        end_date: new Date('Jan 01 1970 12:59 PM'),
         ticket_price: 0.00,
         name: 'N/A',
         description: 'N/A',
@@ -97,9 +97,23 @@ export default function VenueManageEvent() {
         }, ms);
     }
 
+    //Takes a given date (MM/DD/YYYY and time HH:MM [24 hour]) and returns a date in the format MMM DD YYYY HH:MM AM/PM
+    function formatTime(date, time) {
+        var [month, day, year] = date.split(" ").slice(1, 4);
+        var [hours, minutes] = time.split(":").map(value => parseInt(value));
+        var ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours ? hours : 12; // Hour '0' should be '12'
+        hours = hours.toString().padStart(2, '0');
+        minutes = minutes.toString().padStart(2, '0');
+        return month + " " + day + " " + year + " " + hours + ":" + minutes + " " + ampm;
+    }
+
     async function save() {
         const max_attendees = parseInt(eventJSON.max_attendees);
         const ticket_price = parseFloat(eventJSON.ticket_price);
+        var startDateStr = '';
+        var endDateStr = '';
 
         if(eventJSON.name.length < 3 || eventJSON.name.length > 200) {
             updateError("Invalid event name length.", 2500);
@@ -110,10 +124,13 @@ export default function VenueManageEvent() {
         } else if (Number.isNaN(ticket_price) || ticket_price < 0.00 || ticket_price > 999.99) {
             updateError("Invalid ticket price. Choose a value from 0.00 to 999.99", 2500);
             return;
-        } else if (!eventJSON.start_date || !eventJSON.end_date || eventJSON.end_date < eventJSON.start_date) {
+        } else if (!eventJSON.start_date || !eventJSON.end_date || eventJSON.end_date < eventJSON.start_date || document.getElementById(styles.start_time).value === '' || document.getElementById(styles.end_time).value === '') {
             updateError("Please select a valid date range", 2500);
             return;
         }
+
+        startDateStr = formatTime(eventJSON.start_date.toDateString(), document.getElementById(styles.start_time).value);
+        endDateStr = formatTime(eventJSON.end_date.toDateString(), document.getElementById(styles.end_time).value);
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -122,8 +139,8 @@ export default function VenueManageEvent() {
             body: JSON.stringify({
                 guid: eventJSON.guid,
                 venue: eventJSON.venue,
-                start_date: eventJSON.start_date.toDateString().substring(4) + " 12:00 AM",
-                end_date: eventJSON.end_date.toDateString().substring(4) + " 12:59 PM",
+                start_date: startDateStr,
+                end_date: endDateStr,
                 ticket_price: ticket_price,
                 name: eventJSON.name,
                 description: eventJSON.description,
@@ -136,12 +153,12 @@ export default function VenueManageEvent() {
         fetch('http://localhost:8080/events/' + eventJSON.guid, requestOptions)
         .then(response =>{
             if(response.ok){
-                navigator('/venuehome');
+                updateError('Event updated successfully.', 2500);
             }
             else{
-                updateError("Error updating event.", 2500);
+                updateError('Error updating event. Try again later.', 2500);
             }
-        })
+        });
     }
 
     function deleteEvent() {
@@ -166,11 +183,11 @@ export default function VenueManageEvent() {
 
     return (
         <div>
+            {promptVisible ? 
+                (<YesNoPromptComponent text={"Are you sure you want to delete this event? All information will be lost, and attendees will be refunded."} yesFunction={deleteEvent} noFunction={() => setPromptVisible(false)}></YesNoPromptComponent>)
+                : <></>       
+            }
             <div id={styles.content}>
-                {promptVisible ? 
-                    (<YesNoPromptComponent text={"Are you sure you want to delete this event? All information will be lost, and attendees will be refunded."} yesFunction={deleteEvent} noFunction={() => setPromptVisible(false)}></YesNoPromptComponent>)
-                    : <></>       
-                }
                 <div id={styles.section_1}>
                     <div id={styles.form_container}>
                         <label className={styles.label + ' ' + styles.col_1}>Event Name</label>
@@ -183,10 +200,12 @@ export default function VenueManageEvent() {
                         <input name='ticket_price' maxLength='6' className={styles.input + ' ' + styles.col_2_3} value={eventJSON['ticket_price']} onChange={(event) => handleInput(event)}></input>
 
                         <label className={styles.label + ' ' + styles.col_1}>Start Date</label>
-                        <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON['start_date'])} onChange={(time) => setEventJSON({...eventJSON,start_date: time})}/>
-
+                        <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON.start_date)} onChange={(time) => setEventJSON({...eventJSON,start_date: time})}/>
+                        <input id={styles.start_time} className={styles.input + ' ' + styles.col_2_3} defaultValue={eventJSON.start_date.getHours().toString().padStart(2, '0') + ':' + eventJSON.start_date.getMinutes().toString().padStart(2,'0')} type='time' min="00:00" max="23:59"/>
+                        
                         <label className={styles.label + ' ' + styles.col_1}>End Date</label>
-                        <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON['end_date'])} onChange={(time) => setEventJSON({...eventJSON,end_date: time})}/>
+                        <DatePicker className={styles.input + ' ' + styles.col_2_3} selected={new Date(eventJSON.end_date)} onChange={(time) => setEventJSON({...eventJSON,end_date: time})}/>
+                        <input id={styles.end_time} className={styles.input + ' ' + styles.col_2_3} defaultValue={eventJSON.end_date.getHours().toString().padStart(2, '0') + ':' + eventJSON.end_date.getMinutes().toString().padStart(2,'0')} type='time' min="00:00" max="23:59"/>
                         
                         <label className={styles.label + ' ' + styles.col_1}>Location</label>
                         <input name='location' maxLength='100' className={styles.input + ' ' + styles.col_2_3} value={eventJSON['location']} onChange={(event) => handleInput(event)}></input>
@@ -210,8 +229,8 @@ export default function VenueManageEvent() {
                         <Link to={'/venuehome/event/' + id + '/manage'} state={{eventJSON: eventJSON}}>Manage Attendees</Link>
                     </button>
                     <br></br>
-                    <p class={styles.p}>{error}</p>
                 </div>
+                <p id={styles.error} class={styles.p}>{error}</p>
                 <button id={styles.delete_event} onClick={() => setPromptVisible(true)}>Delete Event</button>
                 <button id={styles.save} className='button_enabled' onClick={()=>save()}>Save</button>
                 <button id={styles.cancel}>

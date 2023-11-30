@@ -2,9 +2,9 @@
     position: absolute;
     background-color: var(--dark-grey-alpha);
     z-index: 1000;
-
+    top: 0px;
     width: 100%;
-    height: inherit;
+    height: 100vh;
     overflow-y: hidden;
 }
 
