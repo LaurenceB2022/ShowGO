@@ -54,7 +54,7 @@ export default function UserViewEvent() {
     return (
         <div id={styles.content}>
             <button id={styles.back}>
-                <Link to='/home'>{"Back"}</Link>
+                <Link to='/home'>Back</Link>
             </button>
             <div className={'item_10'}>
                 <h1 id={styles.name}>{eventJSON.name}</h1>

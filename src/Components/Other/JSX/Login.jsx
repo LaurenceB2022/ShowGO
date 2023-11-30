@@ -1,14 +1,14 @@
 import React, {useContext, useState} from 'react';
 import 'index.css';
-import styles from 'Components/Other/CSS/LoginComponent.module.css';
+import styles from 'Components/Other/CSS/Login.module.css';
 import { useNavigate} from 'react-router-dom'; 
 import { MyContext } from 'App';
 
 /*
-    The LoginComponent displays a login field for users and venues to sign in. If a login is invalid, an error message is
+    Login displays a login field for users and venues to sign in. If a login is invalid, an error message is
     displayed. Otherwise, the user or venue is sent to their respective homepage.
 */
-export default function LoginComponent() {
+export default function Login() {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const setLoggedIn = loggedInState[1];
     const setUserType = userTypeState[1];
@@ -45,6 +45,7 @@ export default function LoginComponent() {
         }
     } 
 
+    //Checks login against database. Logs in user/venue if valid, otherwise displays an error
     function handleLogin() {
         var usernameField = document.getElementById(styles.username).value;
         var passwordField = document.getElementById(styles.password).value;

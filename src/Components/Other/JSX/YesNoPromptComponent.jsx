@@ -1,6 +1,10 @@
 import 'index.css';
 import styles from 'Components/Other/CSS/YesNoPromptComponent.module.css';
 
+/*
+    YesNoPrompt displays a prompt with yes and no options. A function for the yes and no button can be passed as props
+    to indicate the action taken for each button as well as a message.
+*/
 export default function YesNoPromptComponent(props) {
     var text = props.txt ? props.txt : '';
     var yesFunction = props.yesFunction ? props.yesFunction : () => {};
