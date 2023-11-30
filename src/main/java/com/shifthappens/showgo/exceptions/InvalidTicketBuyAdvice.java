@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+//Advice for InvalidTicketBuyException
 @ControllerAdvice
 public class InvalidTicketBuyAdvice {
 
   @ResponseBody
   @ExceptionHandler(InvalidTicketBuyException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  String employeeNotFoundHandler(InvalidTicketBuyException ex) {
+  String invalidTicketBuyHandler(InvalidTicketBuyException ex) {
     return ex.getMessage();
   }
 }

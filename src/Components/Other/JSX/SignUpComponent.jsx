@@ -1,5 +1,5 @@
 import 'index.css';
-import styles from 'Components/Other/CSS/SignUp.module.css';
+import styles from 'Components/Other/CSS/SignUpComponent.module.css';
 import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
@@ -7,34 +7,51 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { MyContext } from 'App';
 
-const SignUp = () => {
+export default function SignUp() {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
+    const setLoggedIn = loggedInState[1];
+    const setUserType = userTypeState[1];
+    const setUser = userState[1];
     const navigator = useNavigate();
 
+    const [error, setError] = useState("");
+    var timeout = null;
     const [selectedType, setSelectedType] = useState(null); //'user' or 'venue'
-    const [userNameValid, setUsernameValid] = useState(false);
-    const [passwordChecks, setPasswordChecks] = useState([false, false, false, false]);
-    const [showPassword, setShowPassword] = useState(false);
-    const [pfpSelection, setPfpSelection] = useState(ShowGoLogo);
-    
+    const [userNameValid, setUsernameValid] = useState(false); //state to check username validity
+    const [passwordChecks, setPasswordChecks] = useState([false, false, false, false]); //password requirements
+    const [showPassword, setShowPassword] = useState(false); //Show password toggle
+    const [pfpSelection, setPfpSelection] = useState(null);
+
+    //Updates the error message with the given timeout length in ms
+    function updateError(message, ms) {
+        if(timeout) {
+            clearTimeout();
+        }
+        setError(message);
+        timeout = setTimeout(() =>{
+            setError("");
+        }, ms);
+    }
+
+    /*
+        Checks if the username selected in valid upon clicking off of the username textbox.
+        Valid implies the username has not been selected by any existing users/venues and meets validation requirements
+        set in the SRS.
+        */
     async function checkUsernameValid() {
         var username = document.getElementById(styles.username).value;
         if(username === "" || selectedType == null) return;
-        const requestOptions = {
-            method: 'GET',
-        };
         var [check1, check2] = [true, true];
-        await fetch('http://localhost:8080/venues/' + username, requestOptions)
-            .then(response => {
+        await fetch('http://localhost:8080/venues/' + username, {
+            method: 'GET',
+        }).then(response => {
                 if (response.ok) {
                     check1 = false;
                 }
             });
-        await fetch('http://localhost:8080/user/' + username, requestOptions)
-            .then(response => {
+        await fetch('http://localhost:8080/user/' + username, {
+            method: 'GET',
+        }).then(response => {
                 if (response.ok) {
                     check2 = false;
                 }
@@ -43,17 +60,22 @@ const SignUp = () => {
         
     }
 
+    //Checks if a password is valid based on all the password criteria specified by the SRS
     function checkPasswordValid() {
         var password = document.getElementById(styles.password).value;
         setPasswordChecks([/^[a-zA-Z0-9!?#$%&*]+$/.test(password), password.match(/[!?#$%&*]/), password.match(/[A-Z]/), (password.length >= 8 && password.length <= 40)]);
     }
 
+    //If all fields are valid, signs up a user. Otherwise, returns an error
     function signUp() {
+        //Simulate Sign Up being disabled if all validation isn't met
+        if (!(selectedType && userNameValid && passwordChecks.every(v => v))) return;
 
         const username = document.getElementById(styles.username).value;
         const name = document.getElementById(styles.name).value
         const password = document.getElementById(styles.password).value;
         
+        //Selects body data based on user type
         var requestOptions;
         if(selectedType === 'venue') {
             const location = document.getElementById(styles.location).value;
@@ -63,13 +85,13 @@ const SignUp = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                username: username, 
-                name: name,
-                password: password,
-                pfp: pfpSelection ? pfpSelection: ShowGoLogo,
-                location: location,
-                hide_location: hide_location,
-                description: description
+                    username: username, 
+                    name: name,
+                    password: password,
+                    pfp: pfpSelection ? pfpSelection: ShowGoLogo,
+                    location: location,
+                    hide_location: hide_location,
+                    description: description
                 })
             };
         } else {
@@ -77,40 +99,36 @@ const SignUp = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                username: username, 
-                name: name,
-                password: password,
-                pfp: pfpSelection,
+                    username: username, 
+                    name: name,
+                    password: password,
+                    pfp: pfpSelection,
                 })
             };
         }
 
-        console.log(requestOptions);
-        fetch('http://localhost:8080/' + (selectedType === 'venue' ? 'venues' : 'users'), requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
+        //Adds the user/venue to the database then logs in the user if successful
+        fetch('http://localhost:8080/' + (selectedType === 'venue' ? 'venues' : 'users'), requestOptions)
             .then(response => {
                 return response.ok ? response.json() : null;
             }).then(data => {
                 if (data) {
-                    console.log(data);
                     setLoggedIn(true);
                     setUserType(selectedType);
                     setUser(data);
                     navigator(selectedType === 'user' ? '/home' : '/venuehome');
                 } else {
-                    console.log("Error creating user");
+                    updateError("Error creating user. Try again later.", 2500);
                 }
             });
     }
 
-    function togglePassword() {
-        setShowPassword(!showPassword);
-    }
-
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored.
     async function handleImage (event) {
         const file = event.target.files[0];
         
         if (!file) {
-            setPfpSelection(ShowGoLogo);
+            setPfpSelection(null);
             return;
         };
 
@@ -148,8 +166,8 @@ const SignUp = () => {
                     <div id={styles.formContainer}>
                         <label className={styles.label + ' ' + styles.col_1}>Who Are You? *</label>
                         <span id={styles.user_type} className={styles.col_2}>
-                            <button className={(selectedType === 'user' ? 'button-enabled' : '')} onClick={() => { setSelectedType('user')}}>User</button>
-                            <button className={(selectedType === 'venue' ? 'button-enabled': '')} onClick={() => { setSelectedType('venue')}}>Venue</button>
+                            <button className={(selectedType === 'user' ? 'button_enabled' : '')} onClick={() => {setSelectedType('user')}}>User</button>
+                            <button className={(selectedType === 'venue' ? 'button_enabled': '')} onClick={() => {setSelectedType('venue')}}>Venue</button>
                         </span>
 
                         <label className={styles.label + ' ' + styles.col_1}>Profile Picture</label>
@@ -167,15 +185,15 @@ const SignUp = () => {
                         <input  maxLength='40' type={showPassword ? 'text' : 'password'} className={styles.input + ' ' + styles.col_2} id={styles.password} onChange={() => checkPasswordValid()}></input>
                         <img className={styles.col_3} src={passwordChecks.every(v => v) ? Checkmark : X} alt=""/>
                         
-                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[0] ? 'text-valid' : 'text-invalid')}>No spaces</p>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[0] ? 'text_valid' : 'text_invalid')}>No spaces</p>
                         <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[0] ? Checkmark : X} alt=""/>
-                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[1] ? 'text-valid' : 'text-invalid')}>One special character (!,?,#,$,%,&,*),</p>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[1] ? 'text_valid' : 'text_invalid')}>One special character (!,?,#,$,%,&,*),</p>
                         <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[1] ? Checkmark : X} alt=""/>
-                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[2] ? 'text-valid' : 'text-invalid')}>One capital letter</p>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[2] ? 'text_valid' : 'text_invalid')}>One capital letter</p>
                         <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[2] ? Checkmark : X} alt=""/>
-                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[3] ? 'text-valid' : 'text-invalid')}>Between 8-40 characters</p>
+                        <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[3] ? 'text_valid' : 'text_invalid')}>Between 8-40 characters</p>
                         <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[3] ? Checkmark : X} alt=""/>
-                        <button id={styles.toggle_password} className={styles.col_2 + ' ' + (showPassword ? 'button-enabled' : '')} onClick={() => togglePassword()}>Show Password</button>
+                        <button id={styles.toggle_password} className={styles.col_2 + ' ' + (showPassword ? 'button_enabled' : '')} onClick={() => setShowPassword(!showPassword)}>Show Password</button>
 
                         {selectedType === 'venue' ? 
                         (<>
@@ -189,9 +207,9 @@ const SignUp = () => {
                             <input  maxLength='255' id={styles.description} className={styles.input + ' ' + styles.col_2_3}></input>
                         </>)
                         : <></>}
-                        
+                        <p className={styles.p + " " + styles.col_2_3} id={styles.error}>{error ? error : ""}</p>
                         <span id={styles.sign_up_button}>
-                            <button className={selectedType && userNameValid && passwordChecks.every(v => v) ? 'button-enabled' : 'button-disabled'} onClick={() => signUp()}>Sign Up</button>
+                            <button className={selectedType && userNameValid && passwordChecks.every(v => v) ? 'button_enabled' : 'button_disabled'} onClick={() => signUp()}>Sign Up</button>
                         </span>
                     </div>
                 </div>
@@ -204,4 +222,3 @@ const SignUp = () => {
         </div>
     )
 }
-export default SignUp;

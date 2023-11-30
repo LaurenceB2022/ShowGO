@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+//Advice for InvalidUsernameException
 @ControllerAdvice
 public class InvalidUsernameAdvice {
 
   @ResponseBody
   @ExceptionHandler(InvalidUsernameException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  String employeeNotFoundHandler(InvalidUsernameException ex) {
+  String invalidUsernameExceptionHandler(InvalidUsernameException ex) {
     return ex.getMessage();
   }
 }

@@ -213,7 +213,7 @@ export default function VenueManageEvent() {
                     <p class={styles.p}>{error}</p>
                 </div>
                 <button id={styles.delete_event} onClick={() => setPromptVisible(true)}>Delete Event</button>
-                <button id={styles.save} className='button-enabled' onClick={()=>save()}>Save</button>
+                <button id={styles.save} className='button_enabled' onClick={()=>save()}>Save</button>
                 <button id={styles.cancel}>
                     <Link to='/venuehome'>Cancel</Link>
                 </button>

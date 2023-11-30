@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
+import com.shifthappens.showgo.exceptions.InvalidGuidException;
 import com.shifthappens.showgo.exceptions.InvalidSearchException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.repositories.EventRepository;
@@ -31,6 +33,7 @@ public class EventController {
         this.eventRepo = eventRepo;
     }
 
+    //Find all events
     @GetMapping("/events")
     public List<Event> findAll() {
         List<Event> events = new ArrayList<Event>();
@@ -38,22 +41,30 @@ public class EventController {
         return events;
     }
 
+    //Find one event by its guid
     @GetMapping("/events/{guid}")
     public Event findEventByGuid(@PathVariable String guid) {
-        return eventRepo.findByguid(guid);
+        Event event =  eventRepo.findByguid(guid);
+        if (event == null) {
+            throw new InvalidGuidException();
+        }
+        return event;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    //Create an event from the inputted event object from the HTTP request body JSON object
     @PostMapping("/events")
     public Event makeEvent(@RequestBody Event event) {
+        checkParams(event);
         return eventRepo.save(event);
     }
 
+    //Delete the event matching the inputted guid
     @DeleteMapping("/events/{guid}")
     public void deleteEvent(@PathVariable String guid) {
         eventRepo.delete(eventRepo.findByguid(guid));
     }
 
+    //Get all events made by the inputted venue username
     @GetMapping("/events/venue/{username}")
     public List<Event> findEventsByVenueUsername(@PathVariable String username) {
         List<Event> Event = eventRepo.findByVenueUsername(username);
@@ -63,6 +74,7 @@ public class EventController {
         return Event;
     }
 
+    //Get all events made by the inputted venue object from the HTTP request body JSON object
     @GetMapping("/events/venue/")
     public List<Event> findEventsByVenue(@RequestBody Venue venue) {
         List<Event> events = eventRepo.findByVenue(venue);
@@ -76,27 +88,10 @@ public class EventController {
         return eventRepo.findBySearch(search);
     }
 
-    protected void update(@PathVariable String guid, @PathVariable String areaToUpdate, @PathVariable String update) {
-        Event tr = eventRepo.findByguid(guid);
-        if (areaToUpdate.equals("start_date"))
-            tr.setStart_date(update);
-        else if (areaToUpdate.equals("end_date"))
-            tr.setEnd_date(update);
-        else if (areaToUpdate.equals("ticket_price"))
-            tr.setTicket_price(Float.parseFloat(update));
-        else if (areaToUpdate.equals("name"))
-            tr.setName(update);
-        else if (areaToUpdate.equals("description"))
-            tr.setDescription(update);
-        else if (areaToUpdate.equals("location"))
-            tr.setLocation(update);
-        else if (areaToUpdate.equals("hide_location"))
-            tr.setHide_location(Boolean.parseBoolean(update));
-        eventRepo.save(tr);
-    }
-
+    //Update an event's settings by the inputted event object from the HTTP request body JSON object and inputted guid
     @PostMapping("/events/{guid}")
     public void update(@PathVariable String guid, @RequestBody Event e) {
+        checkParams(e);
         Event tr = eventRepo.findByguid(guid);
             tr.setStart_date(e.getStart_date());
             tr.setEnd_date(e.getEnd_date());
@@ -104,10 +99,11 @@ public class EventController {
             tr.setName(e.getName());
             tr.setDescription(e.getDescription());
             tr.setLocation(e.getLocation());
-            tr.setHide_location(e.getHide_location());
+            tr.setHide_location(e.isHide_location());
         eventRepo.save(tr);
     }
 
+    //Search events by a price range, date range, and/or a search input
     @GetMapping("/events/filters/{search}/{startDateTimeS}/{endDateTimeS}/{lowerPriceS}/{upperPriceS}")
     public List<Event> findBySearchAndFilter(@PathVariable String search, @PathVariable String startDateTimeS, @PathVariable String endDateTimeS, @PathVariable String lowerPriceS, @PathVariable String upperPriceS) {
         List<Event> rtrn = null;
@@ -120,13 +116,13 @@ public class EventController {
         double upperPrice = -1;
         List<Event> events = null;
 
-        if (hasSearch) {
+        if (hasSearch) {//if a search parameter was inputted
             events = findBySearch(search);
         }
         else {
             events = findAll();
         }
-        if (hasPrices) {
+        if (hasPrices) {//if a price range was inputted
             try {
                 lowerPrice = Double.parseDouble(lowerPriceS);
                 upperPrice = Double.parseDouble(upperPriceS);
@@ -135,7 +131,7 @@ public class EventController {
                 throw new InvalidSearchException("Invalid price bounds");
             }
         }
-        if (hasDates) {
+        if (hasDates) {//if a date range was inputted
             try {
                 startDateTime = LocalDateTime.parse(startDateTimeS, formatter);
                 endDateTime = LocalDateTime.parse(endDateTimeS, formatter);
@@ -151,12 +147,12 @@ public class EventController {
             final LocalDateTime innerStartDateTime = startDateTime;
             final LocalDateTime innerEndDateTime = endDateTime;
             rtrn = events.stream().filter(event -> {
-                if (innerLowerPrice != -1) {
+                if (innerLowerPrice != -1) {//if there is a price range, filter by price range
                     if (event.getTicket_price() < innerLowerPrice || event.getTicket_price() > innerUpperPrice) {
                         return false;
                     }
                 }
-                if (innerStartDateTime != null) {
+                if (innerStartDateTime != null) {//if there is a date range, filter by date range
                     try {
                         String startDate = event.getStart_date();
                         LocalDateTime eventTime = LocalDateTime.parse(startDate, formatter);
@@ -172,6 +168,33 @@ public class EventController {
             }).collect(Collectors.toList());
         }
         return rtrn == null ? new ArrayList<Event>() : rtrn;
+    }
+
+    //Used to check whether an event is valid, throws InvalidEventCreationException if not
+    protected void checkParams(Event event) {
+        if (event.getStart_date() != null && event.getEnd_date() != null) {
+            LocalDateTime start_date = LocalDateTime.parse(event.getStart_date(), formatter);
+            LocalDateTime end_date = LocalDateTime.parse(event.getEnd_date(), formatter);
+
+            if (end_date.isBefore(start_date)) {
+                throw new InvalidEventCreationException("Invalid date range");
+            }
+        }
+        if (event.getName().equals("")) {
+            throw new InvalidEventCreationException("Invalid name");
+        }
+        if (event.getMax_attendees() <= 0) {
+            throw new InvalidEventCreationException("Invalid max attendees");
+        }
+        if (event.getTicket_price() <= 0) {
+            throw new InvalidEventCreationException("Invalid ticket price");
+        }
+        if (event.getDescription() != null && event.getDescription().length() > 1000 || event.getDescription().equals("")) {
+            throw new InvalidEventCreationException("Invalid description length");
+        }
+        if (event.getLocation() != null && event.getLocation().length() > 100) {
+            throw new InvalidEventCreationException("Invalid location");
+        }
     }
 
 }

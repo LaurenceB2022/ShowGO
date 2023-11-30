@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-//Advice for InvalidGuidException
+//Advice for InvalidEventCreationException
 @ControllerAdvice
-public class InvalidGuidAdvice {
-
-  @ResponseBody
-  @ExceptionHandler(InvalidGuidException.class)
+public class InvalidEventCreationAdvice {
+    @ResponseBody
+  @ExceptionHandler(InvalidEventCreationException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  String invalidGuidExceptionHandler(InvalidGuidException ex) {
+  String invalidEventCreationHandler(InvalidEventCreationException ex) {
     return ex.getMessage();
   }
 }

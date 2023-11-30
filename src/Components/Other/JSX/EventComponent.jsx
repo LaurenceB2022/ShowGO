@@ -2,16 +2,16 @@ import 'index.css';
 import styles from 'Components/Other/CSS/EventComponent.module.css';
 import { Link } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { MyContext } from 'App';
 
-//TODO add image data
+/*
+    EventComponent displays a single event object. If the event object is clicked, it will bring the user or venue to the
+    user's view event page or the venue's manage event page respectively.
+*/
 const EventComponent = (props) => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [loggedIn, setLoggedIn] = loggedInState;
-    const [userType, setUserType] = userTypeState;
-    
-    //TODO update dummy event
+    const userTypeState = useContext(MyContext).userTypeState;
+    const userType = userTypeState[0];
     const eventJSON = props.event ? props.event : 
     {
         guid: 'N/A',
@@ -29,7 +29,6 @@ const EventComponent = (props) => {
     };
     return(
         <div className={styles.container}>
-            {/* TODO change link to be dynamic based on user login type */}
             <Link to={(userType === 'user' ? "/home/event/" : "/venuehome/event/") + eventJSON.guid} state={{eventJSON: eventJSON}}>
                 <p id={styles.name} className={styles.p + ' item_10'}>{eventJSON.name}</p>
                 <div className={styles.section_1 + ' item_90'}>

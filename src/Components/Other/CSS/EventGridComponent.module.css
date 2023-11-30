@@ -1,10 +1,10 @@
 .container {
+    padding: 20px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 0px 5px;
-    margin: 20px 0px;
     row-gap: 20px;
+    overflow-y: auto;
     column-gap: 30px;
     justify-content: center;
 }
