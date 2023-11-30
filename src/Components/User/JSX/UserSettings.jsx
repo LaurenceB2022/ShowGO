@@ -4,7 +4,7 @@ import styles from 'Components/User/CSS/UserSettings.module.css';
 import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
-
+import Resizer from "react-image-file-resizer";
 
 /*
     UserSettings allows a user to change their display name, password, and profile picture. Displays errors if inputted data is invalid.
@@ -42,42 +42,26 @@ export default function UserSettings() {
         }, ms);
     }
 
-    //Handles image inputs
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
         const file = event.target.files[0];
-
+        
         if (!file) {
             setData({
                 ...data,
                 'pfp': null
-                });            
+                }); 
             return;
         };
 
-        await readFileDataAsBase64(file).then(b64Data => {
-            setData({
-                ...data,
-                'pfp': b64Data
-            });
-        });
-    }
-
-    //Converts an image file into base64
-    function readFileDataAsBase64(file) {
-        
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {
+                setData({
+                    ...data,
+                    'pfp': uri
+                    }); 
+            }, 'base64');
     }
 
     //Validates the entered username and password fields
@@ -155,7 +139,7 @@ export default function UserSettings() {
                 </div>
                 <div id={styles.section_2}>
                     <img alt='pfp' name='image' id={styles.img} src={data.pfp ? data.pfp : ShowGoLogo}/>
-                    <input className={styles.input + ' ' + styles.col_2_3} type="file" onChange={handleImage}/>
+                    <input accept="image/*" className={styles.input + ' ' + styles.col_2_3} type="file" onChange={handleImage}/>
                 </div>
                 <button id={styles.save} className='button_enabled' onClick={()=>save()}>Save</button>
                 <button id={styles.cancel} onClick={() => navigator('/home')}>Cancel</button>

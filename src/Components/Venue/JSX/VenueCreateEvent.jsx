@@ -5,6 +5,7 @@ import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Resizer from "react-image-file-resizer";
 
 
 
@@ -41,30 +42,20 @@ const VenueCreateEvent = () => {
 
     const[imgfile, setFile] = useState(null);
 
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
         const file = event.target.files[0];
-        const a = await readFileDataAsBase64(file).then(d => {
-            console.log(file);
-            console.log(d);
-            setFile(d);
-        });
-    }
-
-    function readFileDataAsBase64(file) {
         
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+        if (!file) {
+            setFile(null);
+            return;
+        };
+
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {
+            setFile(uri);
+            }, 'base64');
     }
 
     const handleInput = (event) => {

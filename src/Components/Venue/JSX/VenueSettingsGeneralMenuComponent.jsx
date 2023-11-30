@@ -4,6 +4,7 @@ import React, {useState, useContext} from 'react';
 import defaultImage from 'Assets/Placeholder.svg'
 import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
+import Resizer from "react-image-file-resizer";
 
 const VenueSettingsGeneralMenuComponent = () =>{
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
@@ -22,10 +23,20 @@ const VenueSettingsGeneralMenuComponent = () =>{
     });
     const navigator = useNavigate();
 
-    function handleImage(event) {
-        console.log(event.target.files);
-        setFile(URL.createObjectURL(event.target.files[0]));
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
+    async function handleImage (event) {
+        const file = event.target.files[0];
+        
+        if (!file) {
+            setFile(null); 
+            return;
+        };
+
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {setFile(uri)}, 'base64');
     }
+
 
     const handleSubmit = (event) =>{
         console.log('Got to handleSubmit');
@@ -135,7 +146,7 @@ const VenueSettingsGeneralMenuComponent = () =>{
                 
                 <span>
                     <img src={imgfile} alt="image_default"/> 
-                    <input className={styles.button3} type="file" onChange={handleImage} />Choose File
+                    <input accept="image/*" className={styles.button3} type="file" onChange={handleImage} />Choose File
                 </span>
                 
             </div>

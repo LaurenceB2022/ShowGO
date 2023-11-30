@@ -6,6 +6,7 @@ import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import YesNoPromptComponent from 'Components/Other/JSX/YesNoPromptComponent';
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
+import Resizer from "react-image-file-resizer";
 
 export default function VenueManageEvent() {
     const id = useParams().id;
@@ -39,7 +40,7 @@ export default function VenueManageEvent() {
             location: location.state.eventJSON.location,
             hide_location: location.state.eventJSON.hide_location,
             max_attendees: location.state.eventJSON.max_attendees,
-            image: location.state.eventJSON.image
+            image: location.state.eventJSON.image,
          });
 
     function handleInput(event) {
@@ -51,6 +52,7 @@ export default function VenueManageEvent() {
         );
     }
 
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
         const file = event.target.files[0];
         
@@ -60,30 +62,13 @@ export default function VenueManageEvent() {
                 image: ShowGoLogo
             });
             return;
-        }
-
-        await readFileDataAsBase64(file).then(b64Data => {
-            setEventJSON({
+        };
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {setEventJSON({
                 ...eventJSON,
-                image: b64Data
-            });
-        });
-    }
-
-    function readFileDataAsBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+                image: uri
+            })}, 'base64');
     }
 
     //Updates the error message with the given timeout length in ms
@@ -222,8 +207,8 @@ export default function VenueManageEvent() {
                     </div>
                 </div>
                 <div id={styles.section_2}>
-                    <img name='image' id={styles.img} src={eventJSON['image'] ? eventJSON['image'] : ShowGoLogo}/>
-                    <input className={styles.input + ' ' + styles.col_2_3} type="file" onChange={handleImage}/>
+                    <img name='image' id={styles.img} src={eventJSON.image ? eventJSON.image : ShowGoLogo}/>
+                    <input accept="image/*" className={styles.input + ' ' + styles.col_2_3} type="file" onChange={handleImage}/>
                     <br></br>
                     <button>
                         <Link to={'/venuehome/event/' + id + '/manage'} state={{eventJSON: eventJSON}}>Manage Attendees</Link>

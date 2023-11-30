@@ -100,6 +100,7 @@ public class EventController {
             tr.setDescription(e.getDescription());
             tr.setLocation(e.getLocation());
             tr.setHide_location(e.isHide_location());
+            tr.setImage(e.getImage());
         eventRepo.save(tr);
     }
 

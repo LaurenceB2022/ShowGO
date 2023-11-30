@@ -6,6 +6,7 @@ import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import {Link, useNavigate} from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { MyContext } from 'App';
+import Resizer from "react-image-file-resizer";
 
 /*
     SignUp displays a page where a user or venue can enter details to create a new account. Upon clicking 'Sign Up',
@@ -111,7 +112,6 @@ export default function SignUp() {
                 })
             };
         }
-
         //Adds the user/venue to the database then logs in the user if successful
         fetch('http://localhost:8080/' + (selectedType === 'venue' ? 'venues' : 'users'), requestOptions)
             .then(response => {
@@ -128,7 +128,7 @@ export default function SignUp() {
             });
     }
 
-    //Handles profile picture input. Converts the image to base64 to allow it to be stored.
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
         const file = event.target.files[0];
         
@@ -137,27 +137,11 @@ export default function SignUp() {
             return;
         };
 
-        await readFileDataAsBase64(file).then(b64Data => {
-            setPfpSelection(b64Data);
-        });
-    }
-
-    //Converts an img file into base 64
-    function readFileDataAsBase64(file) {
-        
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {
+            setPfpSelection(uri);
+            }, 'base64');
     }
 
     return(
@@ -177,7 +161,7 @@ export default function SignUp() {
                         </span>
 
                         <label className={styles.label + ' ' + styles.col_1}>Profile Picture</label>
-                        <input className={styles.input + ' ' + styles.col_2_3} title=" " type="file" onChange={handleImage}/>
+                        <input accept="image/*" className={styles.input + ' ' + styles.col_2_3} title=" " type="file" onChange={handleImage}/>
                         <img id={styles.pfp_display} className={styles.col_2 + ' img_medium'} src={pfpSelection ? pfpSelection : ShowGoLogo} alt=""/>
 
                         <label className={styles.label + ' ' + styles.col_1}>Display Name *</label>
