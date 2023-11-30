@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap');
+
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: inherit;
+  min-height: calc(100vh - var(--navbar-height));
+  height: calc(100vh - var(--navbar-height));
+  
+}
+
+#logo {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ticket{
+  width: 80px;
+  height: 80px;
+ 
+  fill: var(--light-gray);
+  stroke-width: 10px;
+  stroke: var(--dark-green); 
+  margin-left: 20px;
+}
+
+#logo h1 {
+  font-size: 72px;
+}
+
+#go {
+  color:#FE5F55
+}
+  
+#content label{
+  background: inherit;
+  font-family: 'Sen', sans-serif;
+  text-align: center;
+  align-items: center;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal; 
+  color: #4F6367; 
+}
+  
+#content input{
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border-color: #4F6367;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button_container{
+  height: 100px;
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+  
+#content button {
+  box-sizing: border-box;
+  border-radius: 52px;
+  width: 252px;
+  height: 77px;
+  border-radius: 52px;
+  background: #FFFFFF;
+  margin: 0px;
+}
