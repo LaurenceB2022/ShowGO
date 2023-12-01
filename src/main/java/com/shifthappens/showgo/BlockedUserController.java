@@ -57,7 +57,11 @@ public class BlockedUserController {
 
     @DeleteMapping("/blockedUsers/{userUsername}/{venueUsername}")
     public void deleteBlockedUser(@PathVariable String userUsername, @PathVariable String venueUsername) {
-        blockedUserRepo.delete(blockedUserRepo.findByUserAndVenue(userUsername, venueUsername));
+        BlockedUser blockedUser = blockedUserRepo.findByUserAndVenue(userUsername, venueUsername);
+        if (blockedUser == null) {
+            throw new InvalidUsernameException();
+        }
+        blockedUserRepo.delete(blockedUser);
     }
 
     @GetMapping("/blockedUsers/venue/{username}")
