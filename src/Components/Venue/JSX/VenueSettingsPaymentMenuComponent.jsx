@@ -59,7 +59,9 @@ const VenueSettingsPaymentMenuComponent = (props) => {
             valid_info = false;
             setError('Invalid Card Name')
         }
-        if(!/^(0[1-9]|10|11|12)(20[0-9]{2})/.test(expiration_date) || new Date(split[1], split[0]) > new Date()){
+        var temp = (new RegExp('(0[1-9]|10|11|12)/(20[0-9]{2})')).test(expiration_date);
+
+        if(!temp || new Date(split[1], split[0]) > new Date()){
             valid_info = false;
             setError('Invalid Expiration Date')
         }

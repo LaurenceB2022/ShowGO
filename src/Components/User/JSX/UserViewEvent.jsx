@@ -32,7 +32,7 @@ export default function UserViewEvent() {
             var tickets = await fetch('http://localhost:8080/tickets/' + eventJSON.guid, {
                 method: 'GET',
             }).then(response => response.json());
-            console.log(tickets.length);
+            //console.log(tickets.length);
             if (tickets.length >= eventJSON.max_attendees) {
                 eventFull = true;
             }

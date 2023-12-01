@@ -87,7 +87,7 @@ const VenueCreateEvent = () => {
         console.log(tempStartTime[0])
         console.log(tempEndTime[0])
 
-        if(values.name === '' || values.max <= 0 || values.price <= 0.0){
+        if(values.name === '' || values.location !== '' || values.max <= 0 || values.price <= 0.0){
             console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
             return false;

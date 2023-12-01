@@ -7,6 +7,8 @@
     align-content: center;
     width: 100%;
     height: 100%;
+    padding: 2%;
+    gap: 10px 10%;
 }
 
 .container {
@@ -15,8 +17,6 @@
     flex-direction: column;
     flex-wrap: wrap;
     padding: 0px 5px;
-    width: 50%;
-    height: 100%;
     margin: 5px 0px;
     overflow: auto;
     box-sizing: border-box;
@@ -28,6 +28,17 @@
     line-height: normal; 
     color:#4F6367;
     white-space: normal;
+    border-radius: 2px;
+    border-color:#4F6367;
+    width: 100%;
+}
+
+#empty_result{
+    overflow: auto;
+    background-color: white;
+
+    width: 100%;
+    height: calc(100vh - var(--navbar-height) - 100px);
 }
 
 #search {
