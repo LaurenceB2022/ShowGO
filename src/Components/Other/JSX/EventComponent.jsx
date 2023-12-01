@@ -5,13 +5,13 @@ import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import { useContext } from 'react';
 import { MyContext } from 'App';
 
-//TODO add image data
-const EventComponent = (props) => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [loggedIn, setLoggedIn] = loggedInState;
-    const [userType, setUserType] = userTypeState;
-    
-    //TODO update dummy event
+/*
+    EventComponent displays a single event object. If the event object is clicked, it will bring the user or venue to the
+    user's view event page or the venue's manage event page respectively.
+*/
+export default function EventComponent(props) {
+    const userTypeState = useContext(MyContext).userTypeState;
+    const userType = userTypeState[0];
     const eventJSON = props.event ? props.event : 
     {
         guid: 'N/A',
@@ -29,11 +29,10 @@ const EventComponent = (props) => {
     };
     return(
         <div className={styles.container}>
-            {/* TODO change link to be dynamic based on user login type */}
             <Link to={(userType === 'user' ? "/home/event/" : "/venuehome/event/") + eventJSON.guid} state={{eventJSON: eventJSON}}>
                 <p id={styles.name} className={styles.p + ' item_10'}>{eventJSON.name}</p>
                 <div className={styles.section_1 + ' item_90'}>
-                    <img id={styles.img} className='item_50' src={eventJSON.image ? eventJSON.image: (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}></img>
+                    <img alt="event" id={styles.img} className='item_50' src={eventJSON.image ? eventJSON.image: (eventJSON.venue.pfp ? eventJSON.venue.pfp : ShowGoLogo)}></img>
                     <div className={styles.time_and_ticket + ' item_50'}>
                         <span className='item_10'>
                             <p className={styles.p + ' ' + styles.field_name}>Start</p>
@@ -51,4 +50,3 @@ const EventComponent = (props) => {
         </div>
     )
 }
-export default EventComponent;

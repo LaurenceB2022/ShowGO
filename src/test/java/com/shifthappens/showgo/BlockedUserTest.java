@@ -20,14 +20,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+/*
+ * The BlockedUserTest tests the BlockedUser Class
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BlockedUserTest {
+    //objects being created for testing
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Venue Venue2= new Venue("test2", "test2", "testpassword");
 
@@ -40,6 +46,7 @@ public class BlockedUserTest {
 
     Event Event1 = new Event(Venue1);
 
+    //repositories made for the testing of the blocked user
     @Autowired
     private VenueRepository VenueRepository;
     @Autowired
@@ -50,12 +57,15 @@ public class BlockedUserTest {
     private TicketRepository TicketRepository;
     @Autowired
     private EventRepository EventRepository;
-
+    //controllers being made to test the ticket and blocked user controller 
     private TicketController TicketController;
+    private BlockedUserController BlockedUserController;
     
+    //sets up the tests and objects needed to test blocked user 
     @Before
     public void setUp() throws Exception {
         TicketController = new TicketController(this.TicketRepository, this.BlockedUserRepository);
+        BlockedUserController = new BlockedUserController(BlockedUserRepository, UserRepository, VenueRepository);
 
         this.VenueRepository.save(Venue1);
         this.VenueRepository.save(Venue2);
@@ -90,9 +100,19 @@ public class BlockedUserTest {
         assertEquals(Venue1.getUsername(), BlockedUserA.getVenue().getUsername());
 
     }
+    @Test
+    public void testSettings(){
+        //Authorized Users
+        assertTrue(BlockedUserRepository.findByVenueUsername("test3").isEmpty());
+        assertFalse(BlockedUserRepository.findByVenueUsername("test1").isEmpty());
+
+        assertNotNull(BlockedUserController.blockUser("test22", "test1"));
+        assertDoesNotThrow(() -> BlockedUserController.deleteBlockedUser("test22", "test1"));
+    }
 
     @Test
     public void testBuyTicketAsBlockedUser() {
+        //buyticket and blockeduser 
         Ticket mockTicket = mock(Ticket.class);
 
         when(mockTicket.getOwner()).thenReturn(User1);
@@ -103,6 +123,7 @@ public class BlockedUserTest {
 
     @After
     public void tearDown() throws Exception {
+        //deletes and tears down the object being tested
         EventRepository.delete(Event1);
 
         BlockedUserRepository.delete(BlockedUser1);

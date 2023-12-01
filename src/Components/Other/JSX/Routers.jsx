@@ -19,10 +19,15 @@ import VenueManageEvent from 'Components/Venue/JSX/VenueManageEvent';
 import VenueManageAttendees from 'Components/Venue/JSX/VenueManageAttendees';
 import UserSettings from 'Components/User/JSX/UserSettings';
 
+/*
+  Routers defines all the app routing (URL navigation).
+  It tells the program what component to render based on URL path matching.
+*/
 const Routers = () => {
     return (
       <Routes>
         <Route path='/' element={<Outlet/>}>
+          {/* Login / Signup */}
           <Route index element={<Login/>} />
           <Route path='login' element={<Login/>}/>
           <Route path='signup' element={<SignUp/>}/>

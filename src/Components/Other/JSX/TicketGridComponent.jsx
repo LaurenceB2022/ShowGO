@@ -4,12 +4,16 @@ import TicketComponent from 'Components/Other/JSX/TicketComponent';
 import { useContext, useEffect, useState } from 'react';
 import { MyContext } from 'App';
 
+/*
+    TicketGridComponent displays a grid of TicketComponents based on the logged in user.
+*/
 export default function TicketGridComponent() {
-    const {_, __, userState} = useContext(MyContext);
-    const [user,] = userState;
+    const userState = useContext(MyContext).userState;
+    const user = userState[0];
     const [data, setData] = useState([]);
     
     async function fetchTickets() {
+        if(!user) return;
         await fetch('http://localhost:8080/tickets/user/' + user.username, {
             method: 'GET'
         }).then(response => response.json())
@@ -19,7 +23,7 @@ export default function TicketGridComponent() {
 
     useEffect(() => {
         fetchTickets();
-    }, []);
+    });
     
     return (
         <div className={styles.container}>

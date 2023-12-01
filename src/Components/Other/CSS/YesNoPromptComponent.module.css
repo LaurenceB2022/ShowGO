@@ -2,16 +2,16 @@
     position: absolute;
     background-color: var(--dark-grey-alpha);
     z-index: 1000;
-
+    top: 0px;
     width: 100%;
-    height: inherit;
+    height: 100vh;
     overflow-y: hidden;
 }
 
 #content {
     overflow: auto;
     position: fixed;
-    background-color: white;
+    background-color: var(--white);
 
     top: 50%;
     left: 50%;

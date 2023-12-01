@@ -1,11 +1,14 @@
 package com.shifthappens.showgo;
 
+import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.entities.Venue;
+import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
+import com.shifthappens.showgo.repositories.BlockedUserRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,17 +21,24 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
+import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class VenueTest {
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Venue Venue2= new Venue("test2", "test2", "testpassword");
     Venue Venue3 = new Venue("test3", "test3", "testPassword!");
+    Venue Venue4 = new Venue("Validusername", "test4", "testPassword!");
 
     @Autowired
     private VenueRepository VenueRepository;
     @Autowired
     private UserRepository UserRepository;
+    @Autowired
+    private BlockedUserRepository BlockedUserRepository;
     
     @Before
     public void setUp() throws Exception {
@@ -37,6 +47,7 @@ public class VenueTest {
         this.VenueRepository.save(Venue1);
         this.VenueRepository.save(Venue2);
         this.VenueRepository.save(Venue3);
+        this.VenueRepository.save(Venue4);
         assertNotNull(Venue1.getUsername());
         assertNotNull(Venue2.getUsername());
     }
@@ -54,7 +65,7 @@ public class VenueTest {
     @Test
     public void testSignUp(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
-        Venue testvalidUser = new Venue("ValidUsername","displayname", "Validpassword!");
+        Venue testvalidUser = new Venue("ValidUsername2","displayname", "Validpassword!");
         assertNotNull(VenueController.signUp(testvalidUser));
         VenueRepository.delete(testvalidUser);        
 
@@ -82,12 +93,13 @@ public class VenueTest {
         assertThrows(InvalidUsernameException.class, () -> LoginController.login("invalid username", "Validpassword!"));
         assertThrows(InvalidUsernameException.class, () -> LoginController.login("invalid username", "invalid password"));
         assertThrows(InvalidPasswordException.class, () -> LoginController.login("Validusername", "invalid password"));
-        assertNotNull(LoginController.login("Validusername", "Validpassword!"));
+        assertNotNull(LoginController.login("Validusername", "testPassword!"));
     }
 
     @Test
     public void testSettings(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
+        BlockedUserController BlockedUserController = new BlockedUserController(BlockedUserRepository, UserRepository, VenueRepository);
         //Security Page
         Venue testVenue = new Venue("test1", "test", "1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));
@@ -107,6 +119,7 @@ public class VenueTest {
         assertThrows(InvalidVenueCreationException.class, () -> VenueController.checkParams(test3Venue));
         Venue Venue0= new Venue("test1", "test0", "testPassword!");
         assertNotNull(VenueController.editSettings(Venue0));
+
     }
 
     @Test
@@ -136,5 +149,6 @@ public class VenueTest {
         VenueRepository.delete(Venue1);
         VenueRepository.delete(Venue2);
         VenueRepository.delete(Venue3);
+        VenueRepository.delete(Venue4);
     }
 }

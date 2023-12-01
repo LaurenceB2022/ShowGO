@@ -1,17 +1,28 @@
 import 'index.css';
 import styles from 'Components/User/CSS/UserCheckout.module.css';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { MyContext } from 'App';
 import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 
+/*
+    UserCheckout displays a screen for users to fill in credit card information (mock) to purchase a ticket. Upon hitting
+    'Purchase', if the credentials are valid, the ticket will be purchased and the user will be sent to the UserCheckoutComplete
+    page.
+*/
 export default function UserCheckout() {
-    const {_, __, userState} = useContext(MyContext);
-    const [user,] = userState;
-    const id = useParams().id;
-    const location = useLocation();
+    const user = useContext(MyContext).userState[0];
+    const loggedInState = useContext(MyContext).loggedInState;
+    
+    const id = useParams().id; //event id from the url
+    const location = useLocation(); //getting state values passed in
     const navigator = useNavigate();
+    
+    
+    const [error, setError] = useState("");
+    const [data, setData] = useState([false, false, false, false]); //Validation state
+    var timeout = null;
     const eventJSON = !location.state ? {
         guid: 'N/A',
         venue: {username: 'N/A',
@@ -27,9 +38,27 @@ export default function UserCheckout() {
     }
          : location.state.eventJSON;
 
-    const [data, setData] = useState([false, false, false, false])
+    useEffect(() => {
+        //If not logged in, redirect to login screen
+        if(!loggedInState[0]) {
+            navigator('/login');
+        }
+    }, [loggedInState, navigator]);
 
+    //Updates the error message with the given timeout length in ms
+    function updateError(message, ms) {
+        if(timeout) {
+            clearTimeout();
+        }
+        setError(message);
+        timeout = setTimeout(() =>{
+            setError("");
+        }, ms);
+    }
+
+    //Handles the request to purchase a ticket. Invalid if the user is blocked or the event is full.
     async function purchaseTicket() {
+        if(!data.every(v => v)) return;
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -42,23 +71,25 @@ export default function UserCheckout() {
                 })
         };
         fetch('http://localhost:8080/tickets', requestOptions)
-        .then(response =>{
-            if(response.ok){
-                console.log('Ticket added successfully to database.');
+        .then(response => response.text()).then(text => {
+            console.log(text);
+            if (text === 'Buyer is a blocked user') {
+                updateError('You are blocked from purchasing tickets from this venue.', 2500);
+            } else if (text === 'Event is at maximum attendance') {
+                updateError('This event is full.', 2500);
+            } else {
                 navigator('/home/event/' + id + '/checkout/complete')
             }
-            else{
-                console.log('Error adding ticket: ' + response.type);
-            }
-        })
+        });
     }
 
+    //Data validation for the fields
     function checkData(field) {
         var temp = [...data];
         switch (field) {
             case 'card_number':
                 const card_number = document.getElementById(styles.card_number).value;
-                temp[0] = card_number.length >= 15;
+                temp[0] = new RegExp('[0-9]{15,}').test(card_number);
                 break;
             case 'name_on_card':
                 const name_on_card = document.getElementById(styles.name_on_card).value;
@@ -71,11 +102,13 @@ export default function UserCheckout() {
                 break;
             case 'cvv':
                 const cvv = document.getElementById(styles.cvv).value;
-                temp[3] = cvv.length >= 3;
+                temp[3] =  new RegExp('[0-9]{3,}').test(cvv);
                 break;
+            default: break;
         }
         setData(temp);
     }
+    
     return (
         <div id={styles.content}>
             <button id={styles.back}>
@@ -93,7 +126,7 @@ export default function UserCheckout() {
                 </div>
                 <div className={styles.field_row}>
                     <label className='item_40'>Name On Card</label>
-                    <input id={styles.name_on_card}  className={styles.input + ' item_50'} onChange={() => checkData('name_on_card')}></input>
+                    <input maxLength='50' id={styles.name_on_card}  className={styles.input + ' item_50'} onChange={() => checkData('name_on_card')}></input>
                     <img className='item_10' src={data[1] ? Checkmark : X} alt=""/>
                 </div>
                 <div className={styles.field_row}>
@@ -102,11 +135,12 @@ export default function UserCheckout() {
                     <img className='item_10' src={data[2] ? Checkmark : X} alt=""/>
                 </div>
                 <div className={styles.field_row}>
-                    <label className='item_40'>Security Code (CVV)</label>
+                    <label className='item_40'>CVV / CVC</label>
                     <input id={styles.cvv} className={styles.input + ' item_50'} type='text' maxLength='4' onChange={() => checkData('cvv')}></input>
                     <img className='item_10' src={data[3] ? Checkmark : X} alt=""/>
                 </div>
-                <button className={data.every(v => v) ? 'button-enabled' : 'button-disabled'} onClick={() => purchaseTicket()}>Purchase</button>
+                <p className='invalid'>{error ? error : ""}</p>
+                <button className={data.every(v => v) ? 'button_enabled' : 'button_disabled'} onClick={() => purchaseTicket()}>Purchase</button>
             </div>
         </div>
     )

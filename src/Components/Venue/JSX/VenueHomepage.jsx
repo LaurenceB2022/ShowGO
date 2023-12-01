@@ -20,22 +20,29 @@ function VenueHomepage(){
     const [timeframe, setTimeFrame] = useState('future');
 
     async function fetchEvents() {
-        var x = await fetch('http://localhost:8080/events/venue/' + user.username, {
+        setEvents([]);
+        await fetch('http://localhost:8080/events/venue/' + user.username, {
             method: 'GET',
-        }).then(response => response.json())
-        setEvents(x);
+        }).then(response => response.json()).then(data => {
+            switch (timeframe) {
+                case 'future':
+                    data = data.filter(event => new Date(event.start_date) > new Date());
+                    break;
+                case 'past':
+                    data = data.filter(event => new Date(event.end_date) < new Date());
+                    break;
+                default:
+                    break;
+            }
+            setEvents(data);
+        });
     }
 
     useEffect(() => {
+        console.log("ran");
         fetchEvents();
-    }, []);
+    }, [timeframe]);
 
-    function logOut() {
-        setLoggedIn(false);
-        setUserType(null);
-        setUser(null);
-        navigate('/login');
-    }
     return(
         <div>
             <div className={styles.container}>
@@ -46,9 +53,9 @@ function VenueHomepage(){
                 <div class={styles.section_2}>
                     <div class={styles.section_3}>
                         <div id={styles.search_criteria}>
-                            <button className={styles.h2 + ' ' + (timeframe === 'future' ? 'button-enabled' : '')} onClick={() => setTimeFrame('future')}>Upcoming Events</button>
-                            <button className={styles.h2 + ' ' + (timeframe === 'all' ? 'button-enabled' : '')} onClick={() => setTimeFrame('all')}>All Events</button>
-                            <button className={styles.h2 + ' ' + (timeframe === 'past' ? 'button-enabled' : '')} onClick={() => setTimeFrame('past')}>Past Events</button>
+                            <button className={styles.h2 + ' ' + (timeframe === 'future' ? 'button_enabled' : '')} onClick={() => setTimeFrame('future')}>Upcoming Events</button>
+                            <button className={styles.h2 + ' ' + (timeframe === 'all' ? 'button_enabled' : '')} onClick={() => setTimeFrame('all')}>All Events</button>
+                            <button className={styles.h2 + ' ' + (timeframe === 'past' ? 'button_enabled' : '')} onClick={() => setTimeFrame('past')}>Past Events</button>
                         </div>
                         <div id={styles.event}>
                             <EventGridComponent events={[events, setEvents]} time={timeframe} /> 

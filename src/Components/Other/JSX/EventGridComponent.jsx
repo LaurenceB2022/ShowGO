@@ -1,20 +1,20 @@
 import 'index.css';
 import styles from 'Components/Other/CSS/EventGridComponent.module.css';
 import EventComponent from 'Components/Other/JSX/EventComponent';
-import { useEffect, useState } from 'react';
 
-const EventGridComponent = (props) => {
+/*
+    EventGridComponent displays a list of EventComponents.
+*/
+export default function EventGridComponent(props) {
     
-    const [events, _] = props.events;
+    const events = props.events != null ? props.events[0] : null;
 
       return (
           <div className={styles.container}>
-           {
-            events.map(eventJSON => (
+           {events != null && events.map(eventJSON => (
                 <EventComponent event={eventJSON}></EventComponent>
             ))
             }
         </div>
     )
 }
-export default EventGridComponent

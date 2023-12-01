@@ -16,10 +16,12 @@ public interface EventRepository extends CrudRepository<Event, String>{
 
     List<Event> findByVenue(Venue venue);
 
+    //Selects all events that were made by the inputted venue
     @Query(value = "SELECT * FROM events e WHERE e.venue = :venue",
             nativeQuery = true)
     List<Event> findByVenueUsername(@Param("venue") String venueUsername);
 
+    //Selects all events where at least one column contains the search input
     @Query(value = "SELECT * FROM events e WHERE e.guid LIKE %:input% OR e.venue LIKE %:input% OR e.start_date LIKE %:input% OR e.end_date LIKE %:input% OR e.name LIKE %:input% OR e.description LIKE %:input% OR e.location LIKE %:input%"
              , nativeQuery = true)
     List<Event> findBySearch(@Param("input") String input);
