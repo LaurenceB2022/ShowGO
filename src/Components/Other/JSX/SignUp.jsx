@@ -1,12 +1,18 @@
 import 'index.css';
-import styles from 'Components/Other/CSS/SignUpComponent.module.css';
+import styles from 'Components/Other/CSS/SignUp.module.css';
 import Checkmark from 'Assets/Checkmark.svg';
 import X from 'Assets/X.svg';
 import ShowGoLogo from 'Assets/ShowGoLogo.png';
 import {Link, useNavigate} from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { MyContext } from 'App';
+import Resizer from "react-image-file-resizer";
 
+/*
+    SignUp displays a page where a user or venue can enter details to create a new account. Upon clicking 'Sign Up',
+    if the details are valid, a user or venue will be added to the database respectively and they will be navigated to
+    their respective homepage.
+*/
 export default function SignUp() {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const setLoggedIn = loggedInState[1];
@@ -63,7 +69,7 @@ export default function SignUp() {
     //Checks if a password is valid based on all the password criteria specified by the SRS
     function checkPasswordValid() {
         var password = document.getElementById(styles.password).value;
-        setPasswordChecks([/^[a-zA-Z0-9!?#$%&*]+$/.test(password), password.match(/[!?#$%&*]/), password.match(/[A-Z]/), (password.length >= 8 && password.length <= 40)]);
+        setPasswordChecks([/^[a-zA-Z0-9!?#$&*]+$/.test(password), password.match(/[!?#$&*]/), password.match(/[A-Z]/), (password.length >= 8 && password.length <= 40)]);
     }
 
     //If all fields are valid, signs up a user. Otherwise, returns an error
@@ -88,7 +94,7 @@ export default function SignUp() {
                     username: username, 
                     name: name,
                     password: password,
-                    pfp: pfpSelection ? pfpSelection: ShowGoLogo,
+                    pfp: pfpSelection,
                     location: location,
                     hide_location: hide_location,
                     description: description
@@ -106,7 +112,6 @@ export default function SignUp() {
                 })
             };
         }
-
         //Adds the user/venue to the database then logs in the user if successful
         fetch('http://localhost:8080/' + (selectedType === 'venue' ? 'venues' : 'users'), requestOptions)
             .then(response => {
@@ -123,7 +128,7 @@ export default function SignUp() {
             });
     }
 
-    //Handles profile picture input. Converts the image to base64 to allow it to be stored.
+    //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
         const file = event.target.files[0];
         
@@ -132,26 +137,11 @@ export default function SignUp() {
             return;
         };
 
-        await readFileDataAsBase64(file).then(b64Data => {
-            setPfpSelection(b64Data);
-        });
-    }
-
-    function readFileDataAsBase64(file) {
-        
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-    
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-    
-            reader.onerror = (err) => {
-                reject(err);
-            };
-    
-            reader.readAsDataURL(file);
-        });
+        //Resize image to reduce load times
+        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
+            uri => {
+            setPfpSelection(uri);
+            }, 'base64');
     }
 
     return(
@@ -171,7 +161,7 @@ export default function SignUp() {
                         </span>
 
                         <label className={styles.label + ' ' + styles.col_1}>Profile Picture</label>
-                        <input className={styles.input + ' ' + styles.col_2_3} title=" " type="file" onChange={handleImage}/>
+                        <input accept="image/*" className={styles.input + ' ' + styles.col_2_3} title=" " type="file" onChange={handleImage}/>
                         <img id={styles.pfp_display} className={styles.col_2 + ' img_medium'} src={pfpSelection ? pfpSelection : ShowGoLogo} alt=""/>
 
                         <label className={styles.label + ' ' + styles.col_1}>Display Name *</label>
@@ -186,13 +176,13 @@ export default function SignUp() {
                         <img className={styles.col_3} src={passwordChecks.every(v => v) ? Checkmark : X} alt=""/>
                         
                         <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[0] ? 'text_valid' : 'text_invalid')}>No spaces</p>
-                        <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[0] ? Checkmark : X} alt=""/>
+                        <img className={styles.col_3 + ' img_small'} src={passwordChecks[0] ? Checkmark : X} alt=""/>
                         <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[1] ? 'text_valid' : 'text_invalid')}>One special character (!,?,#,$,%,&,*),</p>
-                        <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[1] ? Checkmark : X} alt=""/>
+                        <img className={styles.col_3 + ' img_small'} src={passwordChecks[1] ? Checkmark : X} alt=""/>
                         <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[2] ? 'text_valid' : 'text_invalid')}>One capital letter</p>
-                        <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[2] ? Checkmark : X} alt=""/>
+                        <img className={styles.col_3 + ' img_small'} src={passwordChecks[2] ? Checkmark : X} alt=""/>
                         <p className={styles.col_2 + ' ' + styles.p + ' ' + (passwordChecks[3] ? 'text_valid' : 'text_invalid')}>Between 8-40 characters</p>
-                        <img className={styles.col_3 + ' ' + 'img_small'} src={passwordChecks[3] ? Checkmark : X} alt=""/>
+                        <img className={styles.col_3 + ' img_small'} src={passwordChecks[3] ? Checkmark : X} alt=""/>
                         <button id={styles.toggle_password} className={styles.col_2 + ' ' + (showPassword ? 'button_enabled' : '')} onClick={() => setShowPassword(!showPassword)}>Show Password</button>
 
                         {selectedType === 'venue' ? 

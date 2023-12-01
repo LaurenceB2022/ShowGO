@@ -16,16 +16,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
+/*
+ * The UserTest tests the User Class
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserTest {
-
+     //objects being created for testing
     User User1= new User("test1", "test1", "testPassword!");
     User User2= new User("test2", "test2", "testPassword!");
     User User3 = new User("test3", "test3", "testPassword!");
     User User4 = new User("ValidUsername", "test3", "Validpassword!");
 
+    //repositories made for the testing of the blocked user
     @Autowired
     private VenueRepository VenueRepository;
     @Autowired
@@ -52,7 +55,7 @@ public class UserTest {
         assertNotNull(UserB);
         assertEquals("test1", UserB.getName());
     }
-
+    //sets up the tests and objects needed to test user 
     @Test
     public void testSignUp(){
         UserController UserController = new UserController(UserRepository, VenueRepository);
@@ -75,7 +78,7 @@ public class UserTest {
         assertFalse(UserController.isValidPassword("invalidpassword!"));
         assertTrue(UserController.isValidPassword("validPassword!"));
     }
-
+    //Testing the test login
     @Test
     public void testLogin(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
@@ -87,7 +90,7 @@ public class UserTest {
         assertThrows(InvalidPasswordException.class, () -> LoginController.login("Validusername", "invalid password"));
         assertNotNull(LoginController.login("ValidUsername", "Validpassword!"));
     }
-    
+    //Testing the test settings 
     @Test
     public void testSettings(){
         UserController UserController = new UserController(UserRepository, VenueRepository);
@@ -100,7 +103,7 @@ public class UserTest {
         User User0 = new User("test1", "testDisplay", "testPassword!!!");
         assertNotNull(UserController.editSettings(User0));
     }
-
+    //deletes and tears down the object being tested
     @After
     public void tearDown() throws Exception {
         UserRepository.delete(User1);

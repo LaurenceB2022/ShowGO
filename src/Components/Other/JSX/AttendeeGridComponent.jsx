@@ -6,7 +6,7 @@ import AttendeeComponent from 'Components/Other/JSX/AttendeeComponent';
     AttendeeGridComponent displays a list of AttendeeComponents. It represents the list of purchased tickets.
     It also passes down an update and delete function to be applied when selecting the checkmark or X on an AttendeeComponent.
 */
-const AttendeeGridComponent = (props) => {
+export default function AttendeeGridComponent(props) {
     
     const tickets = props.tickets != null ? props.tickets[0] : [null, ];
 
@@ -23,4 +23,3 @@ const AttendeeGridComponent = (props) => {
         </div>
     )
 }
-export default AttendeeGridComponent

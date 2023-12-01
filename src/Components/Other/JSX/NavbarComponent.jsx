@@ -15,6 +15,7 @@ export default function NavbarComponent () {
     const [userType, setUserType] = userTypeState;
     const [user, setUser] = userState;
 
+    //Logs out the user and updates the global state to match
     function logOut() {
         setLoggedIn(false);
         setUserType(null);

@@ -26,9 +26,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+/*
+ * The BlockedUserTest tests the BlockedUser Class
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BlockedUserTest {
+    //objects being created for testing
     Venue Venue1= new Venue("test1", "test1", "testpassword");
     Venue Venue2= new Venue("test2", "test2", "testpassword");
 
@@ -41,6 +46,7 @@ public class BlockedUserTest {
 
     Event Event1 = new Event(Venue1);
 
+    //repositories made for the testing of the blocked user
     @Autowired
     private VenueRepository VenueRepository;
     @Autowired
@@ -51,10 +57,11 @@ public class BlockedUserTest {
     private TicketRepository TicketRepository;
     @Autowired
     private EventRepository EventRepository;
-
+    //controllers being made to test the ticket and blocked user controller 
     private TicketController TicketController;
     private BlockedUserController BlockedUserController;
     
+    //sets up the tests and objects needed to test blocked user 
     @Before
     public void setUp() throws Exception {
         TicketController = new TicketController(this.TicketRepository, this.BlockedUserRepository);
@@ -105,6 +112,7 @@ public class BlockedUserTest {
 
     @Test
     public void testBuyTicketAsBlockedUser() {
+        //buyticket and blockeduser 
         Ticket mockTicket = mock(Ticket.class);
 
         when(mockTicket.getOwner()).thenReturn(User1);
@@ -115,6 +123,7 @@ public class BlockedUserTest {
 
     @After
     public void tearDown() throws Exception {
+        //deletes and tears down the object being tested
         EventRepository.delete(Event1);
 
         BlockedUserRepository.delete(BlockedUser1);
