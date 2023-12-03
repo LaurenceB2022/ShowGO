@@ -72,7 +72,6 @@ export default function UserCheckout() {
         };
         fetch('http://localhost:8080/tickets', requestOptions)
         .then(response => response.text()).then(text => {
-            console.log(text);
             if (text === 'Buyer is a blocked user') {
                 updateError('You are blocked from purchasing tickets from this venue.', 2500);
             } else if (text === 'Event is at maximum attendance') {

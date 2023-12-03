@@ -112,7 +112,7 @@ const VenueSettingsPaymentMenuComponent = () => {
             {error?<label>{error}</label>:null}   
             <div className={styles.container_buttons}>
                     <button className={styles.button1} onClick={handleSubmit}>Save</button>
-                    <button className={styles.button2} onClick={ console.log('Navigating back to home')}>
+                    <button className={styles.button2} onClick={() => {}}>
                     <Link to='/venuehome'>Cancel</Link></button>
             </div>
         </div>

@@ -178,13 +178,11 @@ export default function VenueManageEvent() {
         fetch('http://localhost:8080/events/' + eventJSON.guid, requestOptions)
         .then(response => {
             if (response.ok) {
-                console.log("Event successfully deleted.");
                 navigator("/venuehome");
             } else {
                 updateError("Error deleting event.", 2500);
             }
         })
-        console.log("Deleting event.");
     }
 
     return (

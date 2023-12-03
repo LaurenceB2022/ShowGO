@@ -77,7 +77,6 @@ const VenueCreateEvent = () => {
         Prevents an empty event from being submitted. If not default, called the createEvent function.
     */
     const handleSubmit = (event) =>{
-        console.log('Got to handleSubmit');
         event.preventDefault();
         createEvent()
     }
@@ -93,12 +92,10 @@ const VenueCreateEvent = () => {
         var tempEndTime = endTime.split(':');
 
         if(values.name === '' || values.location !== '' || values.max <= 0 || values.price <= 0.0){
-            console.log('missing values detected');
             setErrors('Error, one or more invalid or missing values have been detected.')
             return false;
         }
         if(startDate > endDate ){
-            console.log('invalid date range');
             setErrors('Error, invalid date range for event.')
             return false;
         }
@@ -169,11 +166,9 @@ const VenueCreateEvent = () => {
             fetch('http://localhost:8080/events', requestOptions)
             .then(response =>{
                 if(response.ok){
-                    console.log('Event added successfully to database.')
                     navigator('/venuehome')
                 }
                 else{
-                    console.log('Error adding event.')
                     setErrors('Error adding event. Please try again later.')
                 }
             })

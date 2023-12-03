@@ -41,7 +41,6 @@ const VenueSettingsSecurityMenuComponent = () => {
     */
 
     const handleSubmit = (event) =>{
-        console.log('Got to handleSubmit');
         event.preventDefault();
         updateSettings();
     }
@@ -144,7 +143,7 @@ const VenueSettingsSecurityMenuComponent = () => {
             {error?<label>{error}</label>:null}   
             <div className={styles.button_container}>
                 <button className={styles.button1} onClick={handleSubmit}>Save</button>
-                <button className={styles.button2} onClick={console.log('Navigating back to home')}>
+                <button className={styles.button2} onClick={() => {}}>
                     <Link to='/venuehome'>Cancel</Link>
                 </button>
             </div>

@@ -96,12 +96,10 @@ const VenueSettingsAuthorizedMenuComponent = () => {
             }
         }
         catch (error){
-            console.error('Error fetching data:', error);
         }
         finally{
             setLoading(false);
         }
-        console.log('Reached banned users')       
         
     }
 

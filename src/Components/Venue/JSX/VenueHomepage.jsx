@@ -48,7 +48,6 @@ function VenueHomepage(){
 
     //The useEffect hook calls the fetchEvents function upon loading.
     useEffect(() => {
-        console.log("ran");
         fetchEvents();
     }, [timeframe]);
 
