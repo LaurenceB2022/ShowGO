@@ -4,6 +4,11 @@ import styles from 'Components/Venue/CSS/VenueSettingsAuthorizedUsers.module.css
 import React from 'react';
 import { Link} from 'react-router-dom';
 
+/*
+    AuthorizedUser component takes in a prop with a username value, and displays that information for a User which is banned from purchasing tickets
+    for an event hosted by the current Venue.
+*/
+
 const AuthorizedUser = (prop) => {
     const user_name = prop.username;
 

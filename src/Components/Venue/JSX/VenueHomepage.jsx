@@ -5,10 +5,13 @@ import React, {useState, useContext, useEffect} from 'react';
 import EventGridComponent from 'Components/Other/JSX/EventGridComponent';
 import { MyContext } from 'App';
 
+/*
+    VenueHomepage function loads the landing page for the Venues when they log in. Allows Venues to navigate
+    to the event creation page, and displays the EventGridComponent after passing in the events JSON values.
+*/
 function VenueHomepage(){
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
     const [user, setUser] = userState;
 
     //Debug, remove later
@@ -19,6 +22,11 @@ function VenueHomepage(){
     const [events, setEvents] = useState([]);
     const [timeframe, setTimeFrame] = useState('future');
 
+    /*
+        fetchEvents function asynchronously fetches an API GET request from the events backend database using
+        the current venue name. Depending on the timeframe filter active, filters the data to all valid events,
+        and calls setEvent.
+    */
     async function fetchEvents() {
         setEvents([]);
         await fetch('http://localhost:8080/events/venue/' + user.username, {
@@ -38,6 +46,7 @@ function VenueHomepage(){
         });
     }
 
+    //The useEffect hook calls the fetchEvents function upon loading.
     useEffect(() => {
         console.log("ran");
         fetchEvents();

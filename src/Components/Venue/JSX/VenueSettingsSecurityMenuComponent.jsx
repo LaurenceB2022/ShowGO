@@ -4,30 +4,29 @@ import React, {useState, useContext} from 'react';
 import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
+/*
+    The VenueSettingsSecurityMenuComponent subpage displays fields for the user to modify their password using. 
+*/
 const VenueSettingsSecurityMenuComponent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
     const [, setUser] = userState;
-    const [venue, setVenue] = useState('');
     const username = userState;
     const [error, setError] = useState('');
     const [passwordChecks, setPasswordChecks] = useState([false, false]);
-    const [emailChecks, setEmailChecks] = useState(false);
     const [values, setValue] = useState({
         password: '',
         confirmPassword: ''
     });
 
-    /*
-    const [auth, setAuth] = useState({
-        email: '',
-        enabled: false
-    }); */
     const navigator = useNavigate();
 
+    /*
+        handleInput constant handles the user's input based on the field modified, and sets the value using
+        setValue. Updates the value of passwordChecks using setPasswordChecks.
+    */
     const handleInput = (event) => {
-        const val = event.target.type==='checkbox' ? event.target.checked : event.target.value;
+        const val = event.target.value;
         setValue({
             ...values,
             [event.target.name]: val
@@ -36,17 +35,10 @@ const VenueSettingsSecurityMenuComponent = () => {
         setPasswordChecks([/^[a-zA-Z0-9]+$/.test(values.password), values.password.length >= 6])
     }
 
-    const getVenueValues = (value_name, venue_object) =>{
-        return (venue_object).map((row) => row[value_name]);
-    }
-
-    async function fetchVenue(username) {
-        const requestOptions = {
-            method: 'GET',
-        };
-        return await fetch('http://localhost:8080/venues/' + username, requestOptions)
-        .then(response => response.json());
-    }
+    /*
+        handleSubmit constant handles the user submitting the new password using the "Save" button. 
+        Prevents any default submissions, and calls the updateSettings function.
+    */
 
     const handleSubmit = (event) =>{
         console.log('Got to handleSubmit');
@@ -54,16 +46,20 @@ const VenueSettingsSecurityMenuComponent = () => {
         updateSettings();
     }
 
-    async function updateSettings (){
+    /*
+        checkValid function validates the sub variables stored in the values constant. Returns true if
+        all of the fields match the requirements, false otherwise.
+    */
+
+    function checkValid(){
         var valid = true;
-        setEmailChecks(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+[@][a-zA-Z0-9]+[.][a-zA-Z0-9.]+$/.test(values.email))
 
         if(values.password === '' && values.confirmPassword === ''){
             setError('Error, missing fields.')
             valid = false;
         }
         
-        if(passwordChecks[0] == false || passwordChecks[1] == false){
+        if(passwordChecks[0] === false || passwordChecks[1] === false){
             setError('Error, password does not meet minimum requirements.')
             valid = false;
         }
@@ -71,16 +67,23 @@ const VenueSettingsSecurityMenuComponent = () => {
             
             setError('Error, passwords do not match.');
             valid = false;
-            
 
         }
+        return valid;
+    }
+
+
+    /*
+        updateSettings function asynchronously calls the checkValid method to verify the field information.
+        If valid, calls an API POST request to store the new password values using the venues backend database,
+        and refreshes the page. Otherwise, nothing happens.
+    */
+    async function updateSettings (){
+        var valid = checkValid();
 
         if(valid){
-            console.log(username[0]);
-            var username_values = username[0];
-            
+            var username_values = username[0];      
             var username_string = username_values.username;
-            console.log(username_string);
             
             var retreived_username = username_string;
             var retreived_password = values.password;
@@ -89,8 +92,6 @@ const VenueSettingsSecurityMenuComponent = () => {
             var hide_location = username_values.hide_location;
             var retreived_description = username_values.description;
             
-            console.log(retreived_username  + ' ' + retreived_password + ' ' + retreived_location + ' ' + retreived_name + ' ' + hide_location + retreived_description);
-
             const requestOptions = {
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
@@ -139,11 +140,6 @@ const VenueSettingsSecurityMenuComponent = () => {
             <span>
                 <label>Confirm Password</label>
                 <input type='password' name='confirmPassword' onChange={handleInput}></input>
-            </span>
-            <span>
-                <label>Two-Factor Authentication</label>
-                <input type='text' name='email' onChange={handleInput}></input>
-                <input type='checkbox' name='twofactorauth' onChange={handleInput}></input>
             </span>
             {error?<label>{error}</label>:null}   
             <div className={styles.button_container}>

@@ -8,6 +8,11 @@ import { useState } from 'react';
 import DatePicker from "react-datepicker";
 import Resizer from "react-image-file-resizer";
 
+/*
+    VenueManageEvent function displays all information for the current event, and allows for the modification
+    of said information. Hosts a link to the sub component VenueManageAttendees, which sends in the current
+    event JSON object to manage the users registered for it.
+*/
 export default function VenueManageEvent() {
     const id = useParams().id;
     const location = useLocation();
@@ -43,6 +48,11 @@ export default function VenueManageEvent() {
             image: location.state.eventJSON.image,
          });
 
+    /*
+         handleInput function determines the type of event target and it's value, then updates the 
+         corresponding sub variable using the setEventJSON constant.
+
+    */
     function handleInput(event) {
         const val = event.target.type==='checkbox' ? event.target.checked : event.target.value;
         setEventJSON({
@@ -94,6 +104,12 @@ export default function VenueManageEvent() {
         return month + " " + day + " " + year + " " + hours + ":" + minutes + " " + ampm;
     }
 
+    /*
+        save function asynchronously validates the information stored in the eventJSON sub-variable fields.
+        If valid, calls an API POST request to the events backend to update all new information for the event.
+        If successful, uses updateError constant to display a success message. Otherwise, displays and error
+        message.
+    */
     async function save() {
         const max_attendees = parseInt(eventJSON.max_attendees);
         const ticket_price = parseFloat(eventJSON.ticket_price);
@@ -146,6 +162,11 @@ export default function VenueManageEvent() {
         });
     }
 
+    /*
+        deleteEvent function calls a fetch API request to the events backend to delete the current event.
+        If successful, navigates back to the venue's home page. Otherwise, displays an error message using
+        the updateError constant.
+    */
     function deleteEvent() {
         const requestOptions = {
             method: 'DELETE',

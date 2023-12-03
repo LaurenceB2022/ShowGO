@@ -1,15 +1,18 @@
 import 'index.css';
 import styles from 'Components/Venue/CSS/VenueSettings.module.css';
-import React, {useState, useEffect, useContext} from 'react';
-import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
+import React, {useState, useContext} from 'react';
+import { Link } from 'react-router-dom';
 import { MyContext } from 'App';
 
-const VenueSettingsPaymentMenuComponent = (props) => {
+/*
+    VenueSettingsPayment component subpage allows the venue to modify and update their payment information
+    associated with their account. No actual backend API request is called, as this page is purely 
+    decorational.
+*/
+
+const VenueSettingsPaymentMenuComponent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [venue, setVenue] = useState('');
     const [error, setError] = useState('');
-    const username = userState;
-    const navigator = useNavigate();
 
     const [data, setData] = useState({
         card_name: '',
@@ -18,31 +21,10 @@ const VenueSettingsPaymentMenuComponent = (props) => {
         expr_date: ''
     })
 
-    async function setPayment(){
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000'},
-            body: JSON.stringify({
-                name: data.card_name,
-                number: data.card_name,
-                cvc: data.cvc,
-                date: data.expr_date
-            })
-        };
-        fetch('http://localhost:8080/venues', requestOptions)
-        .then(response => {
-            if(response.ok){
-                console.log('Payment information successfully updated')
-                setError('Successful Update')
-                navigator('/payment')
-            }
-            else{
-                console.log('Error updating payment information');
-                setError('Error updating payment.')
-            }
-        })
-    }
+    /*
+        validateInformation function validates the information stored in the data constant's sub variables,
+        and returns true if valid. Otherwise, returns false.
+    */
 
     function validateInformation(){
         var valid_info = true;
@@ -73,6 +55,10 @@ const VenueSettingsPaymentMenuComponent = (props) => {
         return valid_info;
     }
 
+    /*
+        submitInformation function asynchronously checks if the information submitted is valid by
+        calling validateInformation, and sets a success message using the setError constant. 
+    */
     async function submitInformation(){
         var check = validateInformation()
         if(check){
@@ -81,6 +67,10 @@ const VenueSettingsPaymentMenuComponent = (props) => {
         
     }
 
+    /*
+        handleInput constant determines the event target and value detected, and updates the corresponding
+        sub variable using the setData constant.
+    */
     const handleInput = (event) =>{
         const val = event.target.value;
         setData({
@@ -90,8 +80,11 @@ const VenueSettingsPaymentMenuComponent = (props) => {
         );
     }
 
+    /*
+        handleSubmit constant handles when the "Save" button is selected, and calls the submitInformation
+        function to validate the information.
+    */
     const handleSubmit = (event) =>{
-        console.log('Got to handleSubmit');
         event.preventDefault();
         submitInformation();
     }

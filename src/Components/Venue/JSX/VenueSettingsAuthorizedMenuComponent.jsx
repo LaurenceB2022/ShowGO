@@ -6,22 +6,26 @@ import { MyContext } from 'App';
 import AuthorizedUser from './AuthorizedUser';
 import {Link } from 'react-router-dom';
 
+/*
+    VenueSettingsAuthorizedMenuComponent displays a list of all users banned from attending this venue's events.
+    It allows for the venue to search for a new user and add them to the blocked user list. Also allows users
+    to remove users from the banned user list. 
+*/
 const VenueSettingsAuthorizedMenuComponent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setUser] = userState;
     const[users, setUsers] = useState([])
     const[ran, setRan] = useState(false);
-    const [venue, setVenue] = useState('');
     const username = userState;
     const [userSearch, setUserSearch] = useState('');
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
-    const [deletion, setDelete] = useState(false);
-    console.log(username[0].username)
 
+    /*
+        deleteUser asynchronously updates the list of banned users. Sends a fetch DELETE request to the blockedUsers API backend.
+        Refreshes the list by calling getBannedUsers function.
+    */
     async function deleteUser(user_name){
         setLoading(true)
-        console.log(user_name + " user to delete " + username[0].username + " venue to delete")
         var requestOptions = {
                 method: 'DELETE',
                 headers: {
@@ -29,15 +33,19 @@ const VenueSettingsAuthorizedMenuComponent = () => {
                     'Access-Control-Allow-Origin': 'http://localhost:3000'}
         }
         await fetch('http://localhost:8080/blockedUsers/'+ user_name  + '/' + username[0].username , requestOptions)
-        setDelete(true);
+        
         getBannedUsers();
            
         setLoading(false);
     }
     
+    /*
+        blockUser function takes the value stored in the userSearch constant, and sends a fetch POST request
+        to the blockedUser API backend with the username to delete. If successful, indicating the username was found,
+        refreshes the banned user list using getBannedUsers function, and displays a success message using the setError
+        constant. Otherwise, displays an error message.
+    */
     function blockUser(){
-        console.log('Blocking user')
-
         if(userSearch === ''){
             return;
         }
@@ -67,6 +75,11 @@ const VenueSettingsAuthorizedMenuComponent = () => {
             })
     }
 
+    /*
+        getBannedUsers asynchronously sends a fetch GET request to the blockedUsers/venue API backend, to update
+        the currently banned users. If successful, sets the banned users using the setUsers constant. Otherwise,
+        does nothing.
+    */
     async function getBannedUsers(){
 
         try{
@@ -78,9 +91,6 @@ const VenueSettingsAuthorizedMenuComponent = () => {
             }
             var x = await fetch('http://localhost:8080/blockedUsers/venue/' + username[0].username, requestOptions)
             .then(response => response.json())
-            
-            console.log('View Test Debug After')
-            //console.log(x[0].user)
             if(x.length > 0){
                 setUsers(x);
             }
@@ -91,14 +101,11 @@ const VenueSettingsAuthorizedMenuComponent = () => {
         finally{
             setLoading(false);
         }
-        console.log('Reached banned users')
-        
-        
-        
+        console.log('Reached banned users')       
         
     }
 
-    
+    //useEffect hook sets the banned users upon loading the page or adding a new user, by calling the getBannedUsers function.
     useEffect(() => {
         if(!ran){
             setRan(true);
@@ -122,10 +129,7 @@ const VenueSettingsAuthorizedMenuComponent = () => {
                         
                     ) : <div className={styles.empty_result} />
                         
-                }
-                
-            
-               
+                }             
             </div>
             <div className={styles.container}>
                     <div id={styles.search}>

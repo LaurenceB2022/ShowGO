@@ -6,6 +6,11 @@ import AttendeeGridComponent from 'Components/Other/JSX/AttendeeGridComponent';
 import { useEffect, useState } from 'react';
 import YesNoPromptComponent from 'Components/Other/JSX/YesNoPromptComponent';
 
+/*
+    VenueManageAttendees function contains the grid to display the list of attendees associated with
+    the selected event. It allows for venues to delete a user attending their event.
+*/
+
 export default function VenueManageAttendees() {
     const id = useParams().id;
     const location = useLocation();
@@ -40,10 +45,15 @@ export default function VenueManageAttendees() {
     const [tickets, setTickets] = useState([]);
     const [selectedTicket, setSelectedTicket] = useState(null);
 
+    //useEffect hook calls the fetchEventTickets function upon loading.
     useEffect(() => {
         fetchEventTickets();
     }, []);
     
+    /*
+        fetchEventTickets function asynchronously calls a fetch GET request to the tickets API backend,
+        and stores the results using the setTickets constant.
+    */
     async function fetchEventTickets() {
         //TODO: Should be POST Request to get Users for the given event
         var x = await fetch('http://localhost:8080/tickets/' + eventJSON.guid, {
@@ -52,21 +62,39 @@ export default function VenueManageAttendees() {
         setTickets(x);
     }
 
+    /*
+        promptDeleteUser takes in a ticket JSON object, enables the deletion prompt using setDeletePromptVisible,
+        and selects the ticket object using setSelectedTicket.
+    */
     function promptDeleteUser(ticketJSON) {
         setDeletePromptVisible(true);
         setSelectedTicket(ticketJSON);
     }
 
+    /*
+        promptUpdateUser takes in a ticket JSON object, enables the update prompt using setUpdatePromptVisible,
+        and selects the ticket object using setSelectedTicket.
+    */
     function promptUpdateUser(ticketJSON) {
         setUpdatePromptVisible(true);
         setSelectedTicket(ticketJSON);
     }
 
+    /*
+        cancelOperation sets both prompts to false using setUpdatePromptVisible and setDeletePromptVisible,
+        then deselects the ticket using setSelectedTicket.
+    */
     function cancelOperation() {
         setUpdatePromptVisible(false);
         setDeletePromptVisible(false);
         setSelectedTicket(null);
     }
+
+    /*
+        updateAttendee function redeems the currently selected ticket by calling a fetch POST request to the
+        tickets/reedem API backend. If the request is successful, updates the list of tickets visible by calling
+        setTickets and mapping the API response, and unselects the current ticket. Otherwise, only sets the update prompt to false.
+    */
     
     function updateAttendee() {
         setUpdatePromptVisible(false);
@@ -90,6 +118,11 @@ export default function VenueManageAttendees() {
         });
     }
     
+    /*
+        deleteAttendee function deletes the selected ticket by calling a fetch DELETE request to the API
+        tickets backend. If the request is successful, updates the current list of tickets using setTickets,
+        and unselects the current ticket.
+    */
     function deleteAttendee() {
         setDeletePromptVisible(false);
         const requestOptions = {

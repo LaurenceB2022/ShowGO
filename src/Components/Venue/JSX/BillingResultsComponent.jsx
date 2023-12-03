@@ -2,14 +2,23 @@ import 'index.css';
 import styles from 'Components/Venue/CSS/VenueSettings.module.css';
 import React, {useState, useEffect} from 'react';
 import Purchase from './Purchase';
-import { useLocation } from 'react-router';
+
+/*
+    BillingResultComponent takes in a prop with all events in JSON format, loads and displays the information for all tickets purchased in list format. This
+    subpage is loaded inside of the VenueSettingsBillingMenuComponent. No input is required, all Purchase
+    objects are loaded upon navigation to the VenueSettingsBillingMenueComponent subpage.
+*/
 
 const BillingResultComponent = (props) => {
     const [data, setData] = useState([]);
     var n = 0;
     const [eventsJSON, _] = props.eventsJSON;
-    const location = useLocation();
 
+    /*
+        The getTickets function takes the eventsJSON variable and iterates over each entry. For each entry
+        it asynchronously calls an API GET request to the backend, to get the tickets associated with the
+        current venue. If ticket information exists, it's stored in the data variable.
+    */
     function getTickets() {
         var tickets = [];
         eventsJSON.forEach(async event => {
@@ -32,18 +41,26 @@ const BillingResultComponent = (props) => {
         });
     }
 
+    /*
+        fetchPurchases function asynchronusly calls the getTickets function.
+    */
     async function fetchPurchases(){
-        if(eventsJSON != null && eventsJSON.length > 0){
+        if(eventsJSON != null){
             await getTickets();
         }
     }
 
+    /*
+        useEffect hook calls the fetchPurchases asynchronus function if the JSON information passed in
+        eventsJSON exists.  
+    */
     useEffect(() => {
         if (eventsJSON.length > 0) {
             fetchPurchases();
         }
     }, [eventsJSON]);
 
+    // If data isn't null, maps each data JSON value to a Purchase object. 
     return (
         <div className={styles.billing_container_box}>
             <div className={styles.billing_container_span}>

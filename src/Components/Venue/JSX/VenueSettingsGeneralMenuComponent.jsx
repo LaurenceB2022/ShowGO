@@ -6,20 +6,24 @@ import {useNavigate, Link } from 'react-router-dom';
 import { MyContext } from 'App';
 import Resizer from "react-image-file-resizer";
 
+/*
+    VenueSettingsGeneralMenueComponent is the general settings subpage, which allows user to update their
+    venue account settings using the input forms displayed. Also allows for venue's to update their profile
+    picture.
+*/
+
 const VenueSettingsGeneralMenuComponent = () =>{
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
     const [, setUser] = userState;
-    const [venue, setVenue] = useState('');
     const username = userState;
-    const[type, setType] = useState('concert')
     const [error, setError] = useState('');
     const[imgfile, setFile] = useState(defaultImage);
     const[values, setValues] = useState({
         name: '',
         description: '',
-        location: ''    
+        location: '',
+        visibility: ''    
     });
     const navigator = useNavigate();
 
@@ -38,43 +42,30 @@ const VenueSettingsGeneralMenuComponent = () =>{
     }
 
 
+    /*
+        handleSubmit constant detects the selection of the "Save" button. Then prevents a default selection,
+        and calls the updateGeneral function to update the venue's information.
+    */
     const handleSubmit = (event) =>{
         console.log('Got to handleSubmit');
         event.preventDefault();
         updateGeneral();
     }
 
-    const getVenueValues = (value_name, venue_object) =>{
-        return venue_object.map((value_name) => value_name[venue_object]);
-    }
-    
-    async function fetchVenue(username) {
-        const requestOptions = {
-            method: 'GET',
-        };
-        return await fetch('http://localhost:8080/venues/' + username, requestOptions)
-        .then(response => response.json());
-    }
 
+    /*
+        updateGeneral function asynchronously updates the venue's general information using the values
+        stored in the values sub variable fields. Only updates fields where the values aren't empty.
+        Sends a fetch POST request to the venue/settings backend. If successful, refreshes the sub-page to
+        display the new values. Otherwise sets an error message using the setError constant.
+    */
     async function updateGeneral () {
 
-        console.log('Updating General Info');
-       
-        if(true){
+            //gets all necessary values from data
             var username_values = username[0];
-            var username_string = username_values.username;
-            //gets all necessary values from datavas
-            var username_values = username[0];
-            
-            var username_string = username_values.username;
-            console.log('Venue_name' + username_string);
-            
-            //var venue = fetchVenue(username_string);
-            var retreived_username = username_string;
-            var retreived_password = username_values.password;
             var retreived_location = username_values.location;
             var retreived_name = username_values.name;
-            var hide_location = username_values.hide_location;
+            var hide_location = values.visibility;
             var retreived_description = username_values.description;
 
             if(values.name !== ''){
@@ -91,8 +82,8 @@ const VenueSettingsGeneralMenuComponent = () =>{
                 method: 'POST', //check the tag for the backend method being called
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({ 
-                                    username: retreived_username,
-                                    password: retreived_password,
+                                    username: username_values.username,
+                                    password: username_values.password,
                                     location: retreived_location,
                                     name: retreived_name,
                                     hide_location: hide_location,
@@ -121,16 +112,15 @@ const VenueSettingsGeneralMenuComponent = () =>{
                 navigator('/venuesettings/general')
             }
         })
-        }
+        
     }
 
-    const handleType = (event) =>{
-        setType(event.target.value)
-    }
-
+    /*
+        handleInput function handles the event type and value from the input detected, and updates the
+        corresponding values stored in the values sub variable fields using the setValues constant.
+    */
     const handleInput = (event) =>{
-        console.log('Input detected.')
-        const val = event.target.value;
+        const val = event.target.type==='checkbox' ? event.target.checked : event.target.value;
         setValues({
             ...values,
             [event.target.name]: val
@@ -165,13 +155,8 @@ const VenueSettingsGeneralMenuComponent = () =>{
                     <input type='text' name='location' placeholder={username[0].location} onChange={handleInput}></input>
                 </span>
                 <span>
-                    <label>Venue Type</label>
-                    <select value={type} onChange={handleType}>
-                        <option value='concert'>Concert</option>
-                        <option value='food'>Food</option>
-                        <option value='festival'>Festival</option>
-                        <option value='other'>Other</option>
-                    </select>
+                    <label>Event Visibility</label>
+                    <input type='checkbox' name='visibility' onChange={handleInput}></input>
                 </span>
                 {error?<label>{error}</label>:null}   
             </div>

@@ -7,14 +7,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Resizer from "react-image-file-resizer";
 
-
+/*
+    VenueCreateEvent component handles the user input to create an event associated with the current venue.
+    Validates the user input, and displays a preview for any selected image for the event.
+*/
 
 const VenueCreateEvent = () => {
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
-    const [, setLoggedIn] = loggedInState;
-    const [, setUserType] = userTypeState;
-    const [, setUser] = userState;
-    const [venue, setVenue] = useState('');
     const username = userState;
     const navigator = useNavigate();
 
@@ -31,7 +30,12 @@ const VenueCreateEvent = () => {
         max: 0,
         price: 0.0
       });
-    
+    const[imgfile, setFile] = useState(null);
+
+    /*
+      fetchVenue function asynchronously calls an API request to the venue backend, to get the venue object
+      associated with the passed in venue name.
+    */
     async function fetchVenue(username) {
         const requestOptions = {
             method: 'GET',
@@ -39,8 +43,6 @@ const VenueCreateEvent = () => {
         return await fetch('http://localhost:8080/venues/' + username, requestOptions)
         .then(response => response.json());
     }
-
-    const[imgfile, setFile] = useState(null);
 
     //Handles profile picture input. Converts the image to base64 to allow it to be stored and resizes to 300x300.
     async function handleImage (event) {
@@ -58,6 +60,10 @@ const VenueCreateEvent = () => {
             }, 'base64');
     }
 
+    /*
+        handleInput constant handles each detected input event from the user. Based on the event type,
+        it modifies the subvalue stored in the values constant using setValues.
+    */
     const handleInput = (event) => {
         const val = event.target.type==='checkbox' ? event.target.checked : event.target.value;
         setValues({
@@ -66,17 +72,25 @@ const VenueCreateEvent = () => {
         }
         );
     }
+    /*
+        handleSubmit constant handles the submission of the component data upon clicking the "Save" button. 
+        Prevents an empty event from being submitted. If not default, called the createEvent function.
+    */
     const handleSubmit = (event) =>{
         console.log('Got to handleSubmit');
         event.preventDefault();
         createEvent()
     }
 
+    /*
+        checkValid function extracts the sub-variables stored in the values constant, and checks if they
+        are valid for the fields. If valid, returns true. Otherwise, sets the error message 
+        corresponding to the invalid data, and returns false.
+    */
+
     function checkValid(){
         var tempStartTime = startTime.split(':');
         var tempEndTime = endTime.split(':');
-        console.log(tempStartTime[0])
-        console.log(tempEndTime[0])
 
         if(values.name === '' || values.location !== '' || values.max <= 0 || values.price <= 0.0){
             console.log('missing values detected');
@@ -93,30 +107,27 @@ const VenueCreateEvent = () => {
         }
         if((startDate === endDate) && (tempStartTime[0] > tempEndTime[0])){
             setErrors('Error, invalid time range for event.')
-            console.log(tempStartTime[0])
-            console.log(tempEndTime[0])
             return false;
         }
         if((startDate === endDate) && (tempStartTime[0] === tempEndTime[0]) && (tempStartTime[1] > tempEndTime[1])){
             setErrors('Error, invalid time range for event')
-            console.log(tempStartTime[1])
-            console.log(tempEndTime[1])
             return false;
         }
         return true;
     }
 
-    
+    /*
+        createEvent function asynchronously creates the event for the current venue. Calls the checkValid function
+        to validate the values. If it returns true, extracts the values from each sub variable, stringifies them in the body
+        of the requestOptions variable, and performs an API POST request to the events backend database. 
+        Otherwise, it does nothing.
+    */
     
     async function createEvent () {
-        console.log('Entered the createEvent method.')
         var valid = checkValid();
-        console.log(startTime)
-        console.log(endTime);
         
         
         if(valid === true){
-            console.log('Values in the fields were verified, sending POST request.')
             var am_pm_start = 'AM'
             var am_pm_end = 'AM'
             var date_start_string = startDate.toDateString().split(' ');
@@ -131,26 +142,14 @@ const VenueCreateEvent = () => {
             if(parseInt(date_end_time[0]) > 12){
                 am_pm_end = 'PM'
             }
-            
-
 
             var date_start = date_start_string[1] + " " + date_start_string[2] + " " + date_start_string[3] + " " + (date_start_hour) + ":" + date_start_time[1] + " " + am_pm_start;
             var date_end = date_end_string[1] + " " + date_end_string[2] + " " + date_end_string[3] + " " + (date_end_hour) + ":" + date_start_time[1] + " " + am_pm_end;
-            console.log('Username: ' + username.toString())
-            console.log(new Date(date_start))
-            console.log(new Date(date_end))
-            if(new Date(date_end) < new Date()){
-                console.log(new Date())
-            }
 
             var username_values = username[0];
             var username_string = username_values.username;
-            console.log(username_values);
             
             var venue_object = await fetchVenue(username_string);
-
-            console.log(date_start + " " + date_end );
-            console.log(venue_object);
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',

@@ -4,12 +4,21 @@ import React, {useState, useContext, useEffect} from 'react';
 import { MyContext } from 'App';
 import BillingResultComponent from './BillingResultsComponent';
 
+/*
+    VenueSettingsBillingMenuComponent displays the list of all purchased tickets for the venue's events.
+*/
+
 const VenueSettingsBillingMenuComponent = () =>{
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [user, setUser] = userState;
     const [events, setEvents] = useState([]);
 
     
+    /*
+        getEvents function sends a fetch GET request to the API events/venue backend. If successful, 
+        sets the retreived events JSON values to the events variable using the setEvents constant.
+        Otherwise, does nothing.
+    */
     function getEvents() {
         const requestOptions = {
             method: 'GET',
@@ -32,6 +41,7 @@ const VenueSettingsBillingMenuComponent = () =>{
         })
     } 
 
+    //Hook to refresh the current list displayed. Calls the getEvents function.
     var ran = false;
     useEffect(() => {
     if (!ran) {
@@ -45,7 +55,6 @@ const VenueSettingsBillingMenuComponent = () =>{
             <span className={styles.billing_container_span}>
                 <h1>Billing History</h1>
                 <p>{user.name}</p>
-                <input className={styles.billing_search} type='text' placeholder='Search Payment By Number' />
             </span>
             
             <div className={styles.billing_result_box}>

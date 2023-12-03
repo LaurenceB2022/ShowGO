@@ -4,6 +4,10 @@ import styles from 'Components/Venue/CSS/VenueSettings.module.css';
 import React, {useContext} from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
+/*
+    VenueSettings component displays a sidebar with mapped links to the subpages. Contains an outlet which displays
+    the selected subpage link. The default link is the general subpage. 
+*/
 function VenueSettings (){
     const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const settings = [{
@@ -28,6 +32,7 @@ function VenueSettings (){
     }
     ]
 
+    //Links selected only update the Outlet component, while keeping the parent VenueSettings page visible.
     return(
 
         <div className={styles.parent_container}>
