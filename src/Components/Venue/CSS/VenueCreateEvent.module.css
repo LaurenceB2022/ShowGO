@@ -104,12 +104,12 @@
     width: 100%;
 }
 
-.date{
+#date{
     width: 50%;
     height: 75%;
 }
 
-.time{
+#time{
     width: 10%;
     height: 50%;
 }

@@ -9,11 +9,11 @@ import BillingResultComponent from './BillingResultsComponent';
 */
 
 const VenueSettingsBillingMenuComponent = () =>{
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
     const [user, setUser] = userState;
     const [events, setEvents] = useState([]);
+    const [ran, setRan] = useState(false)
 
-    
     /*
         getEvents function sends a fetch GET request to the API events/venue backend. If successful, 
         sets the retreived events JSON values to the events variable using the setEvents constant.
@@ -41,10 +41,9 @@ const VenueSettingsBillingMenuComponent = () =>{
     } 
 
     //Hook to refresh the current list displayed. Calls the getEvents function.
-    var ran = false;
     useEffect(() => {
     if (!ran) {
-        ran = true;
+        setRan(true)
         getEvents();
     }
     }, []);  
@@ -53,10 +52,9 @@ const VenueSettingsBillingMenuComponent = () =>{
         <div className={styles.billing_container}>
             <span className={styles.billing_container_span}>
                 <h1>Billing History</h1>
-                <p>{user.name}</p>
             </span>
             
-            <div className={styles.billing_result_box}>
+            <div>
                 <BillingResultComponent eventsJSON={[events, setEvents]} />
             </div>
         </div>

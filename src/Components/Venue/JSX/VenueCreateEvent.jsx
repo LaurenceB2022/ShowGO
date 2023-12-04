@@ -13,7 +13,7 @@ import Resizer from "react-image-file-resizer";
 */
 
 const VenueCreateEvent = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
     const username = userState;
     const navigator = useNavigate();
 

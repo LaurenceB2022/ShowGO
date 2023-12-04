@@ -12,7 +12,7 @@ import {Link } from 'react-router-dom';
     to remove users from the banned user list. 
 */
 const VenueSettingsAuthorizedMenuComponent = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
     const[users, setUsers] = useState([])
     const[ran, setRan] = useState(false);
     const username = userState;
@@ -68,7 +68,6 @@ const VenueSettingsAuthorizedMenuComponent = () => {
                     
                 }
                 else{
-                    console.error(error);
                     setError('Username not found, or already blocked.')
                     return null;
                 }
@@ -129,12 +128,12 @@ const VenueSettingsAuthorizedMenuComponent = () => {
                         
                 }             
             </div>
-            <div className={styles.container}>
+            <div className={styles.container_search}>
                     <div id={styles.search}>
                         <input id={styles.input} type="text" placeholder='Search User' onChange={(event) => setUserSearch(event.target.value)}/>
                         <img id={styles.img} src={Search} onClick={blockUser} alt=""/>
                     </div>
-                    {error?<label>{error}</label>:null}  
+                    {error?<label id={styles.error}>{error}</label>:null}  
             </div>
             
         </div>
