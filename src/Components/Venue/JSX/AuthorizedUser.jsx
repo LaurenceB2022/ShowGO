@@ -1,4 +1,3 @@
-import { MyContext } from 'App';
 import 'index.css';
 import styles from 'Components/Venue/CSS/VenueSettingsAuthorizedUsers.module.css';
 import React from 'react';

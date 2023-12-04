@@ -125,9 +125,7 @@ const VenueSettingsSecurityMenuComponent = () => {
                 navigator('/venuesettings/security')
             }
         })
-        }
-
-            
+        }            
     }
     
 
