@@ -12,7 +12,7 @@ import {Link } from 'react-router-dom';
     to remove users from the banned user list. 
 */
 const VenueSettingsAuthorizedMenuComponent = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
     const[users, setUsers] = useState([])
     const[ran, setRan] = useState(false);
     const username = userState;
@@ -68,7 +68,6 @@ const VenueSettingsAuthorizedMenuComponent = () => {
                     
                 }
                 else{
-                    console.error(error);
                     setError('Username not found, or already blocked.')
                     return null;
                 }
@@ -116,25 +115,28 @@ const VenueSettingsAuthorizedMenuComponent = () => {
     /*TO DO: Sprint 5 */
     return (
         <div className={styles.subpage}>
-            <div className={styles.container}>Blocked Users
             
-                {
-                    (users.length > 0 && users !== null && loading === false) ? users.map(userJSON => 
-                        <Link onClick={() => deleteUser(userJSON.user.username)}>
-                            <AuthorizedUser key={userJSON.user.username} username={userJSON.user.username} venue_name={username[0].username}></AuthorizedUser>
-                        </Link>
-                        
-                        
-                    ) : <div className={styles.empty_result} />
-                        
-                }             
+            <div >
+                <h1>Blocked Users</h1>
+                <div className={styles.container}>
+            
+                    {
+                        (users.length > 0 && users !== null && loading === false) ? users.map(userJSON => 
+                            <Link onClick={() => deleteUser(userJSON.user.username)}>
+                                <AuthorizedUser key={userJSON.user.username} username={userJSON.user.username} venue_name={username[0].username}></AuthorizedUser>
+                            </Link>    
+                        ) : <div className={styles.empty_result} />
+                    
+                    }             
+                </div>
             </div>
-            <div className={styles.container}>
+            
+            <div className={styles.container_search}>
                     <div id={styles.search}>
                         <input id={styles.input} type="text" placeholder='Search User' onChange={(event) => setUserSearch(event.target.value)}/>
                         <img id={styles.img} src={Search} onClick={blockUser} alt=""/>
                     </div>
-                    {error?<label>{error}</label>:null}  
+                    {error?<label id={styles.error}>{error}</label>:null}  
             </div>
             
         </div>

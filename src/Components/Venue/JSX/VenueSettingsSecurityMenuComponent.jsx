@@ -8,7 +8,8 @@ import { MyContext } from 'App';
     The VenueSettingsSecurityMenuComponent subpage displays fields for the user to modify their password using. 
 */
 const VenueSettingsSecurityMenuComponent = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
+    const loggedInState = useContext(MyContext).loggedInState;
     const [, setLoggedIn] = loggedInState;
     const [, setUser] = userState;
     const username = userState;
@@ -124,9 +125,7 @@ const VenueSettingsSecurityMenuComponent = () => {
                 navigator('/venuesettings/security')
             }
         })
-        }
-
-            
+        }            
     }
     
 
@@ -140,13 +139,14 @@ const VenueSettingsSecurityMenuComponent = () => {
                 <label>Confirm Password</label>
                 <input type='password' name='confirmPassword' onChange={handleInput}></input>
             </span>
-            {error?<label>{error}</label>:null}   
+              
             <div className={styles.button_container}>
                 <button className={styles.button1} onClick={handleSubmit}>Save</button>
                 <button className={styles.button2} onClick={() => {}}>
                     <Link to='/venuehome'>Cancel</Link>
                 </button>
             </div>
+            {error?<label id={styles.error}>{error}</label>:null} 
         </div>
     )
 }

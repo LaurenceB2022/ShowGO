@@ -13,7 +13,7 @@ import Resizer from "react-image-file-resizer";
 */
 
 const VenueCreateEvent = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
     const username = userState;
     const navigator = useNavigate();
 
@@ -178,18 +178,12 @@ const VenueCreateEvent = () => {
     return (
         <div className={styles.container_full}>
 
-            <div className={styles.image_container}>
-                     
-                <text>Title Here</text>
-                <img src={imgfile} alt=""/>
+            <div className={styles.section_2}>
+                <img id={styles.img} src={imgfile} alt=""/>
+                <input type="file" onChange={handleImage} />Choose Event Image
             </div>
 
             <div className={styles.description_container}>
-                
-                <span>
-                    <label>Event Image</label>
-                    <input className={styles.button1} type="file" onChange={handleImage} />Choose File
-                </span>
                 <span>
                     <label>Event Name</label>
                     <input type='text' name='name' onChange={handleInput} />
@@ -224,8 +218,8 @@ const VenueCreateEvent = () => {
                     <label>Ticket Price</label>
                     <input type='text' name='price' onChange={handleInput} />
                 </span>
-                <div className={styles.errorspace}>
-                    {error?<label>{error}</label>:null} 
+                <div>
+                    {error?<label id={styles.error}>{error}</label>:null} 
                 </div>
                 
                 <div className={styles.button_container}>

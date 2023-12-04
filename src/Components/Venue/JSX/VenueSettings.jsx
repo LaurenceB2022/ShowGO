@@ -9,7 +9,7 @@ import { Link, Outlet } from 'react-router-dom';
     the selected subpage link. The default link is the general subpage. 
 */
 function VenueSettings (){
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
     const settings = [{
         name:'General Information',
         id:'general',

@@ -13,7 +13,8 @@ import Resizer from "react-image-file-resizer";
 */
 
 const VenueSettingsGeneralMenuComponent = () =>{
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
+    const loggedInState = useContext(MyContext).loggedInState;
     const [, setLoggedIn] = loggedInState;
     const [, setUser] = userState;
     const username = userState;
@@ -66,6 +67,7 @@ const VenueSettingsGeneralMenuComponent = () =>{
             var retreived_name = username_values.name;
             var hide_location = values.visibility;
             var retreived_description = username_values.description;
+            var retreived_image = username_values.pfp;
 
             if(values.name !== ''){
                 retreived_name = values.name;
@@ -75,6 +77,9 @@ const VenueSettingsGeneralMenuComponent = () =>{
             }
             if(values.location !== ''){
                 retreived_location = values.location;
+            }
+            if(imgfile !== defaultImage){
+                retreived_image = imgfile;
             }
 
             const requestOptions = {
@@ -86,7 +91,8 @@ const VenueSettingsGeneralMenuComponent = () =>{
                                     location: retreived_location,
                                     name: retreived_name,
                                     hide_location: hide_location,
-                                    description: retreived_description
+                                    description: retreived_description,
+                                    pfp: retreived_image
                                     })
             };
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
@@ -130,12 +136,12 @@ const VenueSettingsGeneralMenuComponent = () =>{
     return(
         <div className={styles.general_container}>
             
-            <div className={styles.image_container}>
-                <label>Event Image</label>
+            <div className={styles.section_2}>
+                <label>Venue Image</label>
                 
                 <span>
-                    <img src={imgfile} alt="image_default"/> 
-                    <input accept="image/*" className={styles.button3} type="file" onChange={handleImage} />Choose File
+                    <img id={styles.img}src={imgfile} alt="image_default"/> 
+                    <input accept="image/*" id={styles.button3} type="file" onChange={handleImage} />Choose File
                 </span>
                 
             </div>
@@ -157,13 +163,14 @@ const VenueSettingsGeneralMenuComponent = () =>{
                     <label>Event Visibility</label>
                     <input type='checkbox' name='visibility' onChange={handleInput}></input>
                 </span>
-                {error?<label>{error}</label>:null}   
-            </div>
-            <div className={styles.container_buttons}>
+                <div className={styles.container_buttons}>
                     <button className={styles.button1} onClick={handleSubmit}>Save</button>
                     <button className={styles.button2} onClick={() => {}}>
                     <Link to='/venuehome'>Cancel</Link></button>
             </div>
+                {error?<label id={styles.error}>{error}</label>:null}   
+            </div>
+            
         </div>
     )
 }

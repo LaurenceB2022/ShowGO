@@ -1,8 +1,7 @@
 import 'index.css';
 import styles from 'Components/Venue/CSS/VenueSettings.module.css';
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import { MyContext } from 'App';
 
 /*
     VenueSettingsPayment component subpage allows the venue to modify and update their payment information
@@ -11,7 +10,6 @@ import { MyContext } from 'App';
 */
 
 const VenueSettingsPaymentMenuComponent = () => {
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
     const [error, setError] = useState('');
 
     const [data, setData] = useState({
@@ -109,7 +107,7 @@ const VenueSettingsPaymentMenuComponent = () => {
                 <label>Expiration Date</label>
                 <input type='text' onChange={handleInput}></input>
             </span>
-            {error?<label>{error}</label>:null}   
+            {error?<label id={styles.error}>{error}</label>:null}   
             <div className={styles.container_buttons}>
                     <button className={styles.button1} onClick={handleSubmit}>Save</button>
                     <button className={styles.button2} onClick={() => {}}>

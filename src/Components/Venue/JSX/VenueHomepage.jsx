@@ -10,7 +10,8 @@ import { MyContext } from 'App';
     to the event creation page, and displays the EventGridComponent after passing in the events JSON values.
 */
 function VenueHomepage(){
-    const {loggedInState, userTypeState, userState} = useContext(MyContext);
+    const userState = useContext(MyContext).userState;
+    const loggedInState = useContext(MyContext).loggedInState;
     const [, setLoggedIn] = loggedInState;
     const [user, setUser] = userState;
 
