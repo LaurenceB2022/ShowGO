@@ -1,8 +1,6 @@
 package com.shifthappens.showgo;
 
-import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.entities.Venue;
-import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
@@ -20,10 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-
-import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -53,7 +47,7 @@ public class VenueTest {
     }
     @Test
     public void testFetchData(){
-        /*Test data retrieval*/
+        //Test data retrieval
         Venue VenueA = VenueRepository.findByUsername("test2");
         assertNotNull(VenueA);
         assertEquals("test2", VenueA.getName());
@@ -63,7 +57,8 @@ public class VenueTest {
     }
 
     @Test
-    public void testSignUp(){
+    public void testSignUp(){ 
+        //tests various sign-up scenarios and tests results - valid username and passwords, invalid usernames, and invalid passwords
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
         Venue testvalidUser = new Venue("ValidUsername2","displayname", "Validpassword!");
         assertNotNull(VenueController.signUp(testvalidUser));

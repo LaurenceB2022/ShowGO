@@ -1,6 +1,5 @@
 package com.shifthappens.showgo;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shifthappens.showgo.entities.Event;
 import com.shifthappens.showgo.entities.Venue;
-import com.shifthappens.showgo.exceptions.InvalidEventCreationException;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
@@ -35,6 +32,7 @@ public class VenueController {
         this.userRepo = userRepo;
     }
 
+    //find all venues
     @GetMapping("/venues")
     private List<Venue> findAll() {
         List<Venue> venues = new ArrayList<Venue>();
@@ -42,6 +40,7 @@ public class VenueController {
         return venues;
     }
 
+    //sign up as a venue
     @PostMapping("/venues")
     public Venue signUp(@RequestBody Venue venue) {
         if (!isValidUsername(venue.getUsername())) {
@@ -53,7 +52,7 @@ public class VenueController {
         return venueRepo.save(venue);
 
     }
-
+    //edit a venue's information through the settings page
     @PostMapping("/venues/settings")
     public Venue editSettings(@RequestBody Venue venue) {
         if (venueRepo.findByUsername(venue.getUsername()) == null) {
@@ -65,11 +64,13 @@ public class VenueController {
         return venueRepo.save(venue);
     }
 
+    //delete a venue from the repository
     @DeleteMapping("/venues/{username}")
     public void deleteVenue(@PathVariable String username) {
         venueRepo.delete(venueRepo.findByUsername(username));
     }
 
+    //find a sigular venue by its username
     @GetMapping("/venues/{username}")
     public Venue findVenue(@PathVariable String username) {
         Venue venue = venueRepo.findByUsername(username);
@@ -79,6 +80,7 @@ public class VenueController {
         return venue;
     }
 
+    //checks if an inputted string fits password requirements
     protected boolean isValidPassword(String password) {
         if (password.length() >= 8) {
             Pattern letter = Pattern.compile("[A-Z]");
@@ -93,6 +95,7 @@ public class VenueController {
         }
     }
 
+    //checks if an inputted string fits username requirements
     protected boolean isValidUsername(String username) {
         return (username != null &&
                 !username.isBlank() &&
@@ -101,7 +104,7 @@ public class VenueController {
                 venueRepo.findByUsername(username) == null &&
                 username.length() <= 20) ;
     }
-
+    //Used to check whether a venue is valid, throws InvalidVenueCreationException if not
     protected void checkParams(Venue venue) {
         if (venue.getName().equals("")) {
             throw new InvalidVenueCreationException("Invalid name");
