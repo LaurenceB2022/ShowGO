@@ -6,7 +6,6 @@ import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
-import com.shifthappens.showgo.repositories.BlockedUserRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +30,6 @@ public class VenueTest {
     private VenueRepository VenueRepository;
     @Autowired
     private UserRepository UserRepository;
-    @Autowired
-    private BlockedUserRepository BlockedUserRepository;
     
     @Before
     public void setUp() throws Exception {
@@ -94,7 +91,6 @@ public class VenueTest {
     @Test
     public void testSettings(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
-        BlockedUserController BlockedUserController = new BlockedUserController(BlockedUserRepository, UserRepository, VenueRepository);
         //Security Page
         Venue testVenue = new Venue("test1", "test", "1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));

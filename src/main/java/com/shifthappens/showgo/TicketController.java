@@ -28,21 +28,21 @@ public class TicketController {
         this.ticketRepo = ticketRepo;
         this.blockedUserRepo = blockedUserRepo;
     }
-
+    //gets tickets for an event by searching using said event's guid
     @GetMapping("/tickets/{eventGuid}")
     public List<Ticket> findByEventGuid(@PathVariable String eventGuid) {
         List<Ticket> tickets = new ArrayList<>();
         ticketRepo.findByEventGuid(eventGuid).forEach(ticket -> tickets.add(ticket));
         return tickets;
     }
-
+    //gets tickets for a specific user
     @GetMapping("/tickets/user/{username}")
     public List<Ticket> findByOwner(@PathVariable String username) {
         List<Ticket> tickets = new ArrayList<>();
         ticketRepo.findByOwnerUsername(username).forEach(ticket -> tickets.add(ticket));
         return tickets;
     }
-
+    //give the user a ticket to an event
     @PostMapping("/tickets")
     public Ticket createTicket(@RequestBody Ticket ticket) {
         if (ticket == null) {
@@ -58,17 +58,17 @@ public class TicketController {
         if (tickets.size() >= ticket.getEvent().getMax_attendees()) throw new InvalidTicketBuyException("Event is at maximum attendance");
         return ticketRepo.save(ticket);
     }
-
+    //remove a ticket from the total ticket repository
     @DeleteMapping("/tickets")
     public void deleteTicket(@RequestBody Ticket ticket) {
         ticketRepo.delete(ticket);
     }
-
+    //remove a ticket from the total ticket repository via searching through its guid
     @DeleteMapping("/tickets/{guid}")
     public void deleteTicketByGuid(@PathVariable String guid) {
         ticketRepo.delete(ticketRepo.findByGuid(guid));
     }
-
+    //redeem a ticket by finding it via its guid
     @PostMapping("/tickets/redeem/{guid}")
     public Ticket redeemTicket(@PathVariable String guid) {
         Ticket ticket = ticketRepo.findByGuid(guid);
@@ -79,7 +79,7 @@ public class TicketController {
 
         return ticketRepo.save(ticket);
     }
-
+    //redeem a ticket
     @PostMapping("/tickets/redeem")
     public Ticket redeemTicket(@RequestBody Ticket ticket) {
         if (ticket == null) {
