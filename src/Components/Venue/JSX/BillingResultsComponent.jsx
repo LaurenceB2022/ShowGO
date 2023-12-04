@@ -30,7 +30,6 @@ const BillingResultComponent = (props) => {
                 }
                 var result = await fetch('http://localhost:8080/tickets/' + event.guid, requestOptions)
                 .then(response => response.json()).then(dat => {
-                console.log(dat);
                 if(dat != null && dat.length > 0){
                     for (var i = 0; i < dat.length; i++) {
                         tickets.push(event);

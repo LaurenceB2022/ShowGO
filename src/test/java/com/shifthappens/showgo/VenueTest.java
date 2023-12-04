@@ -1,14 +1,11 @@
 package com.shifthappens.showgo;
 
-import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.entities.Venue;
-import com.shifthappens.showgo.entities.BlockedUser;
 import com.shifthappens.showgo.exceptions.InvalidPasswordException;
 import com.shifthappens.showgo.exceptions.InvalidUsernameException;
 import com.shifthappens.showgo.exceptions.InvalidVenueCreationException;
 import com.shifthappens.showgo.repositories.UserRepository;
 import com.shifthappens.showgo.repositories.VenueRepository;
-import com.shifthappens.showgo.repositories.BlockedUserRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-
-import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,8 +30,6 @@ public class VenueTest {
     private VenueRepository VenueRepository;
     @Autowired
     private UserRepository UserRepository;
-    @Autowired
-    private BlockedUserRepository BlockedUserRepository;
     
     @Before
     public void setUp() throws Exception {
@@ -53,7 +44,7 @@ public class VenueTest {
     }
     @Test
     public void testFetchData(){
-        /*Test data retrieval*/
+        //Test data retrieval
         Venue VenueA = VenueRepository.findByUsername("test2");
         assertNotNull(VenueA);
         assertEquals("test2", VenueA.getName());
@@ -63,7 +54,8 @@ public class VenueTest {
     }
 
     @Test
-    public void testSignUp(){
+    public void testSignUp(){ 
+        //tests various sign-up scenarios and tests results - valid username and passwords, invalid usernames, and invalid passwords
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
         Venue testvalidUser = new Venue("ValidUsername2","displayname", "Validpassword!");
         assertNotNull(VenueController.signUp(testvalidUser));
@@ -99,7 +91,6 @@ public class VenueTest {
     @Test
     public void testSettings(){
         VenueController VenueController = new VenueController(VenueRepository, UserRepository);
-        BlockedUserController BlockedUserController = new BlockedUserController(BlockedUserRepository, UserRepository, VenueRepository);
         //Security Page
         Venue testVenue = new Venue("test1", "test", "1");
         assertThrows(InvalidPasswordException.class, () -> VenueController.editSettings(testVenue));

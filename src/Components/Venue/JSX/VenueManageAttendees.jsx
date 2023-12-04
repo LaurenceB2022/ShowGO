@@ -109,11 +109,8 @@ export default function VenueManageAttendees() {
             return response.ok ? response.json() : null;
         }).then(data => {
             if (data) {
-                console.log("Ticket successfully redeemed");
                 setTickets(tickets.map(ticket => ticket !== selectedTicket ? ticket : data));
                 setSelectedTicket(null);
-            } else {
-                console.log("Error redeeming ticket");
             }
         });
     }
@@ -135,11 +132,8 @@ export default function VenueManageAttendees() {
         fetch('http://localhost:8080/tickets', requestOptions)
         .then(response => {
             if (response.ok) {
-                console.log("Ticket successfully deleted.");
                 setTickets(tickets.filter(ticket => ticket !== selectedTicket));
                 setSelectedTicket(null);
-            } else {
-                console.log("Error deleting ticket.");
             }
         })
     }

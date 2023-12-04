@@ -37,7 +37,6 @@ const VenueSettingsBillingMenuComponent = () =>{
             else{
                 setEvents([])
             }
-            console.log("events retrieved");
         })
     } 
 

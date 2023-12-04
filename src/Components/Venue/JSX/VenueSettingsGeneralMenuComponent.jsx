@@ -47,7 +47,6 @@ const VenueSettingsGeneralMenuComponent = () =>{
         and calls the updateGeneral function to update the venue's information.
     */
     const handleSubmit = (event) =>{
-        console.log('Got to handleSubmit');
         event.preventDefault();
         updateGeneral();
     }
@@ -162,7 +161,7 @@ const VenueSettingsGeneralMenuComponent = () =>{
             </div>
             <div className={styles.container_buttons}>
                     <button className={styles.button1} onClick={handleSubmit}>Save</button>
-                    <button className={styles.button2} onClick={ console.log('Navigating back to home')}>
+                    <button className={styles.button2} onClick={() => {}}>
                     <Link to='/venuehome'>Cancel</Link></button>
             </div>
         </div>

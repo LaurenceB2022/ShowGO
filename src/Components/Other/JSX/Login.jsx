@@ -19,7 +19,6 @@ export default function Login() {
 
     //Updates the error message with the given timeout length in ms
     function updateError(message, ms) {
-        console.log("error updates");
         if(timeout) {
             clearTimeout();
         }

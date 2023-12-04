@@ -143,7 +143,7 @@ export default function UserSettings() {
                 </div>
                 <button id={styles.save} className='button_enabled' onClick={()=>save()}>Save</button>
                 <button id={styles.cancel} onClick={() => navigator('/home')}>Cancel</button>
-                <p class={styles.p}>{error}</p>
+                <p className={styles.p}>{error}</p>
         </div>
     )
 }
