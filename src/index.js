@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client';
 import 'index.css';
 import App from 'App';
 import reportWebVitals from 'reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
 
+/*
+  Creates the root of the React project. Renders the App component inside of the root.
+*/
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
