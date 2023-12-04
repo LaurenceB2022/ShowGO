@@ -8,7 +8,6 @@ import styles from 'Components/Venue/CSS/VenueSettings.module.css';
 const Purchase = (props) => {
     
     const eventJSON = props.eventJSON;
-    console.log(eventJSON)
 
     return(
         <div className={styles.payment}>

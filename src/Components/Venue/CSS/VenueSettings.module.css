@@ -130,29 +130,17 @@
 }
 
 .billing_container h1{
-    font-family: 'Sen', sans-serif;
     font-size: 48px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal; 
     color:#4F6367;
 }
 
 .billing_container h2{
-    font-family: 'Sen', sans-serif;
     font-size: 40px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal; 
     color:#4F6367;
 }
 
 .security_container label{
-    font-family: 'Sen', sans-serif;
     font-size: 28px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal; 
     color:#4F6367;
     padding-right: 10px;
     white-space: normal;
@@ -180,11 +168,7 @@
 }
 
 .general_container label{
-    font-family: 'Sen', sans-serif;
     font-size: 32px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal; 
     color:#4F6367;
     white-space: normal;
     width:200px;
@@ -249,10 +233,6 @@
     justify-content: left;
     align-items: center;
     align-content: center;
-    font-family: 'Sen', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal; 
     color:#4F6367;
 }
 

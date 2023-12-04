@@ -115,19 +115,22 @@ const VenueSettingsAuthorizedMenuComponent = () => {
     /*TO DO: Sprint 5 */
     return (
         <div className={styles.subpage}>
-            <div className={styles.container}>Blocked Users
             
-                {
-                    (users.length > 0 && users !== null && loading === false) ? users.map(userJSON => 
-                        <Link onClick={() => deleteUser(userJSON.user.username)}>
-                            <AuthorizedUser key={userJSON.user.username} username={userJSON.user.username} venue_name={username[0].username}></AuthorizedUser>
-                        </Link>
-                        
-                        
-                    ) : <div className={styles.empty_result} />
-                        
-                }             
+            <div >
+                <h1>Blocked Users</h1>
+                <div className={styles.container}>
+            
+                    {
+                        (users.length > 0 && users !== null && loading === false) ? users.map(userJSON => 
+                            <Link onClick={() => deleteUser(userJSON.user.username)}>
+                                <AuthorizedUser key={userJSON.user.username} username={userJSON.user.username} venue_name={username[0].username}></AuthorizedUser>
+                            </Link>    
+                        ) : <div className={styles.empty_result} />
+                    
+                    }             
+                </div>
             </div>
+            
             <div className={styles.container_search}>
                     <div id={styles.search}>
                         <input id={styles.input} type="text" placeholder='Search User' onChange={(event) => setUserSearch(event.target.value)}/>
