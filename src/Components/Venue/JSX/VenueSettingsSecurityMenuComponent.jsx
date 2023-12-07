@@ -33,7 +33,7 @@ const VenueSettingsSecurityMenuComponent = () => {
             [event.target.name]: val
         }
         );
-        setPasswordChecks([/^[a-zA-Z0-9]+$/.test(values.password), values.password.length >= 6])
+        setPasswordChecks([/^[a-zA-Z0-9!?#$&*]+$/.test(values.password), values.password.length >= 6])
     }
 
     /*
@@ -107,7 +107,6 @@ const VenueSettingsSecurityMenuComponent = () => {
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
-               setError('')
                return response.json(); 
                 
             }

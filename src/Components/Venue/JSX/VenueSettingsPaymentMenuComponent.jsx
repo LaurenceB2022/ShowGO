@@ -31,21 +31,25 @@ const VenueSettingsPaymentMenuComponent = () => {
         const expiration_date = data.expr_date;
         const split = expiration_date.split('/');
         const cvv = data.cvv;
-        if(card_number.length >= 15){
+        var regex_number = new RegExp('[0-9]{15,}').test(card_number);
+        if(card_number.length >= 15 || !regex_number){
             valid_info = false;
             setError('Invalid Card Number')
         }
-        if(!/^[a-zA-z]{2,} [a-zA-z]{2,}/.test(card_name)){
+        var regex_name = new RegExp('[a-zA-z]{2,} [a-zA-z]{2,}').test(card_name);
+        if(!regex_name){
             valid_info = false;
             setError('Invalid Card Name')
         }
-        var temp = (new RegExp('(0[1-9]|10|11|12)/(20[0-9]{2})')).test(expiration_date);
+        var regex_date = (new RegExp('(0[1-9]|10|11|12)/(20[0-9]{2})')).test(expiration_date);
 
-        if(!temp || new Date(split[1], split[0]) > new Date()){
+        if(!regex_date || new Date(split[1], split[0]) > new Date()){
             valid_info = false;
             setError('Invalid Expiration Date')
         }
-        if(cvv.length >= 3){
+
+        var regex_cvv =  new RegExp('[0-9]{3,}').test(cvv);
+        if(cvv.length >= 3 || !regex_cvv){
             valid_info = false
             setError('Invalid CVV Number')
         }
