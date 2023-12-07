@@ -101,6 +101,7 @@ public class EventController {
             tr.setLocation(e.getLocation());
             tr.setHide_location(e.isHide_location());
             tr.setImage(e.getImage());
+            tr.setMax_attendees(e.getMax_attendees());
         eventRepo.save(tr);
     }
 
