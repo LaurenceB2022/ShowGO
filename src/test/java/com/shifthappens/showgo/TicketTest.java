@@ -66,7 +66,7 @@ public class TicketTest {
         
         this.TicketController = new TicketController(this.TicketRepository, this.BlockedUserRepository);
     }
-
+    //tests that only tickets with valid existance and guids get redeemed
     @Test
     public void testRedeemTicket() {
         Ticket nullTicket = null;
@@ -74,7 +74,7 @@ public class TicketTest {
         assertThrows(InvalidGuidException.class, () -> TicketController.redeemTicket("1"));
         assertTrue(TicketController.redeemTicket(Ticket1.getGuid()).isRedeemed());
     }
-
+    //test the creation and deletion of tickets
     @Test
     public void testMakeAndDeleteTicket() {
         Ticket newTicket = new Ticket(User1, Event2);
@@ -94,7 +94,7 @@ public class TicketTest {
             TicketRepository.delete(badTicket);
         }
     }
-
+    //tests data retrival for a ticket owned by a specific user
     @Test
     public void testGetTicketByOwner() {
         assertEquals(1, TicketController.findByOwner(User1.getUsername()).size());

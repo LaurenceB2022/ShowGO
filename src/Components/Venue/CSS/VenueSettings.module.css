@@ -243,6 +243,7 @@
 
 .payment_container label{
     font-size: 32px;
+    width: 8em;
 }
 
 #error{
