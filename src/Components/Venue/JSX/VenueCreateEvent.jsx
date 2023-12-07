@@ -91,7 +91,7 @@ const VenueCreateEvent = () => {
         var tempStartTime = startTime.split(':');
         var tempEndTime = endTime.split(':');
 
-        if(values.name === '' || values.address !== '' || values.max <= 0 || values.price <= 0.0){
+        if(values.name === '' || values.address === '' || values.max <= 0 || values.price <= 0.0){
             setErrors('Error, one or more invalid or missing values have been detected.')
             return false;
         }
