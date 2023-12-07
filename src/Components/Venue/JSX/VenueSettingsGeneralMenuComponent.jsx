@@ -160,7 +160,7 @@ const VenueSettingsGeneralMenuComponent = () =>{
                     <input type='text' name='location' placeholder={username[0].location} onChange={handleInput}></input>
                 </span>
                 <span>
-                    <label>Event Visibility</label>
+                    <label>Hide Location</label>
                     <input type='checkbox' name='visibility' onChange={handleInput}></input>
                 </span>
                 <div className={styles.container_buttons}>

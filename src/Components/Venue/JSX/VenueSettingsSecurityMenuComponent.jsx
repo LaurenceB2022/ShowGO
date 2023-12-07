@@ -107,7 +107,7 @@ const VenueSettingsSecurityMenuComponent = () => {
             fetch('http://localhost:8080/venues/settings', requestOptions) //need to add @CrossOrigin(origins = "http://localhost:3000") to backend controller being accessed
             .then(response => {
             if (response.ok) {
-               
+               setError('')
                return response.json(); 
                 
             }
